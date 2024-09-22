@@ -360,20 +360,20 @@ try:
         #portt = detectedcomport
         #window.title(f'M5Tool | COM PORT: {portt}')
 
-    def checkpin():
+    #def checkpin():
 
-        global pincode, sf, starter   
+    #    global pincode, sf, starter   
 
-        pin = pincode.get().replace(' ','')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;pin=str(int(pin)*7) 
+    #    pin = pincode.get().replace(' ','')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;pin=str(int(pin)*7) 
 
-        if pin == '66185': 
+    #    if pin == '66185': 
 
-            sf.destroy()
-            pincode.destroy()
+    #        sf.destroy()
+    #        pincode.destroy()
 
-            starter.place(x=20, y=550)
+    #        starter.place(x=20, y=550)
 
-        else: messagebox.showerror(title='M5Tool', message='Неверный пин-код!')
+    #    else: messagebox.showerror(title='M5Tool', message='Неверный пин-код!')
 
     def getall():
 
@@ -592,7 +592,7 @@ try:
     flash = CTkButton(window, text='Прошить', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashh).start())
     flash.place(x=20, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; os.system('echo Т̵̬̿̚G̷̠͍̀̈́'+' ̵̛̠͑М̷͙̳̎͘5̴͙̉S̷̭̓̕Т̶̦̏̎Ĭ̵̯̦͝'+'С̸͖̝͛К̸̞͗͝Н̷͕̊̍А̵̖̓С̵̣͓̚К̷͕̉̀')
 
-    installflashtool = CTkButton(window, text='Установить FlashTool', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
+    installflashtool = CTkButton(window, text='Установить EspTool', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
     installflashtool.place(x=20, y=165)
 
     CTkFrame(window, width=280, height=90).place(x=10,y=230)
@@ -641,13 +641,14 @@ try:
 
     CTkFrame(window, width=280, height=90).place(x=10,y=515)
 
-    pincode = CTkEntry(window, placeholder_text='Пин-код', width=260, height=30)
-    pincode.place(x=20, y=525)
+    #pincode = CTkEntry(window, placeholder_text='Пин-код', width=260, height=30)
+    #pincode.place(x=20, y=525)
 
-    sf = CTkButton(window, text='Активировать доп. функцию', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=checkpin)
-    sf.place(x=20, y=565)
+    #sf = CTkButton(window, text='Активировать доп. функцию', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=checkpin)
+    #sf.place(x=20, y=565)
 
     starter = CTkCheckBox(window, text='Автоматически занимать COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
+    starter.place(x=20, y=550)
 
     CTkFrame(window, width=280, height=50).place(x=10,y=615)
 

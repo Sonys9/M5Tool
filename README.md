@@ -9,7 +9,6 @@ Functions:
  - Anti flasher
  - Simple M5Burner
 
-
 На русском:
 
 Лучшая тулка для управления M5StickC Plus2/Plus1.1 и Cardputer.
@@ -24,5 +23,3 @@ Functions:
 Как запустить:
 1. Установите Python >3.8 для наилучшей работы
 2. Запустите M5Tool.py
-
-Эта тулка скорее всего больше не будет обновляться :(

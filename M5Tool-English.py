@@ -111,6 +111,10 @@ try:
 
                 return 'https://github.com/m5stack/M5StickCPlus2-UserDemo/releases/download/V0.1/K016-P2-M5StickCPlus2-UserDemo-V0.1_0x0.bin'
             
+            if name == 'CatHack':
+
+                return parsefirmwr('/Stachugit/CatHack/releases/')
+            
         elif device == 'plus11':
 
             if name == 'Nemo':
@@ -121,7 +125,9 @@ try:
 
                 return 'https://m5burner-cdn.m5stack.com/firmware/3397b17ad7fd314603abf40954a65369.bin'
             
-            if name == 'UserDemo': return None
+            if name == 'UserDemo': return None 
+
+            if name == 'CatHack': return None
             
         elif device == 'cardputer':
 
@@ -136,6 +142,8 @@ try:
             if name == 'UserDemo': 
 
                 return 'https://github.com/m5stack/M5Cardputer-UserDemo/releases/download/V0.9/K132-Cardputer-UserDemo-V0.9_0x0.bin'
+            
+            if name == 'CatHack': return None
 
         if name == 'M5Launcher':
 
@@ -164,6 +172,8 @@ try:
                 if 'plus' in frmw.lower() and not 'plus2' in frmw.lower(): return f"https://github.com"+repo+frmw
             elif device == 'cardputer':
                 if 'card' in frmw.lower(): return f"https://github.com"+repo+frmw
+
+            if len(all) == 1:return f"https://github.com"+repo+all[0]
 
     #portt = '5' test
 
@@ -297,7 +307,7 @@ try:
 
         print(f'Url: {fileurl}')
 
-        if fileurl == None: messagebox.showerror(title='M5Tool', message='We dont found a firmware for your device :(')
+        if fileurl == None: messagebox.showerror(title='M5Tool', message='We are dont found a firmware for your device :(')
 
         else:
 
@@ -611,7 +621,7 @@ try:
 
     # у меня глаза болели от кода выше (который уже закоментирован) сори я переделаю
 
-    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo"], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
+    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo", 'CatHack'], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
     installfrmwr = CTkButton(window, text='Download .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())

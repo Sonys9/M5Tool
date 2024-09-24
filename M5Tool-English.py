@@ -358,7 +358,7 @@ try:
 
             if detectedcomports == []: 
                 comport.set('')
-                portt = ''
+                #portt = ''
 
             if len(detectedcomports) == 1:
 

@@ -176,8 +176,6 @@ try:
         if len(all) == 1:return f"https://github.com"+repo+all[0]
 
     #portt = '5' test
-    print(device)
-    print(getfrmwr('CatHack'))
     #for i in ['marauder', 'bruce', 'nemo', 'm5launcher']: print(getfrmwr(i)) test
 
     def choicefile():
@@ -359,7 +357,7 @@ try:
 
             if detectedcomports == []: 
                 comport.set('')
-                portt = ''
+                #portt = ''
 
             if len(detectedcomports) == 1:
 

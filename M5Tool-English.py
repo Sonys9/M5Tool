@@ -1,3 +1,5 @@
+print('Launching.. Pls wait')
+
 try:
 
     import os, threading, time, subprocess, zipfile, re, json
@@ -617,6 +619,49 @@ try:
 
         m5burner.mainloop()
 
+    
+    def Eraseall():
+
+        global portt
+
+        if portt != None:
+
+            result = messagebox.askquestion("M5Tool", "Are you sure?")
+
+            if result == 'yes':
+
+                process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 erase_flash")
+
+                while True:
+
+                    output = process.stdout.readline()
+
+                    if output:
+
+                        output_str = str(output.strip())
+
+                        if "fatal error" in output_str or 'error occurred' in output_str:
+
+                            if 'not open' in output_str.lower():
+
+                                messagebox.showerror(title='M5Tool', message=f'An error was occured, try reconnect the device.')
+
+                            else:
+
+                                messagebox.showerror(title='M5Tool', message=f'An unknown error has been occured: {output_str}')
+
+                            break
+
+                        elif 'Hash of data verified.' in output_str: 
+
+                            messagebox.showinfo(title='M5Tool', message=f'Successful!')
+
+                            break
+
+                        print(output_str)
+
+                    else: ...
+
     fg = '#008E63'
     hover = '#225244'
     bg = '#2B2B2B'
@@ -647,8 +692,11 @@ try:
     infoo = CTkLabel(window, text='File isnt choiced', bg_color=bg, font=('Calibri', 15))
     infoo.place(x=130, y=75)
 
-    flash = CTkButton(window, text='Flash', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashh).start())
+    flash = CTkButton(window, text='Flash', width=160, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashh).start())
     flash.place(x=20, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; os.system('echo Т̵̬̿̚G̷̠͍̀̈́'+' ̵̛̠͑М̷͙̳̎͘5̴͙̉S̷̭̓̕Т̶̦̏̎Ĭ̵̯̦͝'+'С̸͖̝͛К̸̞͗͝Н̷͕̊̍А̵̖̓С̵̣͓̚К̷͕̉̀')
+
+    eraseall = CTkButton(window, text='Erase all', width=90, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=Eraseall).start())
+    eraseall.place(x=190, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; os.system('echo Т̵̬̿̚G̷̠͍̀̈́'+' ̵̛̠͑М̷͙̳̎͘5̴͙̉S̷̭̓̕Т̶̦̏̎Ĭ̵̯̦͝'+'С̸͖̝͛К̸̞͗͝Н̷͕̊̍А̵̖̓С̵̣͓̚К̷͕̉̀')
 
     installflashtool = CTkButton(window, text='Install the EspTool', width=130, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
     installflashtool.place(x=20, y=165)

@@ -296,6 +296,54 @@ try:
 
             messagebox.showinfo(title='M5Tool', message='Успех!')
 
+    def installCH341driver():
+
+        if os.path.exists('CH341'): messagebox.showinfo(title='M5Tool', message='Дрова уже установлены!')
+
+        else:
+
+            messagebox.showinfo(title='M5Tool', message='Логи будут в консоли')
+
+            print('Устанавливаем файл...')
+
+            os.makedirs('CH341', exist_ok=True)
+
+            while True:
+                try:
+                    r = requests.get('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH341SER.EXE', timeout=240, stream=True)
+
+                    total_size = int(r.headers.get('content-length', 0))
+                    completed = 0
+                    proc = 0
+                    oneprocent = total_size//100
+
+                    with open('CH341\\CH3CH341.exe', 'wb') as f: 
+
+                        starttime = time.time()
+
+                        for chunk in r.iter_content(chunk_size = 512 * 1024):
+                            if chunk:
+                                #print(total_size)
+                                #print(completed)
+                                completed += len(chunk)
+                                speed_mbps = (len(chunk) / (1024 * 1024)) / (time.time()-starttime)
+                                proc = completed//oneprocent
+                                #completed+=proc
+                                print(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
+                                f.write(chunk)
+                                f.flush()
+                                os.fsync(f.fileno())
+                                starttime = time.time()
+                        
+                    break
+                except Exception as e: print(f'Пытаемся установить файл снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
+
+            print('Файл установлен! Запускаем...')
+
+            os.system('start CH341\\CH3CH341.exe')
+
+            messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки дров.')
+
     def installfrmw():
 
         global firmws
@@ -601,8 +649,11 @@ try:
     flash = CTkButton(window, text='Прошить', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashh).start())
     flash.place(x=20, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; os.system('echo Т̵̬̿̚G̷̠͍̀̈́'+' ̵̛̠͑М̷͙̳̎͘5̴͙̉S̷̭̓̕Т̶̦̏̎Ĭ̵̯̦͝'+'С̸͖̝͛К̸̞͗͝Н̷͕̊̍А̵̖̓С̵̣͓̚К̷͕̉̀')
 
-    installflashtool = CTkButton(window, text='Установить EspTool', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
+    installflashtool = CTkButton(window, text='Установить EspTool', width=120, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
     installflashtool.place(x=20, y=165)
+
+    installCH341 = CTkButton(window, text='Установить дрова', width=110, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installCH341driver).start())
+    installCH341.place(x=160, y=165)
 
     CTkFrame(window, width=280, height=90).place(x=10,y=230)
 

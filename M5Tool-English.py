@@ -333,6 +333,54 @@ try:
         portt = value.replace('COM', '')
         print(portt)
 
+    def installCH341driver():
+
+        if os.path.exists('CH341'): messagebox.showinfo(title='M5Tool', message='Drivers is alreadly installed!')
+
+        else:
+
+            messagebox.showinfo(title='M5Tool', message='Logs will be in the console')
+
+            print('Downloading a file...')
+
+            os.makedirs('CH341', exist_ok=True)
+
+            while True:
+                try:
+                    r = requests.get('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH341SER.EXE', timeout=240, stream=True)
+
+                    total_size = int(r.headers.get('content-length', 0))
+                    completed = 0
+                    proc = 0
+                    oneprocent = total_size//100
+
+                    with open('CH341\\CH3CH341.exe', 'wb') as f: 
+
+                        starttime = time.time()
+
+                        for chunk in r.iter_content(chunk_size = 512 * 1024):
+                            if chunk:
+                                #print(total_size)
+                                #print(completed)
+                                completed += len(chunk)
+                                speed_mbps = (len(chunk) / (1024 * 1024)) / (time.time()-starttime)
+                                proc = completed//oneprocent
+                                #completed+=proc
+                                print(f'Downloading... ({speed_mbps} MB/s) {proc}%')
+                                f.write(chunk)
+                                f.flush()
+                                os.fsync(f.fileno())
+                                starttime = time.time()
+                        
+                    break
+                except Exception as e: print(f'An error has been occured, retrying... Check your internet connection, error: {e}')
+
+            print('File has been successful downloaded!')
+
+            os.system('start CH341\\CH3CH341.exe')
+
+            messagebox.showinfo(title='M5Tool', message='Successful! Click "Install" to continue.')
+
     def getcomports():
 
         global portt
@@ -602,8 +650,11 @@ try:
     flash = CTkButton(window, text='Flash', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashh).start())
     flash.place(x=20, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; os.system('echo Т̵̬̿̚G̷̠͍̀̈́'+' ̵̛̠͑М̷͙̳̎͘5̴͙̉S̷̭̓̕Т̶̦̏̎Ĭ̵̯̦͝'+'С̸͖̝͛К̸̞͗͝Н̷͕̊̍А̵̖̓С̵̣͓̚К̷͕̉̀')
 
-    installflashtool = CTkButton(window, text='Install EspTool', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
+    installflashtool = CTkButton(window, text='Install the EspTool', width=130, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
     installflashtool.place(x=20, y=165)
+
+    installCH341 = CTkButton(window, text='Install the drivers', width=120, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installCH341driver).start())
+    installCH341.place(x=160, y=165)
 
     CTkFrame(window, width=280, height=90).place(x=10,y=230)
 

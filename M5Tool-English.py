@@ -117,6 +117,10 @@ try:
 
                 return parsefirmwr('/Stachugit/CatHack/releases/')
             
+            if name == 'Hamster Kombat':
+
+                return 'https://m5burner-cdn.m5stack.com/firmware/896bce78796597d2ddc1545443f0a1c3.bin'
+            
         elif device == 'plus11':
 
             if name == 'Nemo':
@@ -130,6 +134,10 @@ try:
             if name == 'UserDemo': return None 
 
             if name == 'CatHack': return None
+            
+            if name == 'Hamster Kombat': 
+                
+                return 'https://m5burner-cdn.m5stack.com/firmware/28eafdd732442b83395017a8f490a048.bin'
             
         elif device == 'cardputer':
 
@@ -146,6 +154,8 @@ try:
                 return 'https://github.com/m5stack/M5Cardputer-UserDemo/releases/download/V0.9/K132-Cardputer-UserDemo-V0.9_0x0.bin'
             
             if name == 'CatHack': return None
+
+            if name == 'Hamster Kombat': return None
 
         if name == 'M5Launcher':
 
@@ -720,7 +730,7 @@ try:
 
     # у меня глаза болели от кода выше (который уже закоментирован) сори я переделаю
 
-    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo", 'CatHack'], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
+    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo", 'CatHack', 'Hamster Kombat'], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
     installfrmwr = CTkButton(window, text='Download .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())

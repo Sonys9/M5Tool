@@ -4,7 +4,9 @@ try:
 
     import os, threading, time, subprocess, zipfile, re, json
 
-    try: import serial                                                                                                                                                                                                                                                                                                                                                                                              ; print('TG: @M5STICKHACK')
+    try: 
+        import serial.tools.list_ports
+        import serial                                                                                                                                                                                                                                                                                                                                                                                              ; print('TG: @M5STICKHACK')
     except:
 
         print('Устанавливаем модуль Serial...')                                      
@@ -15,6 +17,7 @@ try:
         try: 
 
             import serial
+            import serial.tools.list_ports
             print('Модуль Serial установлен!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
 
         except: 
@@ -66,7 +69,7 @@ try:
         try:
 
             s = serial.Serial(f'COM{portt}')
-            print('Порт занят!')
+            add_log('Порт занят!')
             while True:
                 res = s.read()
                 
@@ -74,7 +77,7 @@ try:
 
     window = CTk()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ;sys.stdout.write("\nТ̷G̵:̷ ̷М̶5̶S̴Т̴I̶С̷К̵Н̶А̶С̴К̴\n")
     window.title('M5Tool')
-    window.geometry('300x675')
+    window.geometry('300x690')
     window.resizable(False, False)
     set_appearance_mode("dark")
 
@@ -188,7 +191,7 @@ try:
         if len(all) == 1:return f"https://github.com"+repo+all[0]
 
     #portt = '5' test
-    #for i in ['marauder', 'bruce', 'nemo', 'm5launcher']: print(getfrmwr(i)) test
+    #for i in ['marauder', 'bruce', 'nemo', 'm5launcher']: add_log(getfrmwr(i)) test
 
     def choicefile():
 
@@ -253,7 +256,7 @@ try:
 
                                 break
 
-                            print(output_str)
+                            add_log(output_str)
 
                         else: ...
                     
@@ -263,9 +266,7 @@ try:
 
         else:
 
-            messagebox.showinfo(title='M5Tool', message='Логи будут в консоли')
-
-            print('Устанавливаем архив...')
+            add_log('Устанавливаем архив...')
 
             while True:
                 try:
@@ -282,29 +283,29 @@ try:
 
                         for chunk in r.iter_content(chunk_size = 512 * 1024):
                             if chunk:
-                                #print(total_size)
-                                #print(completed)
+                                #add_log(total_size)
+                                #add_log(completed)
                                 completed += len(chunk)
-                                speed_mbps = (len(chunk) / (1024 * 1024)) / (time.time()-starttime)
-                                proc = completed//oneprocent
+                                speed_mbps = ((len(chunk)+0.01) / (1024 * 1024)) / (time.time()-starttime)
+                                proc = (completed+0.01)//(oneprocent+0.01)
                                 #completed+=proc
-                                print(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
+                                add_log(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
                                 f.write(chunk)
                                 f.flush()
                                 os.fsync(f.fileno())
                                 starttime = time.time()
                         
                     break
-                except Exception as e: print(f'Пытаемся установить архив снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
+                except Exception as e: add_log(f'Пытаемся установить архив снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
 
-            print('Архив установлен.\nРазархивируем архив...')
+            add_log('Архив установлен.\nРазархивируем архив...')
         
             with zipfile.ZipFile('file.zip', 'r') as zip_ref:
                 zip_ref.extractall('esptool480')
 
             os.makedirs('esptool480', exist_ok=True)
 
-            print('Архив разархивирован!')
+            add_log('Архив разархивирован!')
 
             messagebox.showinfo(title='M5Tool', message='Успех!')
 
@@ -314,9 +315,7 @@ try:
 
         else:
 
-            messagebox.showinfo(title='M5Tool', message='Логи будут в консоли')
-
-            print('Устанавливаем файл...')
+            add_log('Устанавливаем файл...')
 
             os.makedirs('CH341', exist_ok=True)
 
@@ -335,22 +334,22 @@ try:
 
                         for chunk in r.iter_content(chunk_size = 512 * 1024):
                             if chunk:
-                                #print(total_size)
-                                #print(completed)
+                                #add_log(total_size)
+                                #add_log(completed)
                                 completed += len(chunk)
-                                speed_mbps = (len(chunk) / (1024 * 1024)) / (time.time()-starttime)
-                                proc = completed//oneprocent
+                                speed_mbps = ((len(chunk)+0.01) / (1024 * 1024)) / (time.time()-starttime)
+                                proc = (completed+0.01)//(oneprocent+0.01)
                                 #completed+=proc
-                                print(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
+                                add_log(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
                                 f.write(chunk)
                                 f.flush()
                                 os.fsync(f.fileno())
                                 starttime = time.time()
                         
                     break
-                except Exception as e: print(f'Пытаемся установить файл снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
+                except Exception as e: add_log(f'Пытаемся установить файл снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
 
-            print('Файл установлен! Запускаем...')
+            add_log('Файл установлен! Запускаем...')
 
             os.system('start CH341\\CH3CH341.exe')
 
@@ -364,7 +363,7 @@ try:
         
         fileurl = getfrmwr(firmware)
 
-        print(f'Ссылка: {fileurl}')
+        add_log(f'Ссылка: {fileurl}')
 
         if fileurl == None: messagebox.showerror(title='M5Tool', message='Прошивка для вашего устройства не найдена :(')
 
@@ -420,7 +419,7 @@ try:
 
                             break
 
-                        print(output_str)
+                        add_log(output_str)
 
                     else: ...
 
@@ -429,14 +428,17 @@ try:
         device = dev
 
     def change2(value):
-        global portt
+        global portt, add_log
         #value = comport.get()
         portt = value.replace('COM', '')
-        print(portt)
+        add_log(portt)
+        add_log(f"COM порт: COM{portt}")
 
     def getcomports():
 
-        global portt
+        global portt, add_log
+
+        lastport = ''
 
         while True:
 
@@ -444,27 +446,29 @@ try:
 
             detectedcomports = []
             
-            for i in range(1,50):
+            ports = serial.tools.list_ports.comports()
 
-                try:
-
-                    ser = serial.Serial(f'COM{i}')
-                    ser.close()
-                    detectedcomports.append(f'COM{i}')
-                    #break
-
-                except Exception as e:... #print(e)
+            for port, desc, hwid in sorted(ports):
+                detectedcomports.append(port)
 
             comport.configure(values=detectedcomports)
 
             if detectedcomports == []: 
                 comport.set('')
+                lastport = ''
                 #portt = ''
 
             if len(detectedcomports) == 1:
 
                 comport.set(detectedcomports[0])
                 portt = detectedcomports[0][3:]
+
+                if lastport != portt:
+
+                    lastport = portt
+
+                    add_log(f"COM порт: COM{portt}")
+                
 
         #else: messagebox.showinfo(title='M5Tool', message=f'Найден(-о) {len(detectedcomports)} COM порт(-ов)')
 
@@ -650,6 +654,24 @@ try:
                 down.pack(pady=20)
                 toremove.append(frame)
 
+    def add_log(text):
+        try:
+            global log_text
+            log_text.configure(state='normal')
+            log_text.insert(END, text + '\n') 
+            log_text.see(END)
+            log_text.configure(state='disabled')
+        except:...
+
+    def add_serial_log(text):
+        try:
+            global serial_text
+            serial_text.configure(state='normal')
+            serial_text.insert(END, text + '\n') 
+            serial_text.see(END)
+            serial_text.configure(state='disabled')
+        except:...
+
     def openm5burner():
 
         global search, m5burner, toremove, allfirmwaresfromm5burner
@@ -669,6 +691,98 @@ try:
         threading.Thread(target=doublethread).start()
 
         m5burner.mainloop()
+
+    def addcmd():
+
+        global inputtext, serialport, portt
+
+        text = inputtext.get()
+
+        serialport.write(text.encode())
+
+    def autozanyat():
+
+        global serialport, portt, add_serial_log, custombaudrate
+
+        while True:
+
+            time.sleep(0.001)
+
+            if portt and portt != '':
+
+                try: baud = int(custombaudrate.get())
+                except: baud = 115200
+
+                try: 
+                    
+                    serialport = serial.Serial(f'COM{portt}', baud)
+
+                    add_log('Подключено')
+
+                except: ...#add_serial_log('Не удалось подключиться к устройству')
+
+            else: 
+                
+                serialport = None
+                #connected = False
+
+    def getalltext():
+
+        global serialport, add_serial_log
+
+        while True:
+
+            time.sleep(0.01)
+
+            if serialport != None:
+
+                try:
+
+                    if serialport.in_waiting > 0:
+
+                        dataBarCode = serialport.readline()
+
+                        add_serial_log(dataBarCode.decode("utf-8"))
+
+                except:...
+
+    def openconsolee():
+
+        global log_text, serial_text, inputtext, serialport, custombaudrate
+
+        console = CTk()
+        console.title("Консоль и логи")
+        console.geometry('600x300')
+        set_appearance_mode("dark")
+
+        serialport = None
+
+        log_text = CTkTextbox(console, width=280, height=230)
+        log_text.configure(state='disabled', font=('Calibri', 13))
+        log_text.place(x=10, y=10)
+
+        serial_text = CTkTextbox(console, width=280, height=230)
+        serial_text.configure(state='disabled', font=('Calibri', 13))
+        serial_text.place(x=310, y=10)     
+        
+        custombaudrate = CTkEntry(console, placeholder_text='Введите BaudRate', width=280, height=30)
+        custombaudrate.place(x=10,y=250)
+
+        custombaudrate.insert('0', '115200')
+
+        inputtext = CTkEntry(console, placeholder_text='Введите команду', width=190, height=30)
+        inputtext.place(x=310,y=250)
+
+        entercmd = CTkButton(console, text='Отправить', width=50, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=addcmd).start())
+        entercmd.place(x=510, y=250)
+
+        add_log('Логи M5Tool будут здесь')
+        add_serial_log('Логи устройства будут здесь')
+
+        threading.Thread(target=getalltext).start()
+        threading.Thread(target=autozanyat).start()
+
+        console.mainloop()
 
     fg = '#008E63'
     hover = '#225244'
@@ -756,7 +870,7 @@ try:
     comport = CTkOptionMenu(window, values=["Сканируем..."], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)
     comport.place(x=20, y=460)
 
-    CTkFrame(window, width=280, height=90).place(x=10,y=515)
+    CTkFrame(window, width=280, height=45).place(x=10,y=515)
 
     #pincode = CTkEntry(window, placeholder_text='Пин-код', width=260, height=30)
     #pincode.place(x=20, y=525)
@@ -765,17 +879,24 @@ try:
     #sf.place(x=20, y=565)
 
     starter = CTkCheckBox(window, text='Автоматически занимать COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
-    starter.place(x=20, y=550)
+    starter.place(x=20, y=525)
 
-    CTkFrame(window, width=280, height=50).place(x=10,y=615)
+    CTkFrame(window, width=280, height=50).place(x=10,y=570)
 
     installfrmwr = CTkButton(window, text='Открыть встроенный M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openm5burner).start())
-    installfrmwr.place(x=20, y=625)
+    installfrmwr.place(x=20, y=580)
 
     threading.Thread(target=getcomports).start()
     threading.Thread(target=secondthread).start()
     #как вы заметили, я очень люблю threading
+
+    CTkFrame(window, width=280, height=50).place(x=10,y=630)
+
+    openconsole = CTkButton(window, text='Открыть консоль/логи', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+                             command=lambda: threading.Thread(target=openconsolee).start())
+    openconsole.place(x=20, y=640)
+
     window.mainloop()
 
 except Exception as e:

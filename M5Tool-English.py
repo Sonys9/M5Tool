@@ -1,10 +1,12 @@
-print('Launching.. Pls wait')
+print('Loading... Please, wait.')
 
 try:
 
     import os, threading, time, subprocess, zipfile, re, json
 
-    try: import serial                                                                                                                                                                                                                                                                                                                                                                                              ; print('TG: @M5STICKHACK')
+    try: 
+        import serial.tools.list_ports
+        import serial                                                                                                                                                                                                                                                                                                                                                                                              ; print('TG: @M5STICKHACK')
     except:
 
         print('Installing a module Serial...')                                      
@@ -15,11 +17,12 @@ try:
         try: 
 
             import serial
-            print('A module Serial has been successful installed!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
+            import serial.tools.list_ports
+            print('Module Serial has been successful installed!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
 
         except: 
 
-            input('An error was occured when installing a module Serial.')
+            input('An unknown error has been occured.')
 
     try: import requests                                                                                                                                                                                                                                                                                                                                                                                              ; print('TG: @M5STICKHACK')
     except:
@@ -32,11 +35,11 @@ try:
         try: 
 
             import requests
-            print('A module Requests has been successful installed!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
+            print('Module Requests has been successful installed!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
 
         except: 
 
-            input('An error was occured when installing a module Requests.')
+            input('An unknown error has been occured.')
 
     try: 
         from tkinter import messagebox, filedialog
@@ -55,18 +58,18 @@ try:
             from customtkinter import * 
             from tkinter import messagebox, filedialog
 
-            print('A module CustomTkinter has been successful!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
+            print('Module CustomTkinter has been successful installed!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
 
         except: 
 
-            input('An error was occured when installing a module CustomTkinter.')
+            input('An unknown error has been occured.')
 
     def zanyat():
 
         try:
 
             s = serial.Serial(f'COM{portt}')
-            print('Порт занят!')
+            add_log(f'-Port COM{portt}')
             while True:
                 res = s.read()
                 
@@ -74,12 +77,12 @@ try:
 
     window = CTk()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ;sys.stdout.write("\nТ̷G̵:̷ ̷М̶5̶S̴Т̴I̶С̷К̵Н̶А̶С̴К̴\n")
     window.title('M5Tool')
-    window.geometry('300x675')
+    window.geometry('300x690')
     window.resizable(False, False)
     set_appearance_mode("dark")
 
     fileee = None
-    portt = '3'
+    portt = None
     device = 'plus2'
 
     def secondthread():
@@ -185,11 +188,10 @@ try:
             elif device == 'cardputer':
                 if 'card' in frmw.lower(): return f"https://github.com"+repo+frmw
 
-            if len(all) == 1:return f"https://github.com"+repo+all[0]
+        if len(all) == 1:return f"https://github.com"+repo+all[0]
 
     #portt = '5' test
-
-    #for i in ['marauder', 'bruce', 'nemo', 'm5launcher']: print(getfrmwr(i)) test
+    #for i in ['marauder', 'bruce', 'nemo', 'm5launcher']: add_log(getfrmwr(i)) test
 
     def choicefile():
 
@@ -216,7 +218,7 @@ try:
         
             if not fileee.endswith('.bin'):
 
-                messagebox.showerror(title='M5Tool', message=f'Its not a firmware file!')
+                messagebox.showerror(title='M5Tool', message=f'Are you sure? Its not a .bin file!')
 
             else:
 
@@ -240,33 +242,31 @@ try:
 
                                 if 'not open' in output_str.lower():
 
-                                    messagebox.showerror(title='M5Tool', message=f'An error was occured, try reconnect the device.')
+                                    messagebox.showerror(title='M5Tool', message=f'An error has been occured at connecting to COM port. Try reconnect your device.')
 
                                 else:
 
-                                    messagebox.showerror(title='M5Tool', message=f'An unknown error has occured: {output_str}')
+                                    messagebox.showerror(title='M5Tool', message=f'Error: {output_str}')
 
                                 break
 
                             elif 'Hash of data verified.' in output_str: 
 
-                                messagebox.showinfo(title='M5Tool', message=f'Firmware is successful installed!')
+                                messagebox.showinfo(title='M5Tool', message=f'Success!')
 
                                 break
 
-                            print(output_str)
+                            add_log(output_str)
 
                         else: ...
                     
     def flashtoolisntall():
 
-        if os.path.exists('esptool480'): messagebox.showinfo(title='M5Tool', message='EspTool alreadly installed!')
+        if os.path.exists('esptool480'): messagebox.showinfo(title='M5Tool', message='EspTool alr installed!')
 
         else:
 
-            messagebox.showinfo(title='M5Tool', message='Logs will be in the console')
-
-            print('Downloading archive...')
+            add_log('Downloading an archive...')
 
             while True:
                 try:
@@ -283,77 +283,39 @@ try:
 
                         for chunk in r.iter_content(chunk_size = 512 * 1024):
                             if chunk:
-                                #print(total_size)
-                                #print(completed)
+                                #add_log(total_size)
+                                #add_log(completed)
                                 completed += len(chunk)
-                                speed_mbps = (len(chunk) / (1024 * 1024)) / (time.time()-starttime)
-                                proc = completed//oneprocent
+                                speed_mbps = ((len(chunk)+0.01) / (1024 * 1024)) / (time.time()-starttime)
+                                proc = (completed+0.01)//(oneprocent+0.01)
                                 #completed+=proc
-                                print(f'Downloading... ({speed_mbps} MB/s) {proc}%')
+                                add_log(f'Downloading... ({speed_mbps} Mbps) {proc}%')
                                 f.write(chunk)
                                 f.flush()
                                 os.fsync(f.fileno())
                                 starttime = time.time()
                         
                     break
-                except Exception as e: print(f'Retrying... Check your internet connection: {e}')
+                except Exception as e: add_log(f'Retrying... Error: {e}')
 
-            print('Archive has been installed.\nUnpacking archive...')
+            add_log('Archive has been downloaded.\nUnpacking an archive...')
         
             with zipfile.ZipFile('file.zip', 'r') as zip_ref:
                 zip_ref.extractall('esptool480')
 
             os.makedirs('esptool480', exist_ok=True)
 
-            print('Archive unpacked successful!')
+            add_log('Success!')
 
-            messagebox.showinfo(title='M5Tool', message='Successful!')
-
-    def installfrmw():
-
-        global firmws
-
-        firmware = firmws.get()
-        
-        fileurl = getfrmwr(firmware)
-
-        print(f'Url: {fileurl}')
-
-        if fileurl == None: messagebox.showerror(title='M5Tool', message='We are dont found a firmware for your device :(')
-
-        else:
-
-            r = requests.get(fileurl)
-
-            file_path = filedialog.asksaveasfilename(
-                title="Save a file",
-                defaultextension=".bin", 
-                filetypes=(("Firmware file", "*.bin"), ("All files", "*.*"))
-            )
-            
-            if file_path: 
-                with open(file_path, 'wb') as f:
-                    f.write(r.content)
-
-    def change(dev): 
-        global device
-        device = dev
-
-    def change2(value):
-        global portt
-        #value = comport.get()
-        portt = value.replace('COM', '')
-        print(portt)
+            messagebox.showinfo(title='M5Tool', message='Success!')
 
     def installCH341driver():
 
-        if os.path.exists('CH341'): messagebox.showinfo(title='M5Tool', message='Drivers is alreadly installed!')
+        if os.path.exists('CH341'): messagebox.showinfo(title='M5Tool', message='Drivers alr installed!')
 
         else:
 
-            messagebox.showinfo(title='M5Tool', message='Logs will be in the console')
-
-            print('Downloading a file...')
+            add_log('Downloading a file...')
 
             os.makedirs('CH341', exist_ok=True)
 
@@ -372,30 +334,111 @@ try:
 
                         for chunk in r.iter_content(chunk_size = 512 * 1024):
                             if chunk:
-                                #print(total_size)
-                                #print(completed)
+                                #add_log(total_size)
+                                #add_log(completed)
                                 completed += len(chunk)
-                                speed_mbps = (len(chunk) / (1024 * 1024)) / (time.time()-starttime)
-                                proc = completed//oneprocent
+                                speed_mbps = ((len(chunk)+0.01) / (1024 * 1024)) / (time.time()-starttime)
+                                proc = (completed+0.01)//(oneprocent+0.01)
                                 #completed+=proc
-                                print(f'Downloading... ({speed_mbps} MB/s) {proc}%')
+                                add_log(f'Downloading... ({speed_mbps} Mbps) {proc}%')
                                 f.write(chunk)
                                 f.flush()
                                 os.fsync(f.fileno())
                                 starttime = time.time()
                         
                     break
-                except Exception as e: print(f'An error has been occured, retrying... Check your internet connection, error: {e}')
+                except Exception as e: add_log(f'Retrying... Error: {e}')
 
-            print('File has been successful downloaded!')
+            add_log('File has been downloaded! Launching...')
 
             os.system('start CH341\\CH3CH341.exe')
 
-            messagebox.showinfo(title='M5Tool', message='Successful! Click "Install" to continue.')
+            messagebox.showinfo(title='M5Tool', message='Success! Click Install to continue')
+
+    def installfrmw():
+
+        global firmws
+
+        firmware = firmws.get()
+        
+        fileurl = getfrmwr(firmware)
+
+        add_log(f'Link: {fileurl}')
+
+        if fileurl == None: messagebox.showerror(title='M5Tool', message='A firmware file dont found for your device')
+
+        else:
+
+            r = requests.get(fileurl)
+
+            file_path = filedialog.asksaveasfilename(
+                title="Save a file",
+                defaultextension=".bin", 
+                filetypes=(("Firmware file", "*.bin"), ("All files", "*.*"))
+            )
+            
+            if file_path: 
+                with open(file_path, 'wb') as f:
+                    f.write(r.content)
+
+    def Eraseall():
+
+        global portt
+
+        if portt != None:
+
+            result = messagebox.askquestion("M5Tool", "Are you sure?")
+
+            if result == 'yes':
+
+                process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 erase_flash")
+
+                while True:
+
+                    output = process.stdout.readline()
+
+                    if output:
+
+                        output_str = str(output.strip())
+
+                        if "fatal error" in output_str or 'error occurred' in output_str:
+
+                            if 'not open' in output_str.lower():
+
+                                messagebox.showerror(title='M5Tool', message=f'An error has been occured at connecting to COM port. Try reconnect your device.')
+
+                            else:
+
+                                messagebox.showerror(title='M5Tool', message=f'Error: {output_str}')
+
+                            break
+
+                        elif 'Hash of data verified.' in output_str: 
+
+                            messagebox.showinfo(title='M5Tool', message=f'Success!')
+
+                            break
+
+                        add_log(output_str)
+
+                    else: ...
+
+    def change(dev): 
+        global device
+        device = dev
+
+    def change2(value):
+        global portt, add_log
+        #value = comport.get()
+        portt = value.replace('COM', '')
+        add_log(portt)
+        add_log(f"COM port: COM{portt}")
 
     def getcomports():
 
-        global portt
+        global portt, add_log
+
+        lastport = ''
 
         while True:
 
@@ -403,27 +446,29 @@ try:
 
             detectedcomports = []
             
-            for i in range(1,50):
+            ports = serial.tools.list_ports.comports()
 
-                try:
-
-                    ser = serial.Serial(f'COM{i}')
-                    ser.close()
-                    detectedcomports.append(f'COM{i}')
-                    #break
-
-                except Exception as e:... #print(e)
+            for port, desc, hwid in sorted(ports):
+                detectedcomports.append(port)
 
             comport.configure(values=detectedcomports)
 
             if detectedcomports == []: 
                 comport.set('')
+                lastport = ''
                 #portt = ''
 
             if len(detectedcomports) == 1:
 
                 comport.set(detectedcomports[0])
                 portt = detectedcomports[0][3:]
+
+                if lastport != portt:
+
+                    lastport = portt
+
+                    add_log(f"COM port: COM{portt}")
+                
 
         #else: messagebox.showinfo(title='M5Tool', message=f'Найден(-о) {len(detectedcomports)} COM порт(-ов)')
 
@@ -443,7 +488,7 @@ try:
 
     #        starter.place(x=20, y=550)
 
-    #    else: messagebox.showerror(title='M5Tool', message='Incorrect pin code!')
+    #    else: messagebox.showerror(title='M5Tool', message='Неверный пин-код!')
 
     def getall():
 
@@ -532,7 +577,7 @@ try:
             ndescr = [kostil["firmwares"][current][4][i:i + 100] for i in range(0, len(kostil["firmwares"][current][4]), 100)]
             ndescr = '\n'.join(ndescr)
             
-            first = CTkLabel(frame, text=f'{kostil["firmwares"][current][3]} (от {kostil["firmwares"][current][6]})', font=('Arial Black', 15))
+            first = CTkLabel(frame, text=f'{kostil["firmwares"][current][3]} (by {kostil["firmwares"][current][6]})', font=('Arial Black', 15))
             first.pack()
 
             second = CTkLabel(frame, text=f'{ndescr}\n\n{kostil["firmwares"][current][7]} downloads, uploaded at {kostil["firmwares"][current][1]}')
@@ -594,7 +639,7 @@ try:
                 ndescr = [every[0][4][i:i + 100] for i in range(0, len(every[0][4]), 100)]
                 ndescr = '\n'.join(ndescr)
                 
-                first = CTkLabel(frame, text=f'{every[0][3]} (от {every[0][6]})', font=('Arial Black', 15))
+                first = CTkLabel(frame, text=f'{every[0][3]} (by {every[0][6]})', font=('Arial Black', 15))
                 first.pack()
 
                 second = CTkLabel(frame, text=f'{ndescr}\n\n{every[0][7]} downloads, uploaded at {every[0][1]}')
@@ -609,18 +654,36 @@ try:
                 down.pack(pady=20)
                 toremove.append(frame)
 
+    def add_log(text):
+        try:
+            global log_text
+            log_text.configure(state='normal')
+            log_text.insert(END, text + '\n') 
+            log_text.see(END)
+            log_text.configure(state='disabled')
+        except:...
+
+    def add_serial_log(text):
+        try:
+            global serial_text
+            serial_text.configure(state='normal')
+            serial_text.insert(END, text + '\n') 
+            serial_text.see(END)
+            serial_text.configure(state='disabled')
+        except:...
+
     def openm5burner():
 
         global search, m5burner, toremove, allfirmwaresfromm5burner
 
         m5burner = CTk()
-        m5burner.title("M5Burner (you can resize the window)")
+        m5burner.title("M5Burner")
         m5burner.geometry('600x600')
         set_appearance_mode("dark")
 
         allfirmwaresfromm5burner = getall()
         
-        search = CTkEntry(m5burner, placeholder_text='Поиск', width=590, height=30)
+        search = CTkEntry(m5burner, placeholder_text='Search', width=590, height=30)
         search.pack()
 
         toremove = []
@@ -629,48 +692,97 @@ try:
 
         m5burner.mainloop()
 
-    
-    def Eraseall():
+    def addcmd():
 
-        global portt
+        global inputtext, serialport, portt
 
-        if portt != None:
+        text = inputtext.get()
 
-            result = messagebox.askquestion("M5Tool", "Are you sure?")
+        serialport.write(text.encode())
 
-            if result == 'yes':
+    def autozanyat():
 
-                process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 erase_flash")
+        global serialport, portt, add_serial_log, custombaudrate
 
-                while True:
+        while True:
 
-                    output = process.stdout.readline()
+            time.sleep(0.001)
 
-                    if output:
+            if portt and portt != '':
 
-                        output_str = str(output.strip())
+                try: baud = int(custombaudrate.get())
+                except: baud = 115200
 
-                        if "fatal error" in output_str or 'error occurred' in output_str:
+                try: 
+                    
+                    serialport = serial.Serial(f'COM{portt}', baud)
 
-                            if 'not open' in output_str.lower():
+                    add_log('Connected')
 
-                                messagebox.showerror(title='M5Tool', message=f'An error was occured, try reconnect the device.')
+                except: ...#add_serial_log('Не удалось подключиться к устройству')
 
-                            else:
+            else: 
+                
+                serialport = None
+                #connected = False
 
-                                messagebox.showerror(title='M5Tool', message=f'An unknown error has been occured: {output_str}')
+    def getalltext():
 
-                            break
+        global serialport, add_serial_log
 
-                        elif 'Hash of data verified.' in output_str: 
+        while True:
 
-                            messagebox.showinfo(title='M5Tool', message=f'Successful!')
+            time.sleep(0.01)
 
-                            break
+            if serialport != None:
 
-                        print(output_str)
+                try:
 
-                    else: ...
+                    if serialport.in_waiting > 0:
+
+                        dataBarCode = serialport.readline()
+
+                        add_serial_log(dataBarCode.decode("utf-8"))
+
+                except:...
+
+    def openconsolee():
+
+        global log_text, serial_text, inputtext, serialport, custombaudrate
+
+        console = CTk()
+        console.title("Console and logs")
+        console.geometry('600x300')
+        set_appearance_mode("dark")
+
+        serialport = None
+
+        log_text = CTkTextbox(console, width=280, height=230)
+        log_text.configure(state='disabled', font=('Calibri', 13))
+        log_text.place(x=10, y=10)
+
+        serial_text = CTkTextbox(console, width=280, height=230)
+        serial_text.configure(state='disabled', font=('Calibri', 13))
+        serial_text.place(x=310, y=10)     
+        
+        custombaudrate = CTkEntry(console, placeholder_text='Enter a BaudRate', width=280, height=30)
+        custombaudrate.place(x=10,y=250)
+
+        custombaudrate.insert('0', '115200')
+
+        inputtext = CTkEntry(console, placeholder_text='Enter a command', width=190, height=30)
+        inputtext.place(x=310,y=250)
+
+        entercmd = CTkButton(console, text='Send', width=50, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=addcmd).start())
+        entercmd.place(x=510, y=250)
+
+        add_log('M5Tool\'s logs will be here')
+        add_serial_log('Device\'s logs will be here')
+
+        threading.Thread(target=getalltext).start()
+        threading.Thread(target=autozanyat).start()
+
+        console.mainloop()
 
     fg = '#008E63'
     hover = '#225244'
@@ -708,10 +820,10 @@ try:
     eraseall = CTkButton(window, text='Erase all', width=90, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=Eraseall).start())
     eraseall.place(x=190, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; os.system('echo Т̵̬̿̚G̷̠͍̀̈́'+' ̵̛̠͑М̷͙̳̎͘5̴͙̉S̷̭̓̕Т̶̦̏̎Ĭ̵̯̦͝'+'С̸͖̝͛К̸̞͗͝Н̷͕̊̍А̵̖̓С̵̣͓̚К̷͕̉̀')
 
-    installflashtool = CTkButton(window, text='Install the EspTool', width=130, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
+    installflashtool = CTkButton(window, text='Download a EspTool', width=120, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
     installflashtool.place(x=20, y=165)
 
-    installCH341 = CTkButton(window, text='Install the drivers', width=120, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installCH341driver).start())
+    installCH341 = CTkButton(window, text='Download a drivers', width=110, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installCH341driver).start())
     installCH341.place(x=160, y=165)
 
     CTkFrame(window, width=280, height=90).place(x=10,y=230)
@@ -730,10 +842,10 @@ try:
 
     # у меня глаза болели от кода выше (который уже закоментирован) сори я переделаю
 
-    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo", 'CatHack', 'Hamster Kombat'], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
+    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo", "CatHack", 'Hamster Kombat'], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
-    installfrmwr = CTkButton(window, text='Download .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
+    installfrmwr = CTkButton(window, text='Download a .bin file', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
     installfrmwr.place(x=20, y=280)
 
     CTkFrame(window, width=280, height=175).place(x=10,y=330)
@@ -758,7 +870,7 @@ try:
     comport = CTkOptionMenu(window, values=["Scanning..."], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)
     comport.place(x=20, y=460)
 
-    CTkFrame(window, width=280, height=90).place(x=10,y=515)
+    CTkFrame(window, width=280, height=45).place(x=10,y=515)
 
     #pincode = CTkEntry(window, placeholder_text='Пин-код', width=260, height=30)
     #pincode.place(x=20, y=525)
@@ -766,22 +878,27 @@ try:
     #sf = CTkButton(window, text='Активировать доп. функцию', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=checkpin)
     #sf.place(x=20, y=565)
 
-    
+    starter = CTkCheckBox(window, text='COM port fucker', bg_color=bg, hover_color=hover, fg_color=fg)
+    starter.place(x=20, y=525)
 
-    starter = CTkCheckBox(window, text='Auto deactivate COM port', bg_color=bg, hover_color=hover, fg_color=fg)
-    starter.place(x=20, y=550)
+    CTkFrame(window, width=280, height=50).place(x=10,y=570)
 
-    CTkFrame(window, width=280, height=50).place(x=10,y=615)
-
-    installfrmwr = CTkButton(window, text='Open simple M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+    installfrmwr = CTkButton(window, text='Open Simple M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openm5burner).start())
-    installfrmwr.place(x=20, y=625)
+    installfrmwr.place(x=20, y=580)
 
     threading.Thread(target=getcomports).start()
     threading.Thread(target=secondthread).start()
     #как вы заметили, я очень люблю threading
+
+    CTkFrame(window, width=280, height=50).place(x=10,y=630)
+
+    openconsole = CTkButton(window, text='Open Logs/Console', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+                             command=lambda: threading.Thread(target=openconsolee).start())
+    openconsole.place(x=20, y=640)
+
     window.mainloop()
 
 except Exception as e:
     
-    input(f'Error: {e}')
+    input(f'Error: {e}, contact me (@freedomleaker) in telegram (our chat: @stickhack_chat)')

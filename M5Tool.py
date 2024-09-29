@@ -212,7 +212,7 @@ try:
 
     def flashh():
 
-        global fileee, portt
+        global fileee, portt, serialport, flashing
 
         if portt != '' and fileee != None: # убрал говнокодище с if else и пофиксил мелкий незначительный баг (22.09.2024)
         
@@ -227,6 +227,10 @@ try:
                     messagebox.showerror(title='M5Tool', message=f'EspTool не установлен!')
 
                 else:
+
+                    flashing = True
+                    try: serialport.close()
+                    except Exception as e: print(f'error {e}')
 
                     process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 --before default_reset write_flash -z --flash_mode dio --flash_freq 80m --flash_size detect 0x000 \"{fileee}\"")
 
@@ -247,12 +251,16 @@ try:
                                 else:
 
                                     messagebox.showerror(title='M5Tool', message=f'Произошла неизвестная ошибка: {output_str}')
+                                    
+                                flashing = False
 
                                 break
 
                             elif 'Hash of data verified.' in output_str: 
 
                                 messagebox.showinfo(title='M5Tool', message=f'Прошивка успешно установлена')
+
+                                flashing = False
 
                                 break
 
@@ -383,13 +391,17 @@ try:
 
     def Eraseall():
 
-        global portt
+        global portt, flashing, serialport
 
         if portt != None:
 
             result = messagebox.askquestion("M5Tool", "Вы уверены?")
 
             if result == 'yes':
+
+                flashing = True
+                try: serialport.close()
+                except Exception as e: print(f'error {e}')
 
                 process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 erase_flash")
 
@@ -411,11 +423,15 @@ try:
 
                                 messagebox.showerror(title='M5Tool', message=f'Произошла неизвестная ошибка: {output_str}')
 
+                            flashing = False
+
                             break
 
                         elif 'Hash of data verified.' in output_str: 
 
                             messagebox.showinfo(title='M5Tool', message=f'Данные с устройства успешно стёрты!')
+
+                            flashing = False
 
                             break
 
@@ -702,13 +718,15 @@ try:
 
     def autozanyat():
 
-        global serialport, portt, add_serial_log, custombaudrate
+        global serialport, portt, add_serial_log, custombaudrate, flashing
+
+        flashing = False
 
         while True:
 
             time.sleep(0.001)
 
-            if portt and portt != '':
+            if portt and portt != '' and not flashing:
 
                 try: baud = int(custombaudrate.get())
                 except: baud = 115200

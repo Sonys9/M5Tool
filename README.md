@@ -5,9 +5,11 @@ Best tool for M5StickC Plus2/Plus1.1 and Cardputer.
 Functions:
 
  - Flash your device via .bin file (you need to connect your device to pc and choice device's COM port here ![image](https://github.com/user-attachments/assets/404ed25c-b25c-4bd3-8e68-e9e3b4a70d97))
- - Popular firmwares installer (.bin file)
- - Anti flasher
+ - Drivers installer
+ - BIN Installer
  - Simple M5Burner
+ - COM Port Lagger
+ - Erase All
 
 На русском:
 
@@ -19,6 +21,8 @@ Functions:
  - Быстрая установка .bin файлов популярных прошивок
  - Анти прошивание стика (чтобы случайно не прошить)
  - Встроенный (баганный) m5burner
+ - Установка драйверов
+ - Стереть всё с устройства
 
 Как запустить:
 1. Установите Python >3.8 для наилучшей работы

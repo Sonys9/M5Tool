@@ -2,11 +2,11 @@ print('Запуск... Пожалуйста, подождите')
 
 try:
 
-    import os, threading, time, subprocess, zipfile, re, json
+    import os, threading, time, subprocess, zipfile, re, json, random
 
     try: 
         import serial.tools.list_ports
-        import serial                                                                                                                                                                                                                                                                                                                                                                                              ; print('TG: @M5STICKHACK')
+        import serial                                                                                                                                                                                                                                                                                                                                                                                             
     except:
 
         print('Устанавливаем модуль Serial...')                                      
@@ -18,13 +18,13 @@ try:
 
             import serial
             import serial.tools.list_ports
-            print('Модуль Serial установлен!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
+            print('Модуль Serial установлен!')                                                                                                                                                                                                                                                                                                                                        
 
         except: 
 
             input('Не удалось установить модуль Serial.')
 
-    try: import requests                                                                                                                                                                                                                                                                                                                                                                                              ; print('TG: @M5STICKHACK')
+    try: import requests                                                                                                                                                                                                                                                                                                                                                                                             
     except:
 
         print('Устанавливаем модуль Requests...')                                      
@@ -35,7 +35,7 @@ try:
         try: 
 
             import requests
-            print('Модуль Requests установлен!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
+            print('Модуль Requests установлен!')                                                                                                                                                                                                                                                                                                                                        
 
         except: 
 
@@ -43,7 +43,7 @@ try:
 
     try: 
         from tkinter import messagebox, filedialog
-        from customtkinter import *                                                                                                                                                                                                                                                                                                                                                                                            ; print('TG: @M5STICKHACK')
+        from customtkinter import *                                                                                                                                                                                                                                                                                                                                                                                           
 
     except:
 
@@ -58,7 +58,7 @@ try:
             from customtkinter import * 
             from tkinter import messagebox, filedialog
 
-            print('Модуль CustomTkinter установлен!')                                                                                                                                                                                                                                                                                                                                         ; print('TG: @M5STICKHACK')
+            print('Модуль CustomTkinter установлен!')                                                                                                                                                                                                                                                                                                                                        
 
         except: 
 
@@ -75,17 +75,85 @@ try:
                 
         except:...
 
-    window = CTk()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ;sys.stdout.write("\nТ̷G̵:̷ ̷М̶5̶S̴Т̴I̶С̷К̵Н̶А̶С̴К̴\n")
+    installing = False
+
+    if os.name == 'posix':username = os.getenv('USER') or os.getenv('LOGNAME')
+    else:username = os.getenv('USERNAME')
+    tempdir = f'C:\\Users\\{username}\\AppData\\Local\\Temp'
+
+    def installfile(url, name, terminal=False):
+
+        global installing
+
+        if not terminal: threading.Thread(target=lambda: messagebox.showinfo('M5Tool', 'Устанавливаем... Логи будут в консоли.')).start()
+
+        if installing: 
+            if not terminal: threading.Thread(target=lambda: messagebox.showinfo('M5Tool', 'Ты уже что-то устанавливаешь!')).start()
+            return True
+        
+        installing = True
+
+        while True:
+            try:
+                r = requests.get(url, timeout=240, stream=True)
+
+                total_size = int(r.headers.get('content-length', 0))
+                completed = 0
+                proc = 0
+                oneprocent = total_size//100
+
+                with open(name, 'wb') as f: 
+
+                    starttime = time.time()
+
+                    for chunk in r.iter_content(chunk_size = 64 * 1024):
+                        if chunk:
+                            completed += len(chunk)
+                            speed_mbps = ((len(chunk)+0.1) / (1024 * 1024)) / (time.time()+1-starttime)
+                            proc = (completed+0.1)//(oneprocent+0.1)
+                            if not terminal: add_log(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
+                            else: print(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
+                            f.write(chunk)
+                            f.flush()
+                            os.fsync(f.fileno())
+                            starttime = time.time()
+                    
+                break
+            except Exception as e: 
+                if not terminal: add_log(f'Пытаемся установить снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
+                else: print(f'Пытаемся установить снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
+
+        installing = False
+
+    if not os.path.exists('esptool480\\esptool-win64\\esptool.exe'):
+
+        print('Устанавливаем зависимости... Пожалуйста, подождите.')
+
+        installfile('https://github.com/espressif/esptool/releases/download/v4.8.0/esptool-v4.8.0-win64.zip', 'file.zip', True)
+
+        print('Архив установлен.\nРазархивируем архив...')
+
+        with zipfile.ZipFile('file.zip', 'r') as zip_ref:
+            zip_ref.extractall('esptool480')
+
+        os.makedirs('esptool480', exist_ok=True)
+
+        print('Архив разархивирован!\nЗависимости установлены!')
+
+    window = CTk()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
     window.title('M5Tool')
-    window.geometry('300x690')
+    window.geometry('300x730')
     window.resizable(False, False)
     set_appearance_mode("dark")
 
     fileee = None
     portt = None
     device = 'plus2'
+    alllogs = []
 
     def secondthread():
+
+        global starter
 
         while True:
 
@@ -214,97 +282,74 @@ try:
 
         global fileee, portt, serialport, flashing
 
-        if portt != '' and fileee != None: # убрал говнокодище с if else и пофиксил мелкий незначительный баг (22.09.2024)
+        if portt != '' and portt: 
+
+            if fileee:
         
-            if not fileee.endswith('.bin'):
+                if not fileee.endswith('.bin'):
 
-                messagebox.showerror(title='M5Tool', message=f'Это точно файл прошивки? Должен быть .bin файл!')
-
-            else:
-
-                if not os.path.exists('esptool480\\esptool-win64'): 
-
-                    messagebox.showerror(title='M5Tool', message=f'EspTool не установлен!')
+                    messagebox.showerror(title='M5Tool', message=f'Это точно файл прошивки? Должен быть .bin файл!')
 
                 else:
 
-                    flashing = True
-                    try: serialport.close()
-                    except Exception as e: print(f'error {e}')
+                    if not os.path.exists('esptool480\\esptool-win64'): 
 
-                    process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 --before default_reset write_flash -z --flash_mode dio --flash_freq 80m --flash_size detect 0x000 \"{fileee}\"")
+                        messagebox.showerror(title='M5Tool', message=f'EspTool не установлен! Перезапустите программу')
 
-                    while True:
+                    else:
 
-                        output = process.stdout.readline()
+                        flashing = True
+                        try: serialport.close()
+                        except Exception as e: ...##print(f'error {e}')
 
-                        if output:
+                        process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 --before default_reset write_flash -z --flash_mode dio --flash_freq 80m --flash_size detect 0x000 \"{fileee}\"")
 
-                            output_str = str(output.strip())
+                        while True:
 
-                            if "fatal error" in output_str or 'error occurred' in output_str:
+                            output = process.stdout.readline()
 
-                                if 'not open' in output_str.lower():
+                            if output:
 
-                                    messagebox.showerror(title='M5Tool', message=f'Не удалось подключиться к устройству, попробуйте переподключить устройство')
+                                output_str = output.decode()
 
-                                else:
+                                if "fatal error" in output_str or 'error occurred' in output_str:
 
-                                    messagebox.showerror(title='M5Tool', message=f'Произошла неизвестная ошибка: {output_str}')
-                                    
-                                flashing = False
+                                    if 'not open' in output_str.lower():
 
-                                break
+                                        messagebox.showerror(title='M5Tool', message=f'Не удалось подключиться к устройству, попробуйте переподключить устройство или скачать драйвера')
 
-                            elif 'Hash of data verified.' in output_str: 
+                                    else:
 
-                                messagebox.showinfo(title='M5Tool', message=f'Прошивка успешно установлена')
+                                        messagebox.showerror(title='M5Tool', message=f'Произошла неизвестная ошибка: {output_str}, попробуйте установить драйвера, если они не установлены')
+                                        
+                                    flashing = False
 
-                                flashing = False
+                                    break
 
-                                break
+                                elif 'Hash of data verified.' in output_str: 
 
-                            add_log(output_str)
+                                    messagebox.showinfo(title='M5Tool', message=f'Прошивка успешно установлена')
 
-                        else: ...
-                    
+                                    flashing = False
+
+                                    break
+
+                                add_log(output_str)
+
+                            else: ...
+
+            else: messagebox.showerror(title='M5Tool', message=f'Вы не выбрали файл прошивки')
+
+        else: messagebox.showerror(title='M5Tool', message=f'Вы не подключили устройство к пк. Если вы подключили, но не получается прошить, попробуйте установить драйвера')
+        flashing=False
+
     def flashtoolisntall():
+        
+        add_log('Устанавливаем архив...')
 
-        if os.path.exists('esptool480'): messagebox.showinfo(title='M5Tool', message='EspTool уже установлен!')
+        r = installfile('https://github.com/espressif/esptool/releases/download/v4.8.0/esptool-v4.8.0-win64.zip', 'file.zip')
 
-        else:
-
-            add_log('Устанавливаем архив...')
-
-            while True:
-                try:
-                    r = requests.get('https://github.com/espressif/esptool/releases/download/v4.8.0/esptool-v4.8.0-win64.zip', timeout=240, stream=True)
-
-                    total_size = int(r.headers.get('content-length', 0))
-                    completed = 0
-                    proc = 0
-                    oneprocent = total_size//100
-
-                    with open('file.zip', 'wb') as f: 
-
-                        starttime = time.time()
-
-                        for chunk in r.iter_content(chunk_size = 512 * 1024):
-                            if chunk:
-                                #add_log(total_size)
-                                #add_log(completed)
-                                completed += len(chunk)
-                                speed_mbps = ((len(chunk)+0.01) / (1024 * 1024)) / (time.time()-starttime)
-                                proc = (completed+0.01)//(oneprocent+0.01)
-                                #completed+=proc
-                                add_log(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
-                                f.write(chunk)
-                                f.flush()
-                                os.fsync(f.fileno())
-                                starttime = time.time()
-                        
-                    break
-                except Exception as e: add_log(f'Пытаемся установить архив снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
+        if not r:
 
             add_log('Архив установлен.\nРазархивируем архив...')
         
@@ -317,51 +362,73 @@ try:
 
             messagebox.showinfo(title='M5Tool', message='Успех!')
 
-    def installCH341driver():
+    def installch341():
 
-        if os.path.exists('CH341'): messagebox.showinfo(title='M5Tool', message='Дрова уже установлены!')
+        add_log('Устанавливаем файл...')
 
-        else:
+        os.makedirs('CH341', exist_ok=True)
 
-            add_log('Устанавливаем файл...')
+        r = installfile('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH341SER.EXE', 'CH341\\CH3CH341.exe')
 
-            os.makedirs('CH341', exist_ok=True)
-
-            while True:
-                try:
-                    r = requests.get('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH341SER.EXE', timeout=240, stream=True)
-
-                    total_size = int(r.headers.get('content-length', 0))
-                    completed = 0
-                    proc = 0
-                    oneprocent = total_size//100
-
-                    with open('CH341\\CH3CH341.exe', 'wb') as f: 
-
-                        starttime = time.time()
-
-                        for chunk in r.iter_content(chunk_size = 512 * 1024):
-                            if chunk:
-                                #add_log(total_size)
-                                #add_log(completed)
-                                completed += len(chunk)
-                                speed_mbps = ((len(chunk)+0.01) / (1024 * 1024)) / (time.time()-starttime)
-                                proc = (completed+0.01)//(oneprocent+0.01)
-                                #completed+=proc
-                                add_log(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
-                                f.write(chunk)
-                                f.flush()
-                                os.fsync(f.fileno())
-                                starttime = time.time()
-                        
-                    break
-                except Exception as e: add_log(f'Пытаемся установить файл снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
+        if not r:
 
             add_log('Файл установлен! Запускаем...')
 
             os.system('start CH341\\CH3CH341.exe')
 
-            messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки дров.')
+            messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки драйверов.')
+
+    def installch343():
+
+        add_log('Устанавливаем файл...')
+
+        os.makedirs('CH343', exist_ok=True)
+
+        r = installfile('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH343SER.EXE', 'CH343\\CH343.exe')
+
+        if not r:
+
+            add_log('Файл установлен! Запускаем...')
+
+            os.system('start CH343\\CH343.exe')
+
+            messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки драйверов.')
+
+    def installch9102():
+
+        add_log('Устанавливаем файл...')
+
+        os.makedirs('CH9102', exist_ok=True)
+
+        r = installfile('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH9102.exe', 'CH9102\\CH9102.exe')
+
+        if not r:
+
+            add_log('Файл установлен! Запускаем...')
+
+            os.system('start CH9102\\CH9102.exe')
+
+            messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки драйверов.')
+    
+    def installdriverswindow():
+
+        driverwindow = CTk()
+        driverwindow.title("Драйвера")
+        driverwindow.geometry('200x150')
+        set_appearance_mode("dark")
+
+        CTkFrame(driverwindow, width=180, height=130).place(x=10,y=10)
+
+        ch341 = CTkButton(driverwindow, text='CH341', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installch341).start())
+        ch341.place(x=20, y=20)
+
+        ch9102 = CTkButton(driverwindow, text='CH9102', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installch9102).start())
+        ch9102.place(x=20, y=60)
+
+        ch343 = CTkButton(driverwindow, text='CH343', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installch343).start())
+        ch343.place(x=20, y=100)
+
+        driverwindow.mainloop()
 
     def installfrmw():
 
@@ -389,11 +456,35 @@ try:
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
 
+    def installandflash():
+
+        global firmws, fileee
+
+        firmware = firmws.get()
+        
+        fileurl = getfrmwr(firmware)
+
+        add_log(f'Ссылка: {fileurl}')
+
+        if fileurl == None: messagebox.showerror(title='M5Tool', message='Прошивка для вашего устройства не найдена :(')
+
+        else:
+
+            threading.Thread(target=lambda: messagebox.showinfo('M5Tool', 'Устанавливаем... Логи будут в консоли.')).start()
+
+            r = requests.get(fileurl)
+
+            fileee = f'{tempdir}\\{random.randint(10000,999999)}.bin'
+
+            with open(fileee, 'wb') as f: f.write(r.content)
+
+            flashh()
+
     def Eraseall():
 
         global portt, flashing, serialport
 
-        if portt != None:
+        if portt and portt != '':
 
             result = messagebox.askquestion("M5Tool", "Вы уверены?")
 
@@ -401,43 +492,52 @@ try:
 
                 flashing = True
                 try: serialport.close()
-                except Exception as e: print(f'error {e}')
+                except Exception as e:... #print(f'error {e}')
 
-                process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 erase_flash")
+                if not os.path.exists('esptool480\\esptool-win64'): 
 
-                while True:
+                    messagebox.showerror(title='M5Tool', message=f'EspTool не установлен! Перезапустите программу')
 
-                    output = process.stdout.readline()
+                else:
 
-                    if output:
+                    process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 erase_flash")
 
-                        output_str = str(output.strip())
+                    while True:
 
-                        if "fatal error" in output_str or 'error occurred' in output_str:
+                        output = process.stdout.readline()
 
-                            if 'not open' in output_str.lower():
+                        if output:
 
-                                messagebox.showerror(title='M5Tool', message=f'Не удалось подключиться к устройству, попробуйте переподключить устройство')
+                            output_str = output.decode()
 
-                            else:
+                            if "fatal error" in output_str or 'error occurred' in output_str:
 
-                                messagebox.showerror(title='M5Tool', message=f'Произошла неизвестная ошибка: {output_str}')
+                                if 'not open' in output_str.lower():
 
-                            flashing = False
+                                    messagebox.showerror(title='M5Tool', message=f'Не удалось подключиться к устройству, попробуйте переподключить устройство')
 
-                            break
+                                else:
 
-                        elif 'Hash of data verified.' in output_str: 
+                                    messagebox.showerror(title='M5Tool', message=f'Произошла неизвестная ошибка: {output_str}')
 
-                            messagebox.showinfo(title='M5Tool', message=f'Данные с устройства успешно стёрты!')
+                                flashing = False
 
-                            flashing = False
+                                break
 
-                            break
+                            elif 'Hash of data verified.' in output_str: 
 
-                        add_log(output_str)
+                                messagebox.showinfo(title='M5Tool', message=f'Данные с устройства успешно стёрты!')
 
-                    else: ...
+                                flashing = False
+
+                                break
+
+                            add_log(output_str)
+
+                        else: ...
+
+        else: messagebox.showerror(title='M5Tool', message=f'Вы не подключили устройство к пк. Если вы подключили, но не получается прошить, попробуйте установить драйвера')
+        flashing=False
 
     def change(dev): 
         global device
@@ -485,26 +585,6 @@ try:
 
                     add_log(f"COM порт: COM{portt}")
                 
-
-        #else: messagebox.showinfo(title='M5Tool', message=f'Найден(-о) {len(detectedcomports)} COM порт(-ов)')
-
-        #portt = detectedcomport
-        #window.title(f'M5Tool | COM PORT: {portt}')
-
-    #def checkpin():
-
-    #    global pincode, sf, starter   
-
-    #    pin = pincode.get().replace(' ','')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;pin=str(int(pin)*7) 
-
-    #    if pin == '66185': 
-
-    #        sf.destroy()
-    #        pincode.destroy()
-
-    #        starter.place(x=20, y=550)
-
-    #    else: messagebox.showerror(title='M5Tool', message='Неверный пин-код!')
 
     def getall():
 
@@ -670,13 +750,14 @@ try:
                 down.pack(pady=20)
                 toremove.append(frame)
 
-    def add_log(text):
+    def add_log(text, add=True):
         try:
-            global log_text
+            global log_text, alllogs
             log_text.configure(state='normal')
             log_text.insert(END, text + '\n') 
             log_text.see(END)
             log_text.configure(state='disabled')
+            if add: alllogs.append(text)
         except:...
 
     def add_serial_log(text):
@@ -794,8 +875,10 @@ try:
         entercmd = CTkButton(console, text='Отправить', width=50, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=addcmd).start())
         entercmd.place(x=510, y=250)
 
-        add_log('Логи M5Tool будут здесь')
+        add_log('Логи M5Tool будут здесь', False)
         add_serial_log('Логи устройства будут здесь')
+
+        for log in alllogs: add_log(log, False)
 
         threading.Thread(target=getalltext).start()
         threading.Thread(target=autozanyat).start()
@@ -808,21 +891,7 @@ try:
 
     CTkFrame(window, width=280, height=45).place(x=10,y=10)
 
-    #secretfunction = False
-
-    #starter = CTkCheckBox(window, text='Автоматически занимать COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
-    #секретная функция :) чтобы ее врубить поменяй False на True в secretfunction (мне админ тгк сказал вырезать но я бедбой кодер)
-    #if secretfunction:
-
-    #    starter.place(x=20, y=20)
-    
-    #else:
-
-    #    CTkLabel(window, text='M5Tool by @M5StickHack (TG)', bg_color=bg, font=('Calibri', 20)).place(x=20, y=17)
-
-    # новая система пинкода для крутых декомпилеров
-
-    CTkLabel(window, text='M5Tool by TG: m5stickhack', bg_color=bg, font=('Calibri', 20)).place(x=20, y=17)
+    CTkLabel(window, text='M5Tool by Palka', bg_color=bg, font=('Calibri', 20)).place(x=20, y=17)
     
     CTkFrame(window, width=280, height=155).place(x=10,y=65)
 
@@ -833,90 +902,66 @@ try:
     infoo.place(x=130, y=75)
 
     flash = CTkButton(window, text='Прошить', width=160, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashh).start())
-    flash.place(x=20, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; os.system('echo Т̵̬̿̚G̷̠͍̀̈́'+' ̵̛̠͑М̷͙̳̎͘5̴͙̉S̷̭̓̕Т̶̦̏̎Ĭ̵̯̦͝'+'С̸͖̝͛К̸̞͗͝Н̷͕̊̍А̵̖̓С̵̣͓̚К̷͕̉̀')
+    flash.place(x=20, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 
     eraseall = CTkButton(window, text='Стереть всё', width=90, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=Eraseall).start())
-    eraseall.place(x=190, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; os.system('echo Т̵̬̿̚G̷̠͍̀̈́'+' ̵̛̠͑М̷͙̳̎͘5̴͙̉S̷̭̓̕Т̶̦̏̎Ĭ̵̯̦͝'+'С̸͖̝͛К̸̞͗͝Н̷͕̊̍А̵̖̓С̵̣͓̚К̷͕̉̀')
+    eraseall.place(x=190, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
-    installflashtool = CTkButton(window, text='Установить EspTool', width=120, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashtoolisntall).start())
-    installflashtool.place(x=20, y=165)
+    installdrivers = CTkButton(window, text='Установить драйвера', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installdriverswindow).start())
+    installdrivers.place(x=20, y=165)
 
-    installCH341 = CTkButton(window, text='Установить дрова', width=110, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installCH341driver).start())
-    installCH341.place(x=160, y=165)
+    CTkFrame(window, width=280, height=130).place(x=10,y=230)
 
-    CTkFrame(window, width=280, height=90).place(x=10,y=230)
-
-    #installm5launcher = CTkButton(window, text='Установить M5Launcher', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw,args=('m5launcher',)).start())
-    #installm5launcher.place(x=20, y=240)
-
-    #installbruce = CTkButton(window, text='Установить Bruce', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw,args=('bruce',)).start())
-    #installbruce.place(x=20, y=290)
-
-    #installnemo = CTkButton(window, text='Установить Nemo', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw,args=('nemo',)).start())
-    #installnemo.place(x=20, y=340)
-
-    #installmarauder = CTkButton(window, text='Установить Marauder', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw,args=('marauder',)).start())
-    #installmarauder.place(x=20, y=390)
-
-    # у меня глаза болели от кода выше (который уже закоментирован) сори я переделаю
-
-    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo (заводская)", "CatHack", 'Hamster Kombat'], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
+    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo (заводская)", "CatHack", 'Hamster Kombat'], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
     installfrmwr = CTkButton(window, text='Установить .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
     installfrmwr.place(x=20, y=280)
 
-    CTkFrame(window, width=280, height=175).place(x=10,y=330)
+    flash2 = CTkButton(window, text='Прошить прошивку', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installandflash).start())
+    flash2.place(x=20, y=320)        
+
+    CTkFrame(window, width=280, height=175).place(x=10,y=370)
 
     radio_var = IntVar(value=0)
     m5stickcplus2 = CTkRadioButton(window, text="M5StickC Plus2",
                                                  variable= radio_var, value=1, command=lambda: change('plus2'), fg_color=fg, bg_color=bg, hover_color=hover)
-    m5stickcplus2.place(x=20, y=340)
+    m5stickcplus2.place(x=20, y=380)
     m5stickcplus11 = CTkRadioButton(window, text="M5StickC Plus1.1",
                                                  variable= radio_var, value=2, command=lambda: change('plus11'), fg_color=fg, bg_color=bg, hover_color=hover)
-    m5stickcplus11.place(x=20, y=380)
+    m5stickcplus11.place(x=20, y=420)
 
     cardputer = CTkRadioButton(window, text="Cardputer",
                                                  variable= radio_var, value=3, command=lambda: change('cardputer'), fg_color=fg, bg_color=bg, hover_color=hover)
-    cardputer.place(x=20, y=420)                    
+    cardputer.place(x=20, y=460)                    
     
     m5stickcplus2.select()
 
-    #checkcomport = CTkButton(window, text='Обновить список COM портов', height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=getcomport).start())
-    #checkcomport.place(x=20, y=585)
+    comport = CTkOptionMenu(window, values=["Сканируем..."], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)
+    comport.place(x=20, y=500)
 
-    comport = CTkOptionMenu(window, values=["Сканируем..."], width=200, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)
-    comport.place(x=20, y=460)
-
-    CTkFrame(window, width=280, height=45).place(x=10,y=515)
-
-    #pincode = CTkEntry(window, placeholder_text='Пин-код', width=260, height=30)
-    #pincode.place(x=20, y=525)
-
-    #sf = CTkButton(window, text='Активировать доп. функцию', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=checkpin)
-    #sf.place(x=20, y=565)
+    CTkFrame(window, width=280, height=45).place(x=10,y=555)
 
     starter = CTkCheckBox(window, text='Автоматически занимать COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
-    starter.place(x=20, y=525)
+    starter.place(x=20, y=565)
 
-    CTkFrame(window, width=280, height=50).place(x=10,y=570)
+    CTkFrame(window, width=280, height=50).place(x=10,y=610)
 
     installfrmwr = CTkButton(window, text='Открыть встроенный M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openm5burner).start())
-    installfrmwr.place(x=20, y=580)
+    installfrmwr.place(x=20, y=620)
 
     threading.Thread(target=getcomports).start()
     threading.Thread(target=secondthread).start()
-    #как вы заметили, я очень люблю threading
 
-    CTkFrame(window, width=280, height=50).place(x=10,y=630)
+    CTkFrame(window, width=280, height=50).place(x=10,y=670)
 
     openconsole = CTkButton(window, text='Открыть консоль/логи', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openconsolee).start())
-    openconsole.place(x=20, y=640)
+    openconsole.place(x=20, y=680)
 
     window.mainloop()
 
 except Exception as e:
     
-    input(f'Ошибка: {e}, напиши мне в тг @FreedomLeaker или в наш чат @stickhack_chat')
+    input(f'Ошибка: {e}')

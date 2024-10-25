@@ -753,6 +753,7 @@ try:
     def add_log(text, add=True):
         try:
             global log_text, alllogs
+            if text not in alllogs and add: print(text)
             log_text.configure(state='normal')
             log_text.insert(END, text + '\n') 
             log_text.see(END)
@@ -816,7 +817,7 @@ try:
                     
                     serialport = serial.Serial(f'COM{portt}', baud)
 
-                    add_log('Подключено')
+                    add_log('Подключено к устройству')
 
                 except: ...#add_serial_log('Не удалось подключиться к устройству')
 
@@ -859,6 +860,8 @@ try:
         log_text = CTkTextbox(console, width=280, height=230)
         log_text.configure(state='disabled', font=('Calibri', 13))
         log_text.place(x=10, y=10)
+
+        log_text.delete("1.0", END)
 
         serial_text = CTkTextbox(console, width=280, height=230)
         serial_text.configure(state='disabled', font=('Calibri', 13))
@@ -915,7 +918,7 @@ try:
     firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo (заводская)", "CatHack", 'Hamster Kombat'], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
-    installfrmwr = CTkButton(window, text='Установить .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
+    installfrmwr = CTkButton(window, text='Установить .bin файл', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
     installfrmwr.place(x=20, y=280)
 
     flash2 = CTkButton(window, text='Прошить прошивку', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installandflash).start())

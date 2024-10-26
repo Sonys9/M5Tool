@@ -572,10 +572,10 @@ try:
             second = CTkLabel(frame, text=f'{ndescr}\n\n{kostil["firmwares"][current][7]} скачиваний, загружено {kostil["firmwares"][current][1]}')
             second.pack()
 
-            third = CTkButton(frame, text=f'Установить', fg_color=fg, hover_color=hover, 
+            third = CTkButton(frame, text=f'Скачать .bin', fg_color=fg, hover_color=hover, 
                             command=lambda file=kostil["firmwares"][current][2]: threading.Thread(target=installvialink, args=(file,)).start())
             third.pack(pady=10)
-            nextt = CTkButton(frame, text=f'Следующее', fg_color=fg, hover_color=hover, width=200, command=nexttt)
+            nextt = CTkButton(frame, text=f'Вперед', fg_color=fg, hover_color=hover, width=200, command=nexttt)
             nextt.pack(pady=20)
             down = CTkButton(frame, text=f'Назад', fg_color=fg, hover_color=hover, width=200, command=downn)
             down.pack(pady=20)
@@ -606,10 +606,10 @@ try:
             second = CTkLabel(frame, text=f'{ndescr}\n\n{kostil["firmwares"][current][7]} скачиваний, загружено {kostil["firmwares"][current][1]}')
             second.pack()
 
-            third = CTkButton(frame, text=f'Установить', fg_color=fg, hover_color=hover, 
+            third = CTkButton(frame, text=f'Скачать .bin', fg_color=fg, hover_color=hover, 
                             command=lambda file=kostil["firmwares"][current][2]: threading.Thread(target=installvialink, args=(file,)).start())
             third.pack(pady=10)
-            nextt = CTkButton(frame, text=f'Следующее', fg_color=fg, hover_color=hover, width=200, command=nexttt)
+            nextt = CTkButton(frame, text=f'Вперед', fg_color=fg, hover_color=hover, width=200, command=nexttt)
             nextt.pack(pady=20)
             down = CTkButton(frame, text=f'Назад', fg_color=fg, hover_color=hover, width=200, command=downn)
             down.pack(pady=20)
@@ -668,10 +668,10 @@ try:
                 second = CTkLabel(frame, text=f'{ndescr}\n\n{every[0][7]} скачиваний, загружено {every[0][1]}')
                 second.pack()
 
-                third = CTkButton(frame, text=f'Установить', fg_color=fg, hover_color=hover, 
+                third = CTkButton(frame, text=f'Скачать .bin', fg_color=fg, hover_color=hover, 
                                 command=lambda file=every[0][2]: threading.Thread(target=installvialink, args=(file,)).start())
                 third.pack(pady=10)
-                nextt = CTkButton(frame, text=f'Следующее', fg_color=fg, hover_color=hover, width=200, command=nexttt)
+                nextt = CTkButton(frame, text=f'Вперед', fg_color=fg, hover_color=hover, width=200, command=nexttt)
                 nextt.pack(pady=20)
                 down = CTkButton(frame, text=f'Назад', fg_color=fg, hover_color=hover, width=200, command=downn)
                 down.pack(pady=20)
@@ -702,7 +702,7 @@ try:
         global search, m5burner, toremove, allfirmwaresfromm5burner
 
         m5burner = CTk()
-        m5burner.title("M5Burner (окно можно масштабировать вручную)")
+        m5burner.title("M5Burner")
         m5burner.geometry('600x600')
         set_appearance_mode("dark")
 
@@ -897,11 +897,11 @@ try:
 
         CTkFrame(settingswindow, width=280, height=90).place(x=10,y=10)
 
-        baudr = CTkEntry(settingswindow, placeholder_text='BaudRate прошивания', width=260, height=30)
+        baudr = CTkEntry(settingswindow, placeholder_text='BaudRate', width=260, height=30)
         baudr.place(x=20,y=20)
         baudr.insert(0, flashbaudrate)
         
-        addr = CTkEntry(settingswindow, placeholder_text='Адрес прошивания', width=260, height=30)
+        addr = CTkEntry(settingswindow, placeholder_text='Адрес', width=260, height=30)
         addr.place(x=20,y=60)
         addr.insert(0, flashaddress)
 
@@ -925,7 +925,7 @@ try:
 
     CTkLabel(window, text='M5Tool by Palka', bg_color=bg, font=('Calibri', 20)).place(x=20, y=17)
     
-    redirect = CTkButton(window, text='Telegram', width=110, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: webbrowser.open('t.me/m5stackhackkk'))
+    redirect = CTkButton(window, text='Telegram', width=110, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: webbrowser.open('t.me/+BQManHgPo4ZmNGIy'))
     redirect.place(x=170, y=17)       
     
     CTkFrame(window, width=280, height=155).place(x=10,y=65)
@@ -950,7 +950,7 @@ try:
     firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo (заводская)", "CatHack", 'Hamster Kombat'], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
-    installfrmwr = CTkButton(window, text='Установить .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
+    installfrmwr = CTkButton(window, text='Скачать .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
     installfrmwr.place(x=20, y=280)
 
     flash2 = CTkButton(window, text='Прошить', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installandflash).start())
@@ -966,23 +966,23 @@ try:
 
     CTkFrame(window, width=280, height=45).place(x=300,y=110)
 
-    starter = CTkCheckBox(window, text='Автоматически занимать COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
+    starter = CTkCheckBox(window, text='Занять COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
     starter.place(x=310, y=120)
 
     CTkFrame(window, width=280, height=130).place(x=300,y=165)
 
-    installfrmwr = CTkButton(window, text='Открыть встроенный M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+    installfrmwr = CTkButton(window, text='Встроенный M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openm5burner).start())
     installfrmwr.place(x=310, y=175)
 
     threading.Thread(target=getcomports).start()
     threading.Thread(target=secondthread).start()
 
-    openconsole = CTkButton(window, text='Открыть консоль/логи', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+    openconsole = CTkButton(window, text='Консоль/логи', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openconsolee).start())
     openconsole.place(x=310, y=215)
 
-    settings = CTkButton(window, text='Открыть настройки', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+    settings = CTkButton(window, text='Настройки', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=opensettings).start())
     settings.place(x=310, y=255)
     

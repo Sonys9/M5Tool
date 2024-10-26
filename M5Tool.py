@@ -2,7 +2,7 @@ print('Запуск... Пожалуйста, подождите')
 
 try:
 
-    import os, threading, time, subprocess, zipfile, re, json, random
+    import os, threading, time, subprocess, zipfile, re, json, random, webbrowser, sys
 
     try: 
         import serial.tools.list_ports
@@ -83,7 +83,7 @@ try:
 
     def installfile(url, name, terminal=False):
 
-        global installing
+        global installing, statuslabel
 
         if not terminal: threading.Thread(target=lambda: messagebox.showinfo('M5Tool', 'Устанавливаем... Логи будут в консоли.')).start()
 
@@ -109,10 +109,12 @@ try:
                     for chunk in r.iter_content(chunk_size = 64 * 1024):
                         if chunk:
                             completed += len(chunk)
-                            speed_mbps = ((len(chunk)+0.1) / (1024 * 1024)) / (time.time()+1-starttime)
+                            speed_mbps = ((len(chunk)+0.1) / (1024 * 16)) / (time.time()+1-starttime)
                             proc = (completed+0.1)//(oneprocent+0.1)
-                            if not terminal: add_log(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
-                            else: print(f'Устанавливаем... ({speed_mbps} МБ/с) {proc}%')
+                            if not terminal: add_log(f'Устанавливаем... ({round(speed_mbps, 3)} МБ/с) {proc}%')
+                            else: 
+                                print(f'Устанавливаем... ({round(speed_mbps, 3)} МБ/с) {proc}%')
+                                statuslabel.configure(text=f'Устанавливаем... ({round(speed_mbps, 3)} МБ/с) {proc}%')
                             f.write(chunk)
                             f.flush()
                             os.fsync(f.fileno())
@@ -125,31 +127,19 @@ try:
 
         installing = False
 
-    if not os.path.exists('esptool480\\esptool-win64\\esptool.exe'):
-
-        print('Устанавливаем зависимости... Пожалуйста, подождите.')
-
-        installfile('https://github.com/espressif/esptool/releases/download/v4.8.0/esptool-v4.8.0-win64.zip', 'file.zip', True)
-
-        print('Архив установлен.\nРазархивируем архив...')
-
-        with zipfile.ZipFile('file.zip', 'r') as zip_ref:
-            zip_ref.extractall('esptool480')
-
-        os.makedirs('esptool480', exist_ok=True)
-
-        print('Архив разархивирован!\nЗависимости установлены!')
-
-    window = CTk()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-    window.title('M5Tool')
-    window.geometry('300x730')
-    window.resizable(False, False)
-    set_appearance_mode("dark")
-
     fileee = None
     portt = None
     device = 'plus2'
     alllogs = []
+    if not os.path.exists('M5ToolConfig.json'): 
+        with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000"}')
+        flashaddress = '0x000'
+        flashbaudrate = '1500000'
+    else:
+        with open('M5ToolConfig.json', 'r') as f:
+            loaded = json.loads(f.read())
+            flashaddress = loaded['addressflash']
+            flashbaudrate = loaded['baudrateflash']
 
     def secondthread():
 
@@ -280,7 +270,7 @@ try:
 
     def flashh():
 
-        global fileee, portt, serialport, flashing
+        global fileee, portt, serialport, flashing, flashbaudrate, flashaddress
 
         if portt != '' and portt: 
 
@@ -294,7 +284,7 @@ try:
 
                     if not os.path.exists('esptool480\\esptool-win64'): 
 
-                        messagebox.showerror(title='M5Tool', message=f'EspTool не установлен! Перезапустите программу')
+                        messagebox.showerror(title='M5Tool', message=f'EspTool не установлен! Перезапустите программу или дождитесь установки зависимостей')
 
                     else:
 
@@ -302,7 +292,7 @@ try:
                         try: serialport.close()
                         except Exception as e: ...##print(f'error {e}')
 
-                        process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 --before default_reset write_flash -z --flash_mode dio --flash_freq 80m --flash_size detect 0x000 \"{fileee}\"")
+                        process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud {flashbaudrate} --before default_reset write_flash -z --flash_mode dio --flash_freq 80m --flash_size detect {flashaddress} \"{fileee}\"")
 
                         while True:
 
@@ -482,7 +472,7 @@ try:
 
     def Eraseall():
 
-        global portt, flashing, serialport
+        global portt, flashing, serialport, flashbaudrate
 
         if portt and portt != '':
 
@@ -496,11 +486,11 @@ try:
 
                 if not os.path.exists('esptool480\\esptool-win64'): 
 
-                    messagebox.showerror(title='M5Tool', message=f'EspTool не установлен! Перезапустите программу')
+                    messagebox.showerror(title='M5Tool', message=f'EspTool не установлен! Перезапустите программу или дождитесь установки зависимостей')
 
                 else:
 
-                    process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud 1500000 erase_flash")
+                    process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud {flashbaudrate} erase_flash")
 
                     while True:
 
@@ -539,9 +529,12 @@ try:
         else: messagebox.showerror(title='M5Tool', message=f'Вы не подключили устройство к пк. Если вы подключили, но не получается прошить, попробуйте установить драйвера')
         flashing=False
 
-    def change(dev): 
+    def change(selected): 
         global device
-        device = dev
+        if selected == 'Cardputer': device = 'cardputer'
+        if selected == 'M5StickC Plus1.1': device = 'plus11'
+        if selected == 'M5StickC Plus2': device = 'plus2'
+        add_log(f'Устройство: {selected}')
 
     def change2(value):
         global portt, add_log
@@ -888,13 +881,121 @@ try:
 
         console.mainloop()
 
+    def installfiles():
+
+        global windowloading, statuslabel
+
+        lbl = CTkLabel(windowloading, text='Устанавливаем зависимости... Пожалуйста, подождите.', font=('Calibri', 13))
+        lbl.pack()
+
+        statuslabel = CTkLabel(windowloading, text='Устанавливаем... (0 МБ/с) 0%', font=('Calibri', 13))
+        statuslabel.pack()
+
+        installfile('https://github.com/espressif/esptool/releases/download/v4.8.0/esptool-v4.8.0-win64.zip', 'file.zip', True)
+        statuslabel.destroy()
+        lbl.configure(text='Архив установлен.\nРазархивируем архив...')
+
+        with zipfile.ZipFile('file.zip', 'r') as zip_ref:
+            zip_ref.extractall('esptool480')
+
+        os.makedirs('esptool480', exist_ok=True)
+
+        lbl.configure(text='Архив разархивирован!\nЗависимости установлены!\nЗапускаем M5Tool...')
+        #time.sleep(3)
+        lbl.destroy()
+
+        windowloading.destroy()
+
+    def loadwin():
+
+        global windowloading, statuslabel
+
+        windowloading = CTk()
+        windowloading.title('M5Tool: Loading...')
+        windowloading.geometry('400x100')
+        windowloading.protocol("WM_DELETE_WINDOW", lambda: sys.exit(0))
+
+        threading.Thread(target=installfiles).start()
+
+        windowloading.mainloop()
+
+    def cfgupdate():
+
+        global flashbaudrate, flashaddress, baudr, addr, add_log
+
+        try:
+
+            baudratevalue = baudr.get()
+            addressvalue = addr.get()
+
+            try: baudratevalue = int(baudratevalue)
+            except: 
+                add_log(f'Неверный BaudRate!')
+                messagebox.showerror(title='M5Tool', message=f'Неверный BaudRate!')
+                return
+
+            if 'x' not in addressvalue.lower(): 
+                add_log(f'Неверный адрес прошивки!')
+                messagebox.showerror(title='M5Tool', message=f'Неверный адрес прошивки!')
+                return
+
+            result = {"baudrateflash": baudratevalue, "addressflash": addressvalue}
+
+        except Exception as e:  
+            add_log(f'Не удалось сохранить настройки, ошибка: {e}')
+            messagebox.showerror(title='M5Tool', message=f'Не удалось сохранить настройки, ошибка: {e}')
+            return
+
+        with open('M5ToolConfig.json', 'w') as f:
+            json.dump(result, f, indent=4)
+            flashbaudrate = baudratevalue
+            flashaddress = addressvalue
+            add_log(f'Настройки сохранены!')
+            messagebox.showinfo(title='M5Tool', message=f'Настройки сохранены!')
+
+    def opensettings():
+
+        global flashbaudrate, flashaddress, baudr, addr
+
+        settingswindow = CTk()
+        settingswindow.title("Настройки")
+        settingswindow.geometry('300x150')
+        set_appearance_mode("dark")
+
+        CTkFrame(settingswindow, width=280, height=90).place(x=10,y=10)
+
+        baudr = CTkEntry(settingswindow, placeholder_text='BaudRate прошивания', width=260, height=30)
+        baudr.place(x=20,y=20)
+        baudr.insert(0, flashbaudrate)
+        
+        addr = CTkEntry(settingswindow, placeholder_text='Адрес прошивания', width=260, height=30)
+        addr.place(x=20,y=60)
+        addr.insert(0, flashaddress)
+
+        save = CTkButton(settingswindow, text='Сохранить', width=280, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=cfgupdate)
+        save.place(x=10, y=110)     
+
+        settingswindow.mainloop()
+
     fg = '#008E63'
     hover = '#225244'
     bg = '#2B2B2B'
 
+    windowloading = ''
+
+    window = CTk()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+    window.title('M5Tool')
+    window.geometry('590x375')
+    window.resizable(False, False)
+    set_appearance_mode("dark")
+    window.protocol("WM_DELETE_WINDOW", lambda: sys.exit(0))
+
     CTkFrame(window, width=280, height=45).place(x=10,y=10)
 
     CTkLabel(window, text='M5Tool by Palka', bg_color=bg, font=('Calibri', 20)).place(x=20, y=17)
+    
+    redirect = CTkButton(window, text='Telegram', width=110, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: webbrowser.open('t.me/m5stackhackkk'))
+    redirect.place(x=170, y=17)       
     
     CTkFrame(window, width=280, height=155).place(x=10,y=65)
 
@@ -918,50 +1019,43 @@ try:
     firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo (заводская)", "CatHack", 'Hamster Kombat'], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
-    installfrmwr = CTkButton(window, text='Установить .bin файл', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
+    installfrmwr = CTkButton(window, text='Установить .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
     installfrmwr.place(x=20, y=280)
 
-    flash2 = CTkButton(window, text='Прошить прошивку', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installandflash).start())
+    flash2 = CTkButton(window, text='Прошить', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installandflash).start())
     flash2.place(x=20, y=320)        
 
-    CTkFrame(window, width=280, height=175).place(x=10,y=370)
+    CTkFrame(window, width=280, height=90).place(x=300,y=10)
 
-    radio_var = IntVar(value=0)
-    m5stickcplus2 = CTkRadioButton(window, text="M5StickC Plus2",
-                                                 variable= radio_var, value=1, command=lambda: change('plus2'), fg_color=fg, bg_color=bg, hover_color=hover)
-    m5stickcplus2.place(x=20, y=380)
-    m5stickcplus11 = CTkRadioButton(window, text="M5StickC Plus1.1",
-                                                 variable= radio_var, value=2, command=lambda: change('plus11'), fg_color=fg, bg_color=bg, hover_color=hover)
-    m5stickcplus11.place(x=20, y=420)
+    devices = CTkOptionMenu(window, values=["M5StickC Plus2", 'M5StickC Plus1.1', 'Cardputer'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change)
+    devices.place(x=310, y=20)
 
-    cardputer = CTkRadioButton(window, text="Cardputer",
-                                                 variable= radio_var, value=3, command=lambda: change('cardputer'), fg_color=fg, bg_color=bg, hover_color=hover)
-    cardputer.place(x=20, y=460)                    
-    
-    m5stickcplus2.select()
+    comport = CTkOptionMenu(window, values=["Сканируем..."], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)
+    comport.place(x=310, y=60)
 
-    comport = CTkOptionMenu(window, values=["Сканируем..."], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)
-    comport.place(x=20, y=500)
-
-    CTkFrame(window, width=280, height=45).place(x=10,y=555)
+    CTkFrame(window, width=280, height=45).place(x=300,y=110)
 
     starter = CTkCheckBox(window, text='Автоматически занимать COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
-    starter.place(x=20, y=565)
+    starter.place(x=310, y=120)
 
-    CTkFrame(window, width=280, height=50).place(x=10,y=610)
+    CTkFrame(window, width=280, height=130).place(x=300,y=165)
 
     installfrmwr = CTkButton(window, text='Открыть встроенный M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openm5burner).start())
-    installfrmwr.place(x=20, y=620)
+    installfrmwr.place(x=310, y=175)
 
     threading.Thread(target=getcomports).start()
     threading.Thread(target=secondthread).start()
 
-    CTkFrame(window, width=280, height=50).place(x=10,y=670)
-
     openconsole = CTkButton(window, text='Открыть консоль/логи', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openconsolee).start())
-    openconsole.place(x=20, y=680)
+    openconsole.place(x=310, y=215)
+
+    settings = CTkButton(window, text='Открыть настройки', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+                             command=lambda: threading.Thread(target=opensettings).start())
+    settings.place(x=310, y=255)
+    
+    if not os.path.exists('esptool480\\esptool-win64\\esptool.exe'):threading.Thread(target=loadwin).start()
 
     window.mainloop()
 

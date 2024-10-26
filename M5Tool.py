@@ -2,7 +2,7 @@ print('Запуск... Пожалуйста, подождите')
 
 try:
 
-    import os, threading, time, subprocess, zipfile, re, json, random, webbrowser, sys
+    import os, threading, time, subprocess, zipfile, re, json, random, webbrowser
 
     try: 
         import serial.tools.list_ports
@@ -156,9 +156,9 @@ try:
                 except:
                     starter.deselect()
 
-    def parsefirmwr(repo):
+    def parsefirmwr(repo, device):
 
-        global portt, device
+        global portt
 
         r = requests.get(f"https://github.com{repo}")
 
@@ -178,37 +178,43 @@ try:
 
         if len(all) == 1:return f"https://github.com"+repo+all[0]
 
-    popular = {'plus2': {
-        'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus2.bin',
-        'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/b732d70a74405f7f1c6e961fa4d17f37.bin',
-        'UserDemo (заводская)': 'https://github.com/m5stack/M5StickCPlus2-UserDemo/releases/download/V0.1/K016-P2-M5StickCPlus2-UserDemo-V0.1_0x0.bin',
-        'CatHack': parsefirmwr('/Stachugit/CatHack/releases/'),
-        'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/896bce78796597d2ddc1545443f0a1c3.bin',
-        'Bruce': parsefirmwr('/pr3y/Bruce/releases/'),
-        'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/')
-    }, 'plus11': {
-        'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus.bin',
-        'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/3397b17ad7fd314603abf40954a65369.bin',
-        'CatHack': None,
-        'UserDemo (заводская)': None,
-        'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/28eafdd732442b83395017a8f490a048.bin',
-        'Bruce': parsefirmwr('/pr3y/Bruce/releases/'),
-        'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/')
-    }, 'cardputer': {
-        'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5Cardputer.bin',
-        'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/aeb96d4fec972a53f934f8da62ab7341.bin',
-        'UserDemo (заводская)': 'https://github.com/m5stack/M5Cardputer-UserDemo/releases/download/V0.9/K132-Cardputer-UserDemo-V0.9_0x0.bin',
-        'CatHack': None,
-        'Hamster Kombat': None,
-        'Bruce': parsefirmwr('/pr3y/Bruce/releases/'),
-        'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/')
-    }}
+    def parsefirmwares():
 
+        global popular, add_log
+
+        popular = {'plus2': {
+            'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus2.bin',
+            'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/b732d70a74405f7f1c6e961fa4d17f37.bin',
+            'UserDemo (заводская)': 'https://github.com/m5stack/M5StickCPlus2-UserDemo/releases/download/V0.1/K016-P2-M5StickCPlus2-UserDemo-V0.1_0x0.bin',
+            'CatHack': parsefirmwr('/Stachugit/CatHack/releases/', 'plus2'),
+            'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/896bce78796597d2ddc1545443f0a1c3.bin',
+            'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'plus2'),
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'plus2')
+        }, 'plus11': {
+            'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus.bin',
+            'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/3397b17ad7fd314603abf40954a65369.bin',
+            'CatHack': None,
+            'UserDemo (заводская)': None,
+            'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/28eafdd732442b83395017a8f490a048.bin',
+            'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'plus11'),
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'plus11')
+        }, 'cardputer': {
+            'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5Cardputer.bin',
+            'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/aeb96d4fec972a53f934f8da62ab7341.bin',
+            'UserDemo (заводская)': 'https://github.com/m5stack/M5Cardputer-UserDemo/releases/download/V0.9/K132-Cardputer-UserDemo-V0.9_0x0.bin',
+            'CatHack': None,
+            'Hamster Kombat': None,
+            'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'cardputer'),
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'cardputer')
+        }}
+        add_log('Парсинг завершён')
+    threading.Thread(target=parsefirmwares).start()
     def getfrmwr(name):
 
-        global device
+        global device, popular
 
-        return popular[device][name]
+        try:return popular[device][name]
+        except:return 'wait'
 
     def choicefile():
 
@@ -361,7 +367,7 @@ try:
         add_log(f'Ссылка: {fileurl}')
 
         if fileurl == None: messagebox.showerror(title='M5Tool', message='Прошивка для вашего устройства не найдена :(')
-
+        elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message='Подождите 15-60 секунд до конца парсинга и попробуйте снова')
         else:
 
             r = requests.get(fileurl)
@@ -387,7 +393,7 @@ try:
         add_log(f'Ссылка: {fileurl}')
 
         if fileurl == None: messagebox.showerror(title='M5Tool', message='Прошивка для вашего устройства не найдена :(')
-
+        elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message='Подождите 15-60 секунд до конца парсинга и попробуйте снова')
         else:
 
             threading.Thread(target=lambda: messagebox.showinfo('M5Tool', 'Устанавливаем... Логи будут в консоли.')).start()
@@ -840,7 +846,7 @@ try:
         windowloading = CTk()
         windowloading.title('M5Tool: Loading...')
         windowloading.geometry('400x100')
-        windowloading.protocol("WM_DELETE_WINDOW", lambda: sys.exit(0))
+        windowloading.protocol("WM_DELETE_WINDOW", lambda: os._exit(0))
 
         threading.Thread(target=installfiles).start()
 
@@ -913,7 +919,7 @@ try:
     window.geometry('590x375')
     window.resizable(False, False)
     set_appearance_mode("dark")
-    window.protocol("WM_DELETE_WINDOW", lambda: sys.exit(0))
+    window.protocol("WM_DELETE_WINDOW", lambda: os._exit(0))
 
     CTkFrame(window, width=280, height=45).place(x=10,y=10)
 

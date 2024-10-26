@@ -30,7 +30,7 @@ try:
         print('Устанавливаем модуль Requests...')                                      
 
         os.system('pip install setuptools')
-        os.system('pip install Requests')
+        os.system('pip install requests')
 
         try: 
 
@@ -71,7 +71,7 @@ try:
             s = serial.Serial(f'COM{portt}')
             add_log('Порт занят!')
             while True:
-                res = s.read()
+                s.read()
                 
         except:...
 
@@ -156,76 +156,6 @@ try:
                 except:
                     starter.deselect()
 
-    def getfrmwr(name):
-
-        global device
-
-        if device == 'plus2':
-            
-            if name == 'Nemo':
-
-                return 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus2.bin'
-            
-            if name == 'Marauder':
-
-                return 'https://m5burner-cdn.m5stack.com/firmware/b732d70a74405f7f1c6e961fa4d17f37.bin'
-            
-            if name == 'UserDemo (заводская)': 
-
-                return 'https://github.com/m5stack/M5StickCPlus2-UserDemo/releases/download/V0.1/K016-P2-M5StickCPlus2-UserDemo-V0.1_0x0.bin'
-            
-            if name == 'CatHack':
-
-                return parsefirmwr('/Stachugit/CatHack/releases/')
-            
-            if name == 'Hamster Kombat':
-
-                return 'https://m5burner-cdn.m5stack.com/firmware/896bce78796597d2ddc1545443f0a1c3.bin'
-            
-        elif device == 'plus11':
-
-            if name == 'Nemo':
-
-                return 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus.bin'
-            
-            if name == 'Marauder':
-
-                return 'https://m5burner-cdn.m5stack.com/firmware/3397b17ad7fd314603abf40954a65369.bin'
-            
-            if name == 'UserDemo (заводская)': return None 
-
-            if name == 'CatHack': return None
-            
-            if name == 'Hamster Kombat': 
-                
-                return 'https://m5burner-cdn.m5stack.com/firmware/28eafdd732442b83395017a8f490a048.bin'
-            
-        elif device == 'cardputer':
-
-            if name == 'Nemo':
-
-                return 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5Cardputer.bin'
-            
-            if name == 'Marauder':
-
-                return 'https://m5burner-cdn.m5stack.com/firmware/aeb96d4fec972a53f934f8da62ab7341.bin'
-            
-            if name == 'UserDemo (заводская)': 
-
-                return 'https://github.com/m5stack/M5Cardputer-UserDemo/releases/download/V0.9/K132-Cardputer-UserDemo-V0.9_0x0.bin'
-            
-            if name == 'CatHack': return None
-
-            if name == 'Hamster Kombat': return None
-
-        if name == 'M5Launcher':
-
-            return parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/')
-        
-        if name == 'Bruce':
-
-            return parsefirmwr('/pr3y/Bruce/releases/')
-
     def parsefirmwr(repo):
 
         global portt, device
@@ -248,8 +178,37 @@ try:
 
         if len(all) == 1:return f"https://github.com"+repo+all[0]
 
-    #portt = '5' test
-    #for i in ['marauder', 'bruce', 'nemo', 'm5launcher']: add_log(getfrmwr(i)) test
+    popular = {'plus2': {
+        'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus2.bin',
+        'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/b732d70a74405f7f1c6e961fa4d17f37.bin',
+        'UserDemo (заводская)': 'https://github.com/m5stack/M5StickCPlus2-UserDemo/releases/download/V0.1/K016-P2-M5StickCPlus2-UserDemo-V0.1_0x0.bin',
+        'CatHack': parsefirmwr('/Stachugit/CatHack/releases/'),
+        'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/896bce78796597d2ddc1545443f0a1c3.bin',
+        'Bruce': parsefirmwr('/pr3y/Bruce/releases/'),
+        'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/')
+    }, 'plus11': {
+        'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus.bin',
+        'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/3397b17ad7fd314603abf40954a65369.bin',
+        'CatHack': None,
+        'UserDemo (заводская)': None,
+        'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/28eafdd732442b83395017a8f490a048.bin',
+        'Bruce': parsefirmwr('/pr3y/Bruce/releases/'),
+        'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/')
+    }, 'cardputer': {
+        'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5Cardputer.bin',
+        'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/aeb96d4fec972a53f934f8da62ab7341.bin',
+        'UserDemo (заводская)': 'https://github.com/m5stack/M5Cardputer-UserDemo/releases/download/V0.9/K132-Cardputer-UserDemo-V0.9_0x0.bin',
+        'CatHack': None,
+        'Hamster Kombat': None,
+        'Bruce': parsefirmwr('/pr3y/Bruce/releases/'),
+        'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/')
+    }}
+
+    def getfrmwr(name):
+
+        global device
+
+        return popular[device][name]
 
     def choicefile():
 
@@ -272,7 +231,7 @@ try:
 
         global fileee, portt, serialport, flashing, flashbaudrate, flashaddress
 
-        if portt != '' and portt: 
+        if portt: 
 
             if fileee:
         
@@ -290,7 +249,7 @@ try:
 
                         flashing = True
                         try: serialport.close()
-                        except Exception as e: ...##print(f'error {e}')
+                        except Exception as e: ...
 
                         process = bgtask(f"esptool480\\esptool-win64\\esptool.exe --chip auto --port COM{portt} --baud {flashbaudrate} --before default_reset write_flash -z --flash_mode dio --flash_freq 80m --flash_size detect {flashaddress} \"{fileee}\"")
 
@@ -352,51 +311,19 @@ try:
 
             messagebox.showinfo(title='M5Tool', message='Успех!')
 
-    def installch341():
+    def installadriver(name, dir, link):
 
         add_log('Устанавливаем файл...')
 
-        os.makedirs('CH341', exist_ok=True)
+        os.makedirs(name, exist_ok=True)
 
-        r = installfile('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH341SER.EXE', 'CH341\\CH3CH341.exe')
+        r = installfile(link, dir)
 
         if not r:
 
             add_log('Файл установлен! Запускаем...')
 
-            os.system('start CH341\\CH3CH341.exe')
-
-            messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки драйверов.')
-
-    def installch343():
-
-        add_log('Устанавливаем файл...')
-
-        os.makedirs('CH343', exist_ok=True)
-
-        r = installfile('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH343SER.EXE', 'CH343\\CH343.exe')
-
-        if not r:
-
-            add_log('Файл установлен! Запускаем...')
-
-            os.system('start CH343\\CH343.exe')
-
-            messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки драйверов.')
-
-    def installch9102():
-
-        add_log('Устанавливаем файл...')
-
-        os.makedirs('CH9102', exist_ok=True)
-
-        r = installfile('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH9102.exe', 'CH9102\\CH9102.exe')
-
-        if not r:
-
-            add_log('Файл установлен! Запускаем...')
-
-            os.system('start CH9102\\CH9102.exe')
+            os.system(f'start {dir}')
 
             messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки драйверов.')
     
@@ -409,13 +336,16 @@ try:
 
         CTkFrame(driverwindow, width=180, height=130).place(x=10,y=10)
 
-        ch341 = CTkButton(driverwindow, text='CH341', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installch341).start())
+        ch341 = CTkButton(driverwindow, text='CH341', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
+                                                args=('CH341', 'CH341\\CH3CH341.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH341SER.EXE')).start())
         ch341.place(x=20, y=20)
 
-        ch9102 = CTkButton(driverwindow, text='CH9102', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installch9102).start())
+        ch9102 = CTkButton(driverwindow, text='CH9102', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
+                                                args=('CH9102', 'CH9102\\CH9102.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH9102.exe')).start())
         ch9102.place(x=20, y=60)
 
-        ch343 = CTkButton(driverwindow, text='CH343', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installch343).start())
+        ch343 = CTkButton(driverwindow, text='CH343', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
+                                                args=('CH343', 'CH343\\CH343.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH343SER.EXE')).start())
         ch343.place(x=20, y=100)
 
         driverwindow.mainloop()
@@ -474,7 +404,7 @@ try:
 
         global portt, flashing, serialport, flashbaudrate
 
-        if portt and portt != '':
+        if portt:
 
             result = messagebox.askquestion("M5Tool", "Вы уверены?")
 
@@ -482,7 +412,7 @@ try:
 
                 flashing = True
                 try: serialport.close()
-                except Exception as e:... #print(f'error {e}')
+                except Exception as e:...
 
                 if not os.path.exists('esptool480\\esptool-win64'): 
 
@@ -538,7 +468,6 @@ try:
 
     def change2(value):
         global portt, add_log
-        #value = comport.get()
         portt = value.replace('COM', '')
         add_log(portt)
         add_log(f"COM порт: COM{portt}")
@@ -565,7 +494,6 @@ try:
             if detectedcomports == []: 
                 comport.set('')
                 lastport = ''
-                #portt = ''
 
             if len(detectedcomports) == 1:
 
@@ -801,7 +729,7 @@ try:
 
             time.sleep(0.001)
 
-            if portt and portt != '' and not flashing:
+            if portt and not flashing:
 
                 try: baud = int(custombaudrate.get())
                 except: baud = 115200
@@ -812,12 +740,11 @@ try:
 
                     add_log('Подключено к устройству')
 
-                except: ...#add_serial_log('Не удалось подключиться к устройству')
+                except: ...
 
             else: 
                 
                 serialport = None
-                #connected = False
 
     def getalltext():
 
@@ -901,7 +828,7 @@ try:
         os.makedirs('esptool480', exist_ok=True)
 
         lbl.configure(text='Архив разархивирован!\nЗависимости установлены!\nЗапускаем M5Tool...')
-        #time.sleep(3)
+
         lbl.destroy()
 
         windowloading.destroy()
@@ -980,8 +907,6 @@ try:
     fg = '#008E63'
     hover = '#225244'
     bg = '#2B2B2B'
-
-    windowloading = ''
 
     window = CTk()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
     window.title('M5Tool')

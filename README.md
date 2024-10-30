@@ -12,11 +12,7 @@
     </ul>
     <h2>Скриншоты 📸</h2>
     <p>
-        <img src="https://i.postimg.cc/FzXKxLcv/photo-2024-10-30-15-14-18.jpg" alt="Скриншот 1">
-        <img src="https://i.postimg.cc/GtPmgmJy/photo-2024-10-30-15-14-23.jpg" alt="Скриншот 2">
-        <img src="https://i.postimg.cc/HWbnk6Dk/photo-2024-10-30-15-14-25.jpg" alt="Скриншот 3">
-        <img src="https://i.postimg.cc/RV9F6w4Q/photo-2024-10-30-15-14-26.jpg" alt="Скриншот 4">
-        <img src="https://i.postimg.cc/hPrG9hGF/photo-2024-10-30-15-14-27.jpg" alt="Скриншот 5">
+        <img src="https://i.imgur.com/2VJZmbY.png" alt="Скриншот 1">
     </p>
     <h2>Установка и использование 💻</h2>
     <ol>

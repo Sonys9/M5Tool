@@ -132,7 +132,7 @@ try:
     device = 'plus2'
     alllogs = []
 
-    M5ToolVersion = '3.5'
+    M5ToolVersion = '3.6'
 
     if not os.path.exists('M5ToolConfig.json'): 
         with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000"}')
@@ -661,24 +661,29 @@ try:
 
                 frame=CTkFrame(m5burner, width=280, height=155)
                 frame.pack(pady=5)
-        
-                ndescr = [every[0][4][i:i + 100] for i in range(0, len(every[0][4]), 100)]
-                ndescr = '\n'.join(ndescr)
-                
-                first = CTkLabel(frame, text=f'{every[0][3]} (от {every[0][6]})', font=('Arial Black', 15))
-                first.pack()
-
-                second = CTkLabel(frame, text=f'{ndescr}\n\n{every[0][7]} скачиваний, загружено {every[0][1]}')
-                second.pack()
-
-                third = CTkButton(frame, text=f'Скачать .bin', fg_color=fg, hover_color=hover, 
-                                command=lambda file=every[0][2]: threading.Thread(target=installvialink, args=(file,)).start())
-                third.pack(pady=10)
-                nextt = CTkButton(frame, text=f'Вперед', fg_color=fg, hover_color=hover, width=200, command=nexttt)
-                nextt.pack(pady=20)
-                down = CTkButton(frame, text=f'Назад', fg_color=fg, hover_color=hover, width=200, command=downn)
-                down.pack(pady=20)
                 toremove.append(frame)
+
+                try:
+        
+                    ndescr = [every[0][4][i:i + 100] for i in range(0, len(every[0][4]), 100)]
+                    ndescr = '\n'.join(ndescr)
+                    
+                    first = CTkLabel(frame, text=f'{every[0][3]} (от {every[0][6]})', font=('Arial Black', 15))
+                    first.pack()
+
+                    second = CTkLabel(frame, text=f'{ndescr}\n\n{every[0][7]} скачиваний, загружено {every[0][1]}')
+                    second.pack()
+
+                    third = CTkButton(frame, text=f'Скачать .bin', fg_color=fg, hover_color=hover, 
+                                    command=lambda file=every[0][2]: threading.Thread(target=installvialink, args=(file,)).start())
+                    third.pack(pady=10)
+                    nextt = CTkButton(frame, text=f'Вперед', fg_color=fg, hover_color=hover, width=200, command=nexttt)
+                    nextt.pack(pady=20)
+                    down = CTkButton(frame, text=f'Назад', fg_color=fg, hover_color=hover, width=200, command=downn)
+                    down.pack(pady=20)
+                    
+
+                except:...
 
     def add_log(text, add=True):
         try:

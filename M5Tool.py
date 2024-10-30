@@ -131,6 +131,9 @@ try:
     portt = None
     device = 'plus2'
     alllogs = []
+
+    M5ToolVersion = '3.5'
+
     if not os.path.exists('M5ToolConfig.json'): 
         with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000"}')
         flashaddress = '0x000'
@@ -910,6 +913,39 @@ try:
 
         settingswindow.mainloop()
 
+    def checkupdates():
+
+        updwindow = CTk()
+        updwindow.title("Обновления")
+        updwindow.geometry('300x300')
+        set_appearance_mode("dark")
+
+        CTkFrame(updwindow, width=280, height=280).place(x=10,y=10)
+
+        try:
+            r=requests.get('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/ver.txt')
+            loaded = json.loads(r.text)
+            vers = [loaded['version'], loaded['updlog']]
+        except: vers = ['bad', '']
+
+        if vers[0] == 'bad': 
+            messagebox.showinfo('M5Tool', 'Не удалось проверить обновления, попробуйте снова.')
+            updwindow.destroy()
+            return
+        
+        CTkLabel(updwindow, text=f'Версия: {vers[0]} (ваша: {M5ToolVersion})', bg_color=bg, font=('Calibri', 23)).place(x=20, y=20)
+        CTkLabel(updwindow, text='У вас самая новая версия!' if float(vers[0])<=float(M5ToolVersion) else 'У вас старая версия!', bg_color=bg, font=('Calibri', 17)).place(x=20, y=50)
+        
+        updtextbox = CTkTextbox(updwindow, width=260, height=200)
+        updtextbox.configure(state='normal', font=('Calibri', 13))
+        updtextbox.place(x=20, y=80)
+
+        updtextbox.insert(END, 'Что нового в новой версии:\n\n'+vers[1]) 
+        updtextbox.see(END)
+        updtextbox.configure(state='disabled')
+
+        updwindow.mainloop()
+
     fg = '#008E63'
     hover = '#225244'
     bg = '#2B2B2B'
@@ -969,14 +1005,11 @@ try:
     starter = CTkCheckBox(window, text='Занять COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
     starter.place(x=310, y=120)
 
-    CTkFrame(window, width=280, height=130).place(x=300,y=165)
+    CTkFrame(window, width=280, height=170).place(x=300,y=165)
 
     installfrmwr = CTkButton(window, text='Встроенный M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openm5burner).start())
     installfrmwr.place(x=310, y=175)
-
-    threading.Thread(target=getcomports).start()
-    threading.Thread(target=secondthread).start()
 
     openconsole = CTkButton(window, text='Консоль/логи', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openconsolee).start())
@@ -985,6 +1018,13 @@ try:
     settings = CTkButton(window, text='Настройки', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=opensettings).start())
     settings.place(x=310, y=255)
+
+    update = CTkButton(window, text='Проверить обновления', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+                             command=lambda: threading.Thread(target=checkupdates).start())
+    update.place(x=310, y=295)
+
+    threading.Thread(target=getcomports).start()
+    threading.Thread(target=secondthread).start()
     
     if not os.path.exists('esptool480\\esptool-win64\\esptool.exe'):threading.Thread(target=loadwin).start()
 

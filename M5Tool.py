@@ -132,7 +132,7 @@ try:
     device = 'plus2'
     alllogs = []
 
-    M5ToolVersion = '3.6'
+    M5ToolVersion = '4'
 
     if not os.path.exists('M5ToolConfig.json'): 
         with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000"}')
@@ -159,17 +159,25 @@ try:
                 except:
                     starter.deselect()
 
+    cache = {}
+
     def parsefirmwr(repo, device):
 
-        global portt
+        global portt, cache
 
-        r = requests.get(f"https://github.com{repo}")
+        if repo not in cache.keys():
 
-        all = re.search(f'href="{repo}(.*?)"', r.text, re.DOTALL).group(1)
+            r = requests.get(f"https://github.com{repo}")
 
-        r = requests.get(f"https://github.com{repo}expanded_assets{all[3:]}")
+            all = re.search(f'href="{repo}(.*?)"', r.text, re.DOTALL).group(1)
 
-        all = re.findall(f'href="{repo}(.*?)"', r.text, re.DOTALL)
+            r = requests.get(f"https://github.com{repo}expanded_assets{all[3:]}")
+
+            all = re.findall(f'href="{repo}(.*?)"', r.text, re.DOTALL)
+
+            cache[repo] = all
+
+        else: all = cache[repo]
 
         for frmw in all:    
             if device == 'plus2':
@@ -178,6 +186,10 @@ try:
                 if 'plus' in frmw.lower() and not 'plus2' in frmw.lower(): return f"https://github.com"+repo+frmw
             elif device == 'cardputer':
                 if 'card' in frmw.lower(): return f"https://github.com"+repo+frmw
+            elif device == 'CYD1USB':
+                if 'cyd' in frmw.lower() and '2432s028' in frmw.lower(): return f"https://github.com"+repo+frmw
+            elif device == 'CYD2USB':
+                if 'cyd' in frmw.lower(): return f"https://github.com"+repo+frmw
 
         if len(all) == 1:return f"https://github.com"+repo+all[0]
 
@@ -209,6 +221,22 @@ try:
             'Hamster Kombat': None,
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'cardputer'),
             'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'cardputer')
+        }, "cyd2usb": {
+            'Nemo': None,
+            'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/Marauder_espcyd2usb_v1.0.0.bin',
+            'UserDemo (заводская)': None,
+            'CatHack': None,
+            'Hamster Kombat': None,
+            'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'CYD2USB'),
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'CYD2USB')
+        }, "cyd1usb": {
+            'Nemo': None,
+            'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/Marauder_espcyd1usb_v1.0.0.bin',
+            'UserDemo (заводская)': None,
+            'CatHack': None,
+            'Hamster Kombat': None,
+            'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'CYD1USB'),
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'CYD1USB')
         }}
         add_log('Парсинг завершён')
     threading.Thread(target=parsefirmwares).start()
@@ -320,7 +348,7 @@ try:
 
             messagebox.showinfo(title='M5Tool', message='Успех!')
 
-    def installadriver(name, dir, link):
+    def installadriver(name, dir, link, endtext='Успех! Нажмите Install для установки драйверов.'):
 
         add_log('Устанавливаем файл...')
 
@@ -334,16 +362,35 @@ try:
 
             os.system(f'start {dir}')
 
-            messagebox.showinfo(title='M5Tool', message='Успех! Нажмите Install для установки драйверов.')
-    
+            messagebox.showinfo(title='M5Tool', message=endtext)
+
+    def installsecdriver(name, dir, link, endtext):
+
+        add_log('Устанавливаем архив...')
+
+        r = installfile(link, 'file.zip')
+
+        if not r:
+
+            add_log('Архив установлен! Разархивируем...')
+
+            with zipfile.ZipFile('file.zip', 'r') as zip_ref:
+                zip_ref.extractall(name)
+
+            add_log('Архив разархивирован! Запускаем...')
+
+            os.system(f'start {dir}')
+
+            messagebox.showinfo(title='M5Tool', message=endtext)
+
     def installdriverswindow():
 
         driverwindow = CTk()
         driverwindow.title("Драйвера")
-        driverwindow.geometry('200x150')
+        driverwindow.geometry('200x230')
         set_appearance_mode("dark")
 
-        CTkFrame(driverwindow, width=180, height=130).place(x=10,y=10)
+        CTkFrame(driverwindow, width=180, height=210).place(x=10,y=10)
 
         ch341 = CTkButton(driverwindow, text='CH341', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
                                                 args=('CH341', 'CH341\\CH3CH341.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH341SER.EXE')).start())
@@ -356,6 +403,16 @@ try:
         ch343 = CTkButton(driverwindow, text='CH343', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
                                                 args=('CH343', 'CH343\\CH343.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH343SER.EXE')).start())
         ch343.place(x=20, y=100)
+
+        CDM212364 = CTkButton(driverwindow, text='CDM212364', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
+                                                args=('CDM212364', 'CDM212364\\CDM212364.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CDM212364_Setup.exe',
+                                                      'Успех! Следуйте указаниям установщика для продолжения.')).start())
+        CDM212364.place(x=20, y=140)
+
+        CP210x = CTkButton(driverwindow, text='CP210x', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installsecdriver,
+                                                args=('CP210x', 'CP210x\\CP210xVCPInstaller_x64.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CP210x_Windows_Drivers.zip',
+                                                      'Успех! Следуйте указаниям установщика для продолжения.')).start())
+        CP210x.place(x=20, y=180)
 
         driverwindow.mainloop()
 
@@ -370,7 +427,7 @@ try:
         add_log(f'Ссылка: {fileurl}')
 
         if fileurl == None: messagebox.showerror(title='M5Tool', message='Прошивка для вашего устройства не найдена :(')
-        elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message='Подождите 15-60 секунд до конца парсинга и попробуйте снова')
+        elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message='Подождите 5-20 секунд до конца парсинга и попробуйте снова')
         else:
 
             r = requests.get(fileurl)
@@ -473,6 +530,8 @@ try:
         if selected == 'Cardputer': device = 'cardputer'
         if selected == 'M5StickC Plus1.1': device = 'plus11'
         if selected == 'M5StickC Plus2': device = 'plus2'
+        if selected == 'Esp-CYD-2-USB': device = 'cyd2usb'
+        if selected == 'Esp-CYD-1-USB': device = 'cyd1usb'
         add_log(f'Устройство: {selected}')
 
     def change2(value):
@@ -625,6 +684,7 @@ try:
         global search, m5burner, toremove, allfirmwaresfromm5burner, kostil, device
 
         last = None
+        lastdev = None
         kostil = {}
 
         while True:
@@ -632,10 +692,16 @@ try:
             time.sleep(0.1)
 
             text = search.get()
-
-            if text != last:
+            
+            if device not in ['cardputer', 'plus2', 'plus11']:
+                messagebox.showerror(title='M5Tool', message=f'M5Burner не поддерживает ваше устройство!')
+                m5burner.destroy()
+                return
+                
+            if text != last or device != lastdev:
 
                 last = text
+                lastdev = device
 
                 every = []
 
@@ -999,7 +1065,7 @@ try:
 
     CTkFrame(window, width=280, height=90).place(x=300,y=10)
 
-    devices = CTkOptionMenu(window, values=["M5StickC Plus2", 'M5StickC Plus1.1', 'Cardputer'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change)
+    devices = CTkOptionMenu(window, values=["M5StickC Plus2", 'M5StickC Plus1.1', 'Cardputer', 'Esp-CYD-2-USB', 'Esp-CYD-1-USB'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change)
     devices.place(x=310, y=20)
 
     comport = CTkOptionMenu(window, values=["Сканируем..."], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)

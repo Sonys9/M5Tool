@@ -9,7 +9,7 @@ try:
         import serial                                                                                                                                                                                                                                                                                                                                                                                             
     except:
 
-        print('Устанавливаем модуль Serial...')                                      
+        print('Installing a module Serial...')                                      
 
         os.system('pip install setuptools')
         os.system('pip install pyserial')
@@ -18,16 +18,16 @@ try:
 
             import serial
             import serial.tools.list_ports
-            print('Модуль Serial установлен!')                                                                                                                                                                                                                                                                                                                                        
+            print('Serial is installed!')                                                                                                                                                                                                                                                                                                                                        
 
         except: 
 
-            input('Не удалось установить модуль Serial.')
+            input('Cant install Serial!')
 
     try: import requests                                                                                                                                                                                                                                                                                                                                                                                             
     except:
 
-        print('Устанавливаем модуль Requests...')                                      
+        print('Installing a module Requests...')                                      
 
         os.system('pip install setuptools')
         os.system('pip install requests')
@@ -35,11 +35,11 @@ try:
         try: 
 
             import requests
-            print('Модуль Requests установлен!')                                                                                                                                                                                                                                                                                                                                        
+            print('Requests is installed!')                                                                                                                                                                                                                                                                                                                                        
 
         except: 
 
-            input('Не удалось установить модуль Requests.')
+            input('Cant install Requests!')
 
     try: 
         from tkinter import messagebox, filedialog
@@ -47,7 +47,7 @@ try:
 
     except:
 
-        print('Устанавливаем модуль CustomTkinter...')                                      
+        print('Installing a module CustomTkinter...')                                      
 
         os.system('pip install setuptools')
         os.system('pip install tkinter')
@@ -58,18 +58,329 @@ try:
             from customtkinter import * 
             from tkinter import messagebox, filedialog
 
-            print('Модуль CustomTkinter установлен!')                                                                                                                                                                                                                                                                                                                                        
+            print('CustomTkinter is installed!')                                                                                                                                                                                                                                                                                                                                        
 
         except: 
 
-            input('Не удалось установить модуль CustomTkinter.')
+            input('Cant install CustomTkinter!')
+
+    translations = {
+        "porttaken": {
+            "RU": "Порт занят!",
+            "EN": "Port is taken!"
+        },
+        "installing..": {
+            "RU": "Устанавливаем... Логи будут в консоли.",
+            "EN": "Installing... Logs will be in console."
+        },
+        "alrinstalling": {
+            "RU": "Ты уже что-то устанавливаешь!",
+            "EN": "You are alreadly installing something!"
+        },
+        "installing": {
+            "RU": "Устанавливаем...",
+            "EN": "Installing..."
+        },
+        "mbs": {
+            "RU": "МБ/с",
+            "EN": "MB/s"
+        },
+        "retrying": {
+            "RU": r"Пытаемся установить снова... Проверьте скорость вашего интернет-соединения, ошибка: %err%",
+            "EN": r"Retrying... Check your internet connection, error: %err%"
+        },
+        "fileerr": {
+            "RU": "Это точно файл прошивки? Должен быть .bin файл!",
+            "EN": "Its a correct firmware file? Use .bin file!"
+        },
+        "esptoolisnt": {
+            "RU": "EspTool не установлен! Перезапустите программу или дождитесь установки зависимостей",
+            "EN": "EspTool is not installed! Restart app or wait for installing requirements"
+        },
+        "connecterr": {
+            "RU": "Не удалось подключиться к устройству, попробуйте переподключить устройство или скачать драйвера",
+            "EN": "Cant connect to device, reconnect your device or install drivers"
+        },
+        "flasherr": {
+            "RU": r"Произошла неизвестная ошибка: %output_str%, попробуйте установить драйвера, если они не установлены",
+            "EN": r"Unknown error: %output_str%, try install drivers"
+        },
+        "flashedok": {
+            "RU": "Прошивка успешно установлена",
+            "EN": "Flashed successful"
+        },
+        "filenotchoiced": {
+            "RU": "Вы не выбрали файл прошивки",
+            "EN": "You are not choiced firmware file"
+        },
+        "devicenotcon": {
+            "RU": "Вы не подключили устройство к пк. Если вы подключили, но не получается прошить, попробуйте установить драйвера",
+            "EN": "You are not connected device to PC. If you are connected, try install drivers"
+        },
+        "archinst": {
+            "RU": "Устанавливаем архив...",
+            "EN": "Installing an archive..."
+        },
+        "archinst": {
+            "RU": "Архив установлен.\nРазархивируем архив...",
+            "EN": "Archive installed.\nUnpacking archive..."
+        },
+        "archunp": {
+            "RU": "Архив разархивирован!",
+            "EN": "Archive is unpacked!"
+        },
+        "success": {
+            "RU": "Успех!",
+            "EN": "Success!"
+        },
+        "success1": {
+            "RU": "Успех! Нажмите Install для установки драйверов.",
+            "EN": "Success! Click Install to continue."
+        },
+        "instfile": {
+            "RU": "Устанавливаем файл...",
+            "EN": "Installing a file..."
+        },
+        "filestart": {
+            "RU": "Файл установлен! Запускаем...",
+            "EN": "File is installed! Starting..."
+        },
+        "success2": {
+            "RU": "Успех! Следуйте указаниям установщика для продолжения.",
+            "EN": "Success! Follow the installer instructions to continue."
+        },
+        "firmwnotfound": {
+            "RU": "Прошивка для вашего устройства не найдена :(",
+            "EN": "We are not found a firmware for your device :("
+        },
+        "waitparse": {
+            "RU": "Подождите 5-20 секунд до конца парсинга и попробуйте снова",
+            "EN": "Please, wait 5-20 seconds for fimrware parsing and try again"
+        },
+        "saveafile": {
+            "RU": "Сохранить файл",
+            "EN": "Save a file"
+        },
+        "ffile": {
+            "RU": "Файл прошивки",
+            "EN": "Firmware file"
+        },
+        "afiles": {
+            "RU": "Все файлы",
+            "EN": "All files"
+        },
+        "urlis": {
+            "RU": r"Ссылка: %url%",
+            "EN": r"Link: %url%"
+        },
+        "areyousure": {
+            "RU": "Вы уверены?",
+            "EN": "Are you sure?"
+        },
+        "erasedok": {
+            "RU": "Данные с устройства успешно стёрты!",
+            "EN": "Data from the device has been successfully erased!"
+        },
+        "devis": {
+            "RU": r"Устройство: %dev%",
+            "EN": r"Device: %dev%"
+        },
+        "comis": {
+            "RU": r"COM порт: COM%com%",
+            "EN": r"COM port: COM%com%"
+        },
+        "by": {
+            "RU": "от",
+            "EN": "by"
+        },
+        "loadsinst": {
+            "RU": " скачиваний, загружено ",
+            "EN": " downloads, uploaded at "
+        },
+        "downloadbin": {
+            "RU": "Скачать .bin",
+            "EN": "Download .bin"
+        },
+        "next": {
+            "RU": "Вперед",
+            "EN": "Next"
+        },
+        "down": {
+            "RU": "Назад",
+            "EN": "Down"
+        },
+        "m5burnerbd": {
+            "RU": "M5Burner не поддерживает ваше устройство!",
+            "EN": "M5Burner dont supports your device!"
+        },
+        "language": {
+            "RU": "Язык",
+            "EN": "Language"
+        },
+        "searchbar": {
+            "RU": "Поиск",
+            "EN": "Search"
+        },
+        "connectedtodev": {
+            "RU": "Подключено к устройству",
+            "EN": "Connected to the device"
+        },
+        "consoleandlogs": {
+            "RU": "Консоль и логи",
+            "EN": "Console and logs"
+        },
+        "enterbaud": {
+            "RU": "Введите BaudRate",
+            "EN": "Enter BaudRate"
+        },
+        "entercmd": {
+            "RU": "Введите команду",
+            "EN": "Enter cmd"
+        },
+        "sendbtn": {
+            "RU": "Отправить",
+            "EN": "Send"
+        },
+        "m5toollogshere": {
+            "RU": "Логи M5Tool будут здесь",
+            "EN": "M5Tool's logs will be here"
+        },
+        "devicelogshere": {
+            "RU": "Логи устройства будут здесь",
+            "EN": "Device's logs will be here"
+        },
+        "installingreq": {
+            "RU": "Устанавливаем зависимости... Пожалуйста, подождите.",
+            "EN": "Installing requirements... Please, wait."
+        },
+        "reqend": {
+            "RU": "Архив разархивирован!\nЗависимости установлены!\nЗапускаем M5Tool...",
+            "EN": "Archive is installed!\nRequirements is installed!\nLaunching M5Tool..."
+        },
+        "badbaud": {
+            "RU": "Неверный BaudRate!",
+            "EN": "Bad BaudRate!"
+        },
+        "badaddr": {
+            "RU": "Неверный адрес прошивки!",
+            "EN": "Bad flash address!"
+        },
+        "saveerr": {
+            "RU": r"Не удалось сохранить настройки, ошибка: %err%",
+            "EN": r"Saving error: %err%"
+        },
+        "savedok": {
+            "RU": "Настройки сохранены!",
+            "EN": "Saved success!"
+        },
+        "baudr": {
+            "RU": "BaudRate",
+            "EN": "BaudRate"
+        },
+        "addresstoflash": {
+            "RU": "Адрес прошивания",
+            "EN": "Address to flash"
+        },
+        "savecfg": {
+            "RU": "Сохранить",
+            "EN": "Save"
+        },
+        "updates": {
+            "RU": "Обновления",
+            "EN": "Updates"
+        },
+        "upderr": {
+            "RU": "Не удалось проверить обновления, попробуйте снова.",
+            "EN": "Cant check updates, try again."
+        },
+        "yourver": {
+            "RU": "Версия: %newver% (ваша: %yourver%)",
+            "EN": "Version: %newver% (your: %yourver%)"
+        },
+        "whatsnew": {
+            "RU": "Что нового в новой версии:",
+            "EN": "What is new:"
+        },
+        "youhavenew": {
+            "RU": "У вас самая новая версия!",
+            "EN": "You have a newest version!"
+        },
+        "youhaveold": {
+            "RU": "У вас старая версия!",
+            "EN": "You have an old version!"
+        },
+        "choiceafile": {
+            "RU": "Выбрать файл",
+            "EN": "Choice a file"
+        },
+        "enterbaud": {
+            "RU": "Введите BaudRate",
+            "EN": "Enter BaudRate"
+        },
+        "notchoiced": {
+            "RU": "Файл не выбран",
+            "EN": "File is not choiced"
+        },
+        "flashbtn": {
+            "RU": "Прошить",
+            "EN": "Flash"
+        },
+        "eraseall": {
+            "RU": "Стереть всё",
+            "EN": "Erase all"
+        },
+        "installdriv": {
+            "RU": "Установить драйвера",
+            "EN": "Download a drivers"
+        },
+        "installbin": {
+            "RU": "Скачать .bin",
+            "EN": "Download .bin"
+        },
+        "scanning": {
+            "RU": "Сканируем...",
+            "EN": "Scanning..."
+        },
+        "pickcom": {
+            "RU": "Занять COM порт",
+            "EN": "Auto catch COM port"
+        },
+        "openm5burner": {
+            "RU": "Встроенный M5Burner",
+            "EN": "Simple M5Burner"
+        },
+        "consoleandlogs": {
+            "RU": "Консоль/логи",
+            "EN": "Console/logs"
+        },
+        "checkupdates": {
+            "RU": "Проверить обновления",
+            "EN": "Check updates"
+        },
+        "errorinend": {
+            "RU": r"Ошибка: %err%",
+            "EN": r"Error: %err%"
+        },
+        "driverswin": {
+            "RU": "Драйвера",
+            "EN": "Drivers"
+        },
+        "opensettings": {
+            "RU": "Настройки",
+            "EN": "Settings"
+        }, 
+        "restartneeded": {
+            "RU": "Перезапустите M5Tool для применения настроек",
+            "EN": "Restart M5Tool to continue"
+        }
+    } 
 
     def zanyat():
 
         try:
 
             s = serial.Serial(f'COM{portt}')
-            add_log('Порт занят!')
+            add_log(translations['porttaken'][lang])
             while True:
                 s.read()
                 
@@ -85,10 +396,10 @@ try:
 
         global installing, statuslabel
 
-        if not terminal: threading.Thread(target=lambda: messagebox.showinfo('M5Tool', 'Устанавливаем... Логи будут в консоли.')).start()
+        if not terminal: threading.Thread(target=lambda: messagebox.showinfo('M5Tool', translations['installing..'][lang])).start()
 
         if installing: 
-            if not terminal: threading.Thread(target=lambda: messagebox.showinfo('M5Tool', 'Ты уже что-то устанавливаешь!')).start()
+            if not terminal: threading.Thread(target=lambda: messagebox.showinfo('M5Tool', translations['alrinstalling'][lang])).start()
             return True
         
         installing = True
@@ -111,10 +422,10 @@ try:
                             completed += len(chunk)
                             speed_mbps = ((len(chunk)+0.1) / (1024 * 16)) / (time.time()+1-starttime)
                             proc = (completed+0.1)//(oneprocent+0.1)
-                            if not terminal: add_log(f'Устанавливаем... ({round(speed_mbps, 3)} МБ/с) {proc}%')
+                            if not terminal: add_log(f'{translations["installing"][lang]}... ({round(speed_mbps, 3)} {translations["mbs"][lang]}) {proc}%')
                             else: 
-                                print(f'Устанавливаем... ({round(speed_mbps, 3)} МБ/с) {proc}%')
-                                statuslabel.configure(text=f'Устанавливаем... ({round(speed_mbps, 3)} МБ/с) {proc}%')
+                                print(f'{translations["installing"][lang]}... ({round(speed_mbps, 3)} {translations["mbs"][lang]}) {proc}%')
+                                statuslabel.configure(text=f'{translations["installing"][lang]}... ({round(speed_mbps, 3)} {translations["mbs"][lang]}) {proc}%')
                             f.write(chunk)
                             f.flush()
                             os.fsync(f.fileno())
@@ -122,8 +433,8 @@ try:
                     
                 break
             except Exception as e: 
-                if not terminal: add_log(f'Пытаемся установить снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
-                else: print(f'Пытаемся установить снова... Проверьте скорость вашего интернет-соединения, ошибка: {e}')
+                if not terminal: add_log(translations["retrying"][lang].replace(r'%err%', e))
+                else: print(translations["retrying"][lang].replace(r'%err%', e))
 
         installing = False
 
@@ -132,17 +443,25 @@ try:
     device = 'plus2'
     alllogs = []
 
-    M5ToolVersion = '4'
+    M5ToolVersion = '4.5'
 
     if not os.path.exists('M5ToolConfig.json'): 
-        with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000"}')
+        with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000", "lang": "EN"}')
         flashaddress = '0x000'
         flashbaudrate = '1500000'
+        lang = 'EN'
     else:
         with open('M5ToolConfig.json', 'r') as f:
             loaded = json.loads(f.read())
-            flashaddress = loaded['addressflash']
-            flashbaudrate = loaded['baudrateflash']
+            try:
+                flashaddress = loaded['addressflash']
+                flashbaudrate = loaded['baudrateflash']
+                lang = loaded['lang']
+            except:
+                with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000", "lang": "EN"}')
+                flashaddress = '0x000'
+                flashbaudrate = '1500000'
+                lang = 'EN'
 
     def secondthread():
 
@@ -200,7 +519,7 @@ try:
         popular = {'plus2': {
             'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus2.bin',
             'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/b732d70a74405f7f1c6e961fa4d17f37.bin',
-            'UserDemo (заводская)': 'https://github.com/m5stack/M5StickCPlus2-UserDemo/releases/download/V0.1/K016-P2-M5StickCPlus2-UserDemo-V0.1_0x0.bin',
+            'UserDemo': 'https://github.com/m5stack/M5StickCPlus2-UserDemo/releases/download/V0.1/K016-P2-M5StickCPlus2-UserDemo-V0.1_0x0.bin',
             'CatHack': parsefirmwr('/Stachugit/CatHack/releases/', 'plus2'),
             'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/896bce78796597d2ddc1545443f0a1c3.bin',
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'plus2'),
@@ -209,14 +528,14 @@ try:
             'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus.bin',
             'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/3397b17ad7fd314603abf40954a65369.bin',
             'CatHack': None,
-            'UserDemo (заводская)': None,
+            'UserDemo': None,
             'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/28eafdd732442b83395017a8f490a048.bin',
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'plus11'),
             'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'plus11')
         }, 'cardputer': {
             'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5Cardputer.bin',
             'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/aeb96d4fec972a53f934f8da62ab7341.bin',
-            'UserDemo (заводская)': 'https://github.com/m5stack/M5Cardputer-UserDemo/releases/download/V0.9/K132-Cardputer-UserDemo-V0.9_0x0.bin',
+            'UserDemo': 'https://github.com/m5stack/M5Cardputer-UserDemo/releases/download/V0.9/K132-Cardputer-UserDemo-V0.9_0x0.bin',
             'CatHack': None,
             'Hamster Kombat': None,
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'cardputer'),
@@ -224,7 +543,7 @@ try:
         }, "cyd2usb": {
             'Nemo': None,
             'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/Marauder_espcyd2usb_v1.0.0.bin',
-            'UserDemo (заводская)': None,
+            'UserDemo': None,
             'CatHack': None,
             'Hamster Kombat': None,
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'CYD2USB'),
@@ -232,7 +551,7 @@ try:
         }, "cyd1usb": {
             'Nemo': None,
             'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/Marauder_espcyd1usb_v1.0.0.bin',
-            'UserDemo (заводская)': None,
+            'UserDemo': None,
             'CatHack': None,
             'Hamster Kombat': None,
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'CYD1USB'),
@@ -274,13 +593,13 @@ try:
         
                 if not fileee.endswith('.bin'):
 
-                    messagebox.showerror(title='M5Tool', message=f'Это точно файл прошивки? Должен быть .bin файл!')
+                    messagebox.showerror(title='M5Tool', message=translations["fileerr"][lang])
 
                 else:
 
                     if not os.path.exists('esptool480\\esptool-win64'): 
 
-                        messagebox.showerror(title='M5Tool', message=f'EspTool не установлен! Перезапустите программу или дождитесь установки зависимостей')
+                        messagebox.showerror(title='M5Tool', message=translations["esptoolisnt"][lang])
 
                     else:
 
@@ -302,11 +621,11 @@ try:
 
                                     if 'not open' in output_str.lower():
 
-                                        messagebox.showerror(title='M5Tool', message=f'Не удалось подключиться к устройству, попробуйте переподключить устройство или скачать драйвера')
+                                        messagebox.showerror(title='M5Tool', message=translations["connecterr"][lang])
 
                                     else:
 
-                                        messagebox.showerror(title='M5Tool', message=f'Произошла неизвестная ошибка: {output_str}, попробуйте установить драйвера, если они не установлены')
+                                        messagebox.showerror(title='M5Tool', message=translations["flasherr"][lang].replace(r"%output_str%",output_str))
                                         
                                     flashing = False
 
@@ -314,7 +633,7 @@ try:
 
                                 elif 'Hash of data verified.' in output_str: 
 
-                                    messagebox.showinfo(title='M5Tool', message=f'Прошивка успешно установлена')
+                                    messagebox.showinfo(title='M5Tool', message=translations["flashedok"][lang])
 
                                     flashing = False
 
@@ -324,33 +643,33 @@ try:
 
                             else: ...
 
-            else: messagebox.showerror(title='M5Tool', message=f'Вы не выбрали файл прошивки')
+            else: messagebox.showerror(title='M5Tool', message=translations["filenotchoiced"][lang])
 
-        else: messagebox.showerror(title='M5Tool', message=f'Вы не подключили устройство к пк. Если вы подключили, но не получается прошить, попробуйте установить драйвера')
+        else: messagebox.showerror(title='M5Tool', message=translations["devicenotcon"][lang])
         flashing=False
 
     def flashtoolisntall():
         
-        add_log('Устанавливаем архив...')
+        add_log(translations["archinst1"][lang])
 
         r = installfile('https://github.com/espressif/esptool/releases/download/v4.8.0/esptool-v4.8.0-win64.zip', 'file.zip')
 
         if not r:
 
-            add_log('Архив установлен.\nРазархивируем архив...')
+            add_log(translations["archinst2"][lang])
         
             with zipfile.ZipFile('file.zip', 'r') as zip_ref:
                 zip_ref.extractall('esptool480')
 
             os.makedirs('esptool480', exist_ok=True)
 
-            add_log('Архив разархивирован!')
+            add_log(translations["archunp"][lang])
 
-            messagebox.showinfo(title='M5Tool', message='Успех!')
+            messagebox.showinfo(title='M5Tool', message=translations["success"][lang])
 
-    def installadriver(name, dir, link, endtext='Успех! Нажмите Install для установки драйверов.'):
+    def installadriver(name, dir, link, endtext=translations["success1"][lang]):
 
-        add_log('Устанавливаем файл...')
+        add_log(translations["instfile"][lang])
 
         os.makedirs(name, exist_ok=True)
 
@@ -358,7 +677,7 @@ try:
 
         if not r:
 
-            add_log('Файл установлен! Запускаем...')
+            add_log(translations["filestart"][lang])
 
             os.system(f'start {dir}')
 
@@ -366,18 +685,18 @@ try:
 
     def installsecdriver(name, dir, link, endtext):
 
-        add_log('Устанавливаем архив...')
+        add_log(translations["archinst1"][lang])
 
         r = installfile(link, 'file.zip')
 
         if not r:
 
-            add_log('Архив установлен! Разархивируем...')
+            add_log(translations["archinst2"][lang])
 
             with zipfile.ZipFile('file.zip', 'r') as zip_ref:
                 zip_ref.extractall(name)
 
-            add_log('Архив разархивирован! Запускаем...')
+            add_log(translations["archunp"][lang])
 
             os.system(f'start {dir}')
 
@@ -386,7 +705,7 @@ try:
     def installdriverswindow():
 
         driverwindow = CTk()
-        driverwindow.title("Драйвера")
+        driverwindow.title(translations["driverswin"][lang])
         driverwindow.geometry('200x230')
         set_appearance_mode("dark")
 
@@ -426,16 +745,16 @@ try:
 
         add_log(f'Ссылка: {fileurl}')
 
-        if fileurl == None: messagebox.showerror(title='M5Tool', message='Прошивка для вашего устройства не найдена :(')
-        elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message='Подождите 5-20 секунд до конца парсинга и попробуйте снова')
+        if fileurl == None: messagebox.showerror(title='M5Tool', message=translations["firmwnotfound"][lang])
+        elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message=translations["waitparse"][lang])
         else:
 
             r = requests.get(fileurl)
 
             file_path = filedialog.asksaveasfilename(
-                title="Сохранить файл",
+                title=translations["saveafile"][lang],
                 defaultextension=".bin", 
-                filetypes=(("Файл прошивки", "*.bin"), ("Все файлы", "*.*"))
+                filetypes=((translations["ffile"][lang], "*.bin"), (translations["afiles"][lang], "*.*"))
             )
             
             if file_path: 
@@ -450,13 +769,13 @@ try:
         
         fileurl = getfrmwr(firmware)
 
-        add_log(f'Ссылка: {fileurl}')
+        add_log(translations["urlis"][lang].replace(r'%url%', fileurl))
 
-        if fileurl == None: messagebox.showerror(title='M5Tool', message='Прошивка для вашего устройства не найдена :(')
-        elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message='Подождите 15-60 секунд до конца парсинга и попробуйте снова')
+        if fileurl == None: messagebox.showerror(title='M5Tool', message=translations["firmwnotfound"][lang])
+        elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message=translations["waitparse"][lang])
         else:
 
-            threading.Thread(target=lambda: messagebox.showinfo('M5Tool', 'Устанавливаем... Логи будут в консоли.')).start()
+            threading.Thread(target=lambda: messagebox.showinfo('M5Tool', translations["installing.."][lang])).start()
 
             r = requests.get(fileurl)
 
@@ -472,7 +791,7 @@ try:
 
         if portt:
 
-            result = messagebox.askquestion("M5Tool", "Вы уверены?")
+            result = messagebox.askquestion("M5Tool", translations["areyousure"][lang])
 
             if result == 'yes':
 
@@ -482,7 +801,7 @@ try:
 
                 if not os.path.exists('esptool480\\esptool-win64'): 
 
-                    messagebox.showerror(title='M5Tool', message=f'EspTool не установлен! Перезапустите программу или дождитесь установки зависимостей')
+                    messagebox.showerror(title='M5Tool', message=translations["esptoolisnt"][lang])
 
                 else:
 
@@ -500,11 +819,11 @@ try:
 
                                 if 'not open' in output_str.lower():
 
-                                    messagebox.showerror(title='M5Tool', message=f'Не удалось подключиться к устройству, попробуйте переподключить устройство')
+                                    messagebox.showerror(title='M5Tool', message=translations["connecterr"][lang])
 
                                 else:
 
-                                    messagebox.showerror(title='M5Tool', message=f'Произошла неизвестная ошибка: {output_str}')
+                                    messagebox.showerror(title='M5Tool', message=translations["flasherr"][lang].replace(r'%output_str%', output_str))
 
                                 flashing = False
 
@@ -512,7 +831,7 @@ try:
 
                             elif 'Hash of data verified.' in output_str: 
 
-                                messagebox.showinfo(title='M5Tool', message=f'Данные с устройства успешно стёрты!')
+                                messagebox.showinfo(title='M5Tool', message=translations["erasedok"][lang])
 
                                 flashing = False
 
@@ -522,7 +841,7 @@ try:
 
                         else: ...
 
-        else: messagebox.showerror(title='M5Tool', message=f'Вы не подключили устройство к пк. Если вы подключили, но не получается прошить, попробуйте установить драйвера')
+        else: messagebox.showerror(title='M5Tool', message=translations["devicenotcon"][lang])
         flashing=False
 
     def change(selected): 
@@ -532,13 +851,12 @@ try:
         if selected == 'M5StickC Plus2': device = 'plus2'
         if selected == 'Esp-CYD-2-USB': device = 'cyd2usb'
         if selected == 'Esp-CYD-1-USB': device = 'cyd1usb'
-        add_log(f'Устройство: {selected}')
+        add_log(translations["devis"][lang].replace(r'%dev%', selected))
 
     def change2(value):
         global portt, add_log
         portt = value.replace('COM', '')
-        add_log(portt)
-        add_log(f"COM порт: COM{portt}")
+        add_log(translations["comis"][lang].replace(r'%com%', portt))
 
     def getcomports():
 
@@ -572,7 +890,7 @@ try:
 
                     lastport = portt
 
-                    add_log(f"COM порт: COM{portt}")
+                    add_log(translations["comis"][lang].replace(r'%com%', portt))
                 
 
     def getall():
@@ -601,9 +919,9 @@ try:
         r = requests.get(link)
 
         file_path = filedialog.asksaveasfilename(
-            title="Сохранить файл",
+            title=translations["saveafile"][lang],
             defaultextension=".bin", 
-            filetypes=(("Файл прошивки", "*.bin"), ("Все файлы", "*.*"))
+            filetypes=((translations["ffile"][lang], "*.bin"), (translations["afiles"][lang], "*.*"))
         )
         
         if file_path: 
@@ -628,18 +946,18 @@ try:
             ndescr = [kostil["firmwares"][current][4][i:i + 100] for i in range(0, len(kostil["firmwares"][current][4]), 100)]
             ndescr = '\n'.join(ndescr)
             
-            first = CTkLabel(frame, text=f'{kostil["firmwares"][current][3]} (от {kostil["firmwares"][current][6]})', font=('Arial Black', 15))
+            first = CTkLabel(frame, text=f'{kostil["firmwares"][current][3]} ({translations["by"][lang]} {kostil["firmwares"][current][6]})', font=('Arial Black', 15))
             first.pack()
 
-            second = CTkLabel(frame, text=f'{ndescr}\n\n{kostil["firmwares"][current][7]} скачиваний, загружено {kostil["firmwares"][current][1]}')
+            second = CTkLabel(frame, text=f'{ndescr}\n\n{kostil["firmwares"][current][7]}{translations["loadsinst"][lang]}{kostil["firmwares"][current][1]}')
             second.pack()
 
-            third = CTkButton(frame, text=f'Скачать .bin', fg_color=fg, hover_color=hover, 
+            third = CTkButton(frame, text=translations["downloadbin"][lang], fg_color=fg, hover_color=hover, 
                             command=lambda file=kostil["firmwares"][current][2]: threading.Thread(target=installvialink, args=(file,)).start())
             third.pack(pady=10)
-            nextt = CTkButton(frame, text=f'Вперед', fg_color=fg, hover_color=hover, width=200, command=nexttt)
+            nextt = CTkButton(frame, text=translations["next"][lang], fg_color=fg, hover_color=hover, width=200, command=nexttt)
             nextt.pack(pady=20)
-            down = CTkButton(frame, text=f'Назад', fg_color=fg, hover_color=hover, width=200, command=downn)
+            down = CTkButton(frame, text=translations["down"][lang], fg_color=fg, hover_color=hover, width=200, command=downn)
             down.pack(pady=20)
             toremove.append(frame)
             
@@ -662,18 +980,18 @@ try:
             ndescr = [kostil["firmwares"][current][4][i:i + 100] for i in range(0, len(kostil["firmwares"][current][4]), 100)]
             ndescr = '\n'.join(ndescr)
             
-            first = CTkLabel(frame, text=f'{kostil["firmwares"][current][3]} (от {kostil["firmwares"][current][6]})', font=('Arial Black', 15))
+            first = CTkLabel(frame, text=f'{kostil["firmwares"][current][3]} ({translations["by"][lang]} {kostil["firmwares"][current][6]})', font=('Arial Black', 15))
             first.pack()
 
-            second = CTkLabel(frame, text=f'{ndescr}\n\n{kostil["firmwares"][current][7]} скачиваний, загружено {kostil["firmwares"][current][1]}')
+            second = CTkLabel(frame, text=f'{ndescr}\n\n{kostil["firmwares"][current][7]}{translations["loadsinst"][lang]}{kostil["firmwares"][current][1]}')
             second.pack()
 
-            third = CTkButton(frame, text=f'Скачать .bin', fg_color=fg, hover_color=hover, 
+            third = CTkButton(frame, text=translations["downloadbin"][lang], fg_color=fg, hover_color=hover, 
                             command=lambda file=kostil["firmwares"][current][2]: threading.Thread(target=installvialink, args=(file,)).start())
             third.pack(pady=10)
-            nextt = CTkButton(frame, text=f'Вперед', fg_color=fg, hover_color=hover, width=200, command=nexttt)
+            nextt = CTkButton(frame, text=translations["next"][lang], fg_color=fg, hover_color=hover, width=200, command=nexttt)
             nextt.pack(pady=20)
-            down = CTkButton(frame, text=f'Назад', fg_color=fg, hover_color=hover, width=200, command=downn)
+            down = CTkButton(frame, text=translations["down"][lang], fg_color=fg, hover_color=hover, width=200, command=downn)
             down.pack(pady=20)
             toremove.append(frame)
 
@@ -694,7 +1012,7 @@ try:
             text = search.get()
             
             if device not in ['cardputer', 'plus2', 'plus11']:
-                messagebox.showerror(title='M5Tool', message=f'M5Burner не поддерживает ваше устройство!')
+                messagebox.showerror(title='M5Tool', message=translations["m5burnerbd"][lang])
                 m5burner.destroy()
                 return
                 
@@ -734,18 +1052,18 @@ try:
                     ndescr = [every[0][4][i:i + 100] for i in range(0, len(every[0][4]), 100)]
                     ndescr = '\n'.join(ndescr)
                     
-                    first = CTkLabel(frame, text=f'{every[0][3]} (от {every[0][6]})', font=('Arial Black', 15))
+                    first = CTkLabel(frame, text=f'{every[0][3]} ({translations["by"][lang]} {every[0][6]})', font=('Arial Black', 15))
                     first.pack()
 
-                    second = CTkLabel(frame, text=f'{ndescr}\n\n{every[0][7]} скачиваний, загружено {every[0][1]}')
+                    second = CTkLabel(frame, text=f'{ndescr}\n\n{every[0][7]}{translations["loadsinst"][lang]}{every[0][1]}')
                     second.pack()
 
-                    third = CTkButton(frame, text=f'Скачать .bin', fg_color=fg, hover_color=hover, 
+                    third = CTkButton(frame, text=translations["downloadbin"][lang], fg_color=fg, hover_color=hover, 
                                     command=lambda file=every[0][2]: threading.Thread(target=installvialink, args=(file,)).start())
                     third.pack(pady=10)
-                    nextt = CTkButton(frame, text=f'Вперед', fg_color=fg, hover_color=hover, width=200, command=nexttt)
+                    nextt = CTkButton(frame, text=translations["next"][lang], fg_color=fg, hover_color=hover, width=200, command=nexttt)
                     nextt.pack(pady=20)
-                    down = CTkButton(frame, text=f'Назад', fg_color=fg, hover_color=hover, width=200, command=downn)
+                    down = CTkButton(frame, text=translations["down"][lang], fg_color=fg, hover_color=hover, width=200, command=downn)
                     down.pack(pady=20)
                     
 
@@ -782,7 +1100,7 @@ try:
 
         allfirmwaresfromm5burner = getall()
         
-        search = CTkEntry(m5burner, placeholder_text='Поиск', width=590, height=30)
+        search = CTkEntry(m5burner, placeholder_text=translations["searchbar"][lang], width=590, height=30)
         search.pack()
 
         toremove = []
@@ -818,7 +1136,7 @@ try:
                     
                     serialport = serial.Serial(f'COM{portt}', baud)
 
-                    add_log('Подключено к устройству')
+                    add_log(translations["connectedtodev"][lang])
 
                 except: ...
 
@@ -851,7 +1169,7 @@ try:
         global log_text, serial_text, inputtext, serialport, custombaudrate
 
         console = CTk()
-        console.title("Консоль и логи")
+        console.title(translations["consoleandlogs"][lang])
         console.geometry('600x300')
         set_appearance_mode("dark")
 
@@ -867,19 +1185,19 @@ try:
         serial_text.configure(state='disabled', font=('Calibri', 13))
         serial_text.place(x=310, y=10)     
         
-        custombaudrate = CTkEntry(console, placeholder_text='Введите BaudRate', width=280, height=30)
+        custombaudrate = CTkEntry(console, placeholder_text=translations["enterbaud"][lang], width=280, height=30)
         custombaudrate.place(x=10,y=250)
 
         custombaudrate.insert('0', '115200')
 
-        inputtext = CTkEntry(console, placeholder_text='Введите команду', width=190, height=30)
+        inputtext = CTkEntry(console, placeholder_text=translations["entercmd"][lang], width=190, height=30)
         inputtext.place(x=310,y=250)
 
-        entercmd = CTkButton(console, text='Отправить', width=50, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=addcmd).start())
+        entercmd = CTkButton(console, text=translations["sendbtn"][lang], width=50, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=addcmd).start())
         entercmd.place(x=510, y=250)
 
-        add_log('Логи M5Tool будут здесь', False)
-        add_serial_log('Логи устройства будут здесь')
+        add_log(translations["m5toollogshere"][lang], False)
+        add_serial_log(translations["devicelogshere"][lang])
 
         for log in alllogs: add_log(log, False)
 
@@ -892,22 +1210,22 @@ try:
 
         global windowloading, statuslabel
 
-        lbl = CTkLabel(windowloading, text='Устанавливаем зависимости... Пожалуйста, подождите.', font=('Calibri', 13))
+        lbl = CTkLabel(windowloading, text=translations["devis"][lang], font=('Calibri', 13))
         lbl.pack()
 
-        statuslabel = CTkLabel(windowloading, text='Устанавливаем... (0 МБ/с) 0%', font=('Calibri', 13))
+        statuslabel = CTkLabel(windowloading, text=f'{translations["installing.."][lang]} (0 {translations["mbs"][lang]}) 0%', font=('Calibri', 13))
         statuslabel.pack()
 
         installfile('https://github.com/espressif/esptool/releases/download/v4.8.0/esptool-v4.8.0-win64.zip', 'file.zip', True)
         statuslabel.destroy()
-        lbl.configure(text='Архив установлен.\nРазархивируем архив...')
+        lbl.configure(text=translations["archinst2"][lang])
 
         with zipfile.ZipFile('file.zip', 'r') as zip_ref:
             zip_ref.extractall('esptool480')
 
         os.makedirs('esptool480', exist_ok=True)
 
-        lbl.configure(text='Архив разархивирован!\nЗависимости установлены!\nЗапускаем M5Tool...')
+        lbl.configure(text=translations["reqend"][lang])
 
         lbl.destroy()
 
@@ -928,7 +1246,7 @@ try:
 
     def cfgupdate():
 
-        global flashbaudrate, flashaddress, baudr, addr, add_log
+        global flashbaudrate, flashaddress, baudr, addr, add_log, lang, langs
 
         try:
 
@@ -937,57 +1255,76 @@ try:
 
             try: baudratevalue = int(baudratevalue)
             except: 
-                add_log(f'Неверный BaudRate!')
-                messagebox.showerror(title='M5Tool', message=f'Неверный BaudRate!')
+                add_log(translations["badbaud"][lang])
+                messagebox.showerror(title='M5Tool', message=translations["badbaud"][lang])
                 return
 
             if 'x' not in addressvalue.lower(): 
-                add_log(f'Неверный адрес прошивки!')
-                messagebox.showerror(title='M5Tool', message=f'Неверный адрес прошивки!')
+                add_log(translations["badaddr"][lang])
+                messagebox.showerror(title='M5Tool', message=translations["badaddr"][lang])
                 return
 
-            result = {"baudrateflash": baudratevalue, "addressflash": addressvalue}
+            result = {"baudrateflash": baudratevalue, "addressflash": addressvalue, "lang": lang}
+
+            needrestart = False
+            
+            with open('M5ToolConfig.json', 'r') as f:
+                loaded = json.loads(f.read())
+                flashaddress = loaded['addressflash']
+                flashbaudrate = loaded['baudrateflash']
+                lang2 = loaded['lang']
+                if lang != lang2: needrestart=True
+
+            with open('M5ToolConfig.json', 'w') as f:
+                json.dump(result, f, indent=4)
+                flashbaudrate = baudratevalue
+                flashaddress = addressvalue
+                add_log(translations["savedok"][lang])
+                messagebox.showinfo(title='M5Tool', message=translations["savedok"][lang])
+                if needrestart: messagebox.showinfo('M5Tool', translations['restartneeded'][lang])
 
         except Exception as e:  
-            add_log(f'Не удалось сохранить настройки, ошибка: {e}')
-            messagebox.showerror(title='M5Tool', message=f'Не удалось сохранить настройки, ошибка: {e}')
+            add_log(translations["saveerr"][lang].replace(r'%err%', e))
+            messagebox.showerror(title='M5Tool', message=translations["saveerr"][lang].replace(r'%err%', e))
             return
 
-        with open('M5ToolConfig.json', 'w') as f:
-            json.dump(result, f, indent=4)
-            flashbaudrate = baudratevalue
-            flashaddress = addressvalue
-            add_log(f'Настройки сохранены!')
-            messagebox.showinfo(title='M5Tool', message=f'Настройки сохранены!')
+    def change3(value):
+        global lang, add_log
+        if value == 'Русский': lang = 'RU'
+        elif value == 'English': lang = 'EN'
+        add_log(translations["language"][lang]+f': {value}')
 
     def opensettings():
 
-        global flashbaudrate, flashaddress, baudr, addr
+        global flashbaudrate, flashaddress, baudr, addr, lang, langs
 
         settingswindow = CTk()
-        settingswindow.title("Настройки")
-        settingswindow.geometry('300x150')
+        settingswindow.title(translations["opensettings"][lang])
+        settingswindow.geometry('300x190')
         set_appearance_mode("dark")
 
-        CTkFrame(settingswindow, width=280, height=90).place(x=10,y=10)
+        CTkFrame(settingswindow, width=280, height=130).place(x=10,y=10)
 
-        baudr = CTkEntry(settingswindow, placeholder_text='BaudRate', width=260, height=30)
+        baudr = CTkEntry(settingswindow, placeholder_text=translations["baudr"][lang], width=260, height=30)
         baudr.place(x=20,y=20)
         baudr.insert(0, flashbaudrate)
         
-        addr = CTkEntry(settingswindow, placeholder_text='Адрес', width=260, height=30)
+        addr = CTkEntry(settingswindow, placeholder_text=translations["addresstoflash"][lang], width=260, height=30)
         addr.place(x=20,y=60)
         addr.insert(0, flashaddress)
 
-        save = CTkButton(settingswindow, text='Сохранить', width=280, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=cfgupdate)
-        save.place(x=10, y=110)     
+        langs = CTkOptionMenu(settingswindow, values=['English', 'Русский'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change3)
+        langs.place(x=20, y=100)
+
+        save = CTkButton(settingswindow, text=translations["savecfg"][lang], width=280, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=cfgupdate)
+        save.place(x=10, y=150)     
 
         settingswindow.mainloop()
 
     def checkupdates():
 
         updwindow = CTk()
-        updwindow.title("Обновления")
+        updwindow.title(translations["updates"][lang])
         updwindow.geometry('300x300')
         set_appearance_mode("dark")
 
@@ -996,22 +1333,22 @@ try:
         try:
             r=requests.get('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/ver.txt')
             loaded = json.loads(r.text)
-            vers = [loaded['version'], loaded['updlog']]
+            vers = [loaded['version'], loaded['updlog'][lang]]
         except: vers = ['bad', '']
 
         if vers[0] == 'bad': 
-            messagebox.showinfo('M5Tool', 'Не удалось проверить обновления, попробуйте снова.')
+            messagebox.showinfo('M5Tool', translations["upderr"][lang])
             updwindow.destroy()
             return
         
-        CTkLabel(updwindow, text=f'Версия: {vers[0]} (ваша: {M5ToolVersion})', bg_color=bg, font=('Calibri', 23)).place(x=20, y=20)
-        CTkLabel(updwindow, text='У вас самая новая версия!' if float(vers[0])<=float(M5ToolVersion) else 'У вас старая версия!', bg_color=bg, font=('Calibri', 17)).place(x=20, y=50)
+        CTkLabel(updwindow, text=translations["yourver"][lang].replace(r'%newver%', vers[0]).replace(r'%yourver%', M5ToolVersion), bg_color=bg, font=('Calibri', 23)).place(x=20, y=20)
+        CTkLabel(updwindow, text=translations["youhavenew"][lang] if float(vers[0])<=float(M5ToolVersion) else translations["youhaveold"][lang], bg_color=bg, font=('Calibri', 17)).place(x=20, y=50)
         
         updtextbox = CTkTextbox(updwindow, width=260, height=200)
         updtextbox.configure(state='normal', font=('Calibri', 13))
         updtextbox.place(x=20, y=80)
 
-        updtextbox.insert(END, 'Что нового в новой версии:\n\n'+vers[1]) 
+        updtextbox.insert(END, translations["whatsnew"][lang]+'\n\n'+vers[1]) 
         updtextbox.see(END)
         updtextbox.configure(state='disabled')
 
@@ -1037,30 +1374,30 @@ try:
     
     CTkFrame(window, width=280, height=155).place(x=10,y=65)
 
-    choiceafile = CTkButton(window, text='Выбрать файл', width=100, fg_color=fg, bg_color=bg, hover_color=hover, command=choicefile)
+    choiceafile = CTkButton(window, text=translations["choiceafile"][lang], width=100, fg_color=fg, bg_color=bg, hover_color=hover, command=choicefile)
     choiceafile.place(x=20, y=75)
     
-    infoo = CTkLabel(window, text='Файл не выбран', bg_color=bg, font=('Calibri', 15))
+    infoo = CTkLabel(window, text=translations["notchoiced"][lang], bg_color=bg, font=('Calibri', 15))
     infoo.place(x=130, y=75)
 
-    flash = CTkButton(window, text='Прошить', width=160, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashh).start())
+    flash = CTkButton(window, text=translations["flashbtn"][lang], width=160, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=flashh).start())
     flash.place(x=20, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 
-    eraseall = CTkButton(window, text='Стереть всё', width=90, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=Eraseall).start())
+    eraseall = CTkButton(window, text=translations["eraseall"][lang], width=90, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=Eraseall).start())
     eraseall.place(x=190, y=115)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
-    installdrivers = CTkButton(window, text='Установить драйвера', width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installdriverswindow).start())
+    installdrivers = CTkButton(window, text=translations["installdriv"][lang], width=260, height=40, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installdriverswindow).start())
     installdrivers.place(x=20, y=165)
 
     CTkFrame(window, width=280, height=130).place(x=10,y=230)
 
-    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo (заводская)", "CatHack", 'Hamster Kombat'], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
+    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo", "CatHack", 'Hamster Kombat'], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
-    installfrmwr = CTkButton(window, text='Скачать .bin', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
+    installfrmwr = CTkButton(window, text=translations["installbin"][lang], width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
     installfrmwr.place(x=20, y=280)
 
-    flash2 = CTkButton(window, text='Прошить', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installandflash).start())
+    flash2 = CTkButton(window, text=translations["flashbtn"][lang], width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installandflash).start())
     flash2.place(x=20, y=320)        
 
     CTkFrame(window, width=280, height=90).place(x=300,y=10)
@@ -1068,29 +1405,29 @@ try:
     devices = CTkOptionMenu(window, values=["M5StickC Plus2", 'M5StickC Plus1.1', 'Cardputer', 'Esp-CYD-2-USB', 'Esp-CYD-1-USB'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change)
     devices.place(x=310, y=20)
 
-    comport = CTkOptionMenu(window, values=["Сканируем..."], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)
+    comport = CTkOptionMenu(window, values=[translations["scanning"][lang]], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)
     comport.place(x=310, y=60)
 
     CTkFrame(window, width=280, height=45).place(x=300,y=110)
 
-    starter = CTkCheckBox(window, text='Занять COM порт', bg_color=bg, hover_color=hover, fg_color=fg)
+    starter = CTkCheckBox(window, text=translations["pickcom"][lang], bg_color=bg, hover_color=hover, fg_color=fg)
     starter.place(x=310, y=120)
 
     CTkFrame(window, width=280, height=170).place(x=300,y=165)
 
-    installfrmwr = CTkButton(window, text='Встроенный M5Burner', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+    installfrmwr = CTkButton(window, text=translations["openm5burner"][lang], width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openm5burner).start())
     installfrmwr.place(x=310, y=175)
 
-    openconsole = CTkButton(window, text='Консоль/логи', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+    openconsole = CTkButton(window, text=translations["consoleandlogs"][lang], width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=openconsolee).start())
     openconsole.place(x=310, y=215)
 
-    settings = CTkButton(window, text='Настройки', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+    settings = CTkButton(window, text=translations["opensettings"][lang], width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=opensettings).start())
     settings.place(x=310, y=255)
 
-    update = CTkButton(window, text='Проверить обновления', width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
+    update = CTkButton(window, text=translations["checkupdates"][lang], width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, 
                              command=lambda: threading.Thread(target=checkupdates).start())
     update.place(x=310, y=295)
 
@@ -1103,4 +1440,4 @@ try:
 
 except Exception as e:
     
-    input(f'Ошибка: {e}')
+    input(translations["errorinend"][lang].replace(r'%err%', e))

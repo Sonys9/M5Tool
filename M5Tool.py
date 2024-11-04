@@ -561,7 +561,7 @@ try:
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'CYD1USB'),
             'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'CYD1USB')
         }}
-        add_log('Парсинг завершён')
+        add_log(translations["parsend"][lang])
     threading.Thread(target=parsefirmwares).start()
     def getfrmwr(name):
 

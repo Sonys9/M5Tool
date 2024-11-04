@@ -157,6 +157,10 @@ try:
             "RU": "Подождите 5-20 секунд до конца парсинга и попробуйте снова",
             "EN": "Please, wait 5-20 seconds for fimrware parsing and try again"
         },
+        "parsend": {
+            "RU": "Парсинг завершён",
+            "EN": "Parsing is done"
+        },
         "saveafile": {
             "RU": "Сохранить файл",
             "EN": "Save a file"
@@ -725,12 +729,12 @@ try:
 
         CDM212364 = CTkButton(driverwindow, text='CDM212364', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
                                                 args=('CDM212364', 'CDM212364\\CDM212364.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CDM212364_Setup.exe',
-                                                      'Успех! Следуйте указаниям установщика для продолжения.')).start())
+                                                      translations["success2"][lang])).start())
         CDM212364.place(x=20, y=140)
 
         CP210x = CTkButton(driverwindow, text='CP210x', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installsecdriver,
                                                 args=('CP210x', 'CP210x\\CP210xVCPInstaller_x64.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CP210x_Windows_Drivers.zip',
-                                                      'Успех! Следуйте указаниям установщика для продолжения.')).start())
+                                                      translations["success2"][lang])).start())
         CP210x.place(x=20, y=180)
 
         driverwindow.mainloop()

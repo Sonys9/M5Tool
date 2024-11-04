@@ -743,7 +743,7 @@ try:
         
         fileurl = getfrmwr(firmware)
 
-        add_log(f'Ссылка: {fileurl}')
+        add_log(translations["urlis"][lang].replace(r'%url%', fileurl))
 
         if fileurl == None: messagebox.showerror(title='M5Tool', message=translations["firmwnotfound"][lang])
         elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message=translations["waitparse"][lang])

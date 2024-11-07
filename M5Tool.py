@@ -121,7 +121,7 @@ try:
             "RU": "Устанавливаем архив...",
             "EN": "Installing an archive..."
         },
-        "archinst": {
+        "archinst2": {
             "RU": "Архив установлен.\nРазархивируем архив...",
             "EN": "Archive installed.\nUnpacking archive..."
         },
@@ -1214,7 +1214,7 @@ try:
 
         global windowloading, statuslabel
 
-        lbl = CTkLabel(windowloading, text=translations["devis"][lang], font=('Calibri', 13))
+        lbl = CTkLabel(windowloading, text=translations["archinst"][lang], font=('Calibri', 13))
         lbl.pack()
 
         statuslabel = CTkLabel(windowloading, text=f'{translations["installing.."][lang]} (0 {translations["mbs"][lang]}) 0%', font=('Calibri', 13))

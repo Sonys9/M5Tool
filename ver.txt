@@ -1,1 +1,1 @@
-{"version": "4.5", "updlog": {"RU": "[+] Добавил поддержку английского языка", "EN": "[+] Added English language support"}}
+{"version": "4.5", "updlog": {"RU": "[+] Добавил поддержку английского языка", "EN": "[+] Added English language support", "installurl": "https://github.com/Sonys9/M5Tool/releases/download/4.5/M5Tool.exe"}}

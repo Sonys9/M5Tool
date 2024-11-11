@@ -1,1 +1,1 @@
-{"version": "4.5", "updlog": {"RU": "[+] Добавил поддержку английского языка", "EN": "[+] Added English language support"}, "installurl": "https://github.com/Sonys9/M5Tool/releases/download/4.5/M5Tool.exe"}
+{"version": "4.6", "updlog": {"RU": "[+] Рефакторинг кода и добавлена поддержка арабского языка", "EN": "[+] Refactor code and add arabic suuport", "AR": "[+] تحسين الكود واضافة العربية" }, "installurl": "https://github.com/Sonys9/M5Tool/releases/download/4.6/M5Tool.exe"}

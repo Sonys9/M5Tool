@@ -64,321 +64,14 @@ try:
 
             input('Cant install CustomTkinter!')
 
-    translations = {
-        "porttaken": {
-            "RU": "Порт занят!",
-            "EN": "Port is taken!"
-        },
-        "installing..": {
-            "RU": "Устанавливаем... Логи будут в консоли.",
-            "EN": "Installing... Logs will be in console."
-        },
-        "alrinstalling": {
-            "RU": "Ты уже что-то устанавливаешь!",
-            "EN": "You are alreadly installing something!"
-        },
-        "installing": {
-            "RU": "Устанавливаем...",
-            "EN": "Installing..."
-        },
-        "mbs": {
-            "RU": "МБ/с",
-            "EN": "MB/s"
-        },
-        "retrying": {
-            "RU": r"Пытаемся установить снова... Проверьте скорость вашего интернет-соединения, ошибка: %err%",
-            "EN": r"Retrying... Check your internet connection, error: %err%"
-        },
-        "fileerr": {
-            "RU": "Это точно файл прошивки? Должен быть .bin файл!",
-            "EN": "Its a correct firmware file? Use .bin file!"
-        },
-        "esptoolisnt": {
-            "RU": "EspTool не установлен! Перезапустите программу или дождитесь установки зависимостей",
-            "EN": "EspTool is not installed! Restart app or wait for installing requirements"
-        },
-        "connecterr": {
-            "RU": "Не удалось подключиться к устройству, попробуйте переподключить устройство или скачать драйвера",
-            "EN": "Cant connect to device, reconnect your device or install drivers"
-        },
-        "flasherr": {
-            "RU": r"Произошла неизвестная ошибка: %output_str%, попробуйте установить драйвера, если они не установлены",
-            "EN": r"Unknown error: %output_str%, try install drivers"
-        },
-        "flashedok": {
-            "RU": "Прошивка успешно установлена",
-            "EN": "Flashed successful"
-        },
-        "filenotchoiced": {
-            "RU": "Вы не выбрали файл прошивки",
-            "EN": "You are not choiced firmware file"
-        },
-        "devicenotcon": {
-            "RU": "Вы не подключили устройство к пк. Если вы подключили, но не получается прошить, попробуйте установить драйвера",
-            "EN": "You are not connected device to PC. If you are connected, try install drivers"
-        },
-        "archinst": {
-            "RU": "Устанавливаем архив...",
-            "EN": "Installing an archive..."
-        },
-        "archinst2": {
-            "RU": "Архив установлен.\nРазархивируем архив...",
-            "EN": "Archive installed.\nUnpacking archive..."
-        },
-        "archunp": {
-            "RU": "Архив разархивирован!",
-            "EN": "Archive is unpacked!"
-        },
-        "success": {
-            "RU": "Успех!",
-            "EN": "Success!"
-        },
-        "success1": {
-            "RU": "Успех! Нажмите Install для установки драйверов.",
-            "EN": "Success! Click Install to continue."
-        },
-        "instfile": {
-            "RU": "Устанавливаем файл...",
-            "EN": "Installing a file..."
-        },
-        "filestart": {
-            "RU": "Файл установлен! Запускаем...",
-            "EN": "File is installed! Starting..."
-        },
-        "success2": {
-            "RU": "Успех! Следуйте указаниям установщика для продолжения.",
-            "EN": "Success! Follow the installer instructions to continue."
-        },
-        "firmwnotfound": {
-            "RU": "Прошивка для вашего устройства не найдена :(",
-            "EN": "We are not found a firmware for your device :("
-        },
-        "waitparse": {
-            "RU": "Подождите 5-20 секунд до конца парсинга и попробуйте снова",
-            "EN": "Please, wait 5-20 seconds for fimrware parsing and try again"
-        },
-        "parsend": {
-            "RU": "Парсинг завершён",
-            "EN": "Parsing is done"
-        },
-        "saveafile": {
-            "RU": "Сохранить файл",
-            "EN": "Save a file"
-        },
-        "ffile": {
-            "RU": "Файл прошивки",
-            "EN": "Firmware file"
-        },
-        "afiles": {
-            "RU": "Все файлы",
-            "EN": "All files"
-        },
-        "urlis": {
-            "RU": r"Ссылка: %url%",
-            "EN": r"Link: %url%"
-        },
-        "areyousure": {
-            "RU": "Вы уверены?",
-            "EN": "Are you sure?"
-        },
-        "erasedok": {
-            "RU": "Данные с устройства успешно стёрты!",
-            "EN": "Data from the device has been successfully erased!"
-        },
-        "devis": {
-            "RU": r"Устройство: %dev%",
-            "EN": r"Device: %dev%"
-        },
-        "comis": {
-            "RU": r"COM порт: COM%com%",
-            "EN": r"COM port: COM%com%"
-        },
-        "by": {
-            "RU": "от",
-            "EN": "by"
-        },
-        "loadsinst": {
-            "RU": " скачиваний, загружено ",
-            "EN": " downloads, uploaded at "
-        },
-        "downloadbin": {
-            "RU": "Скачать .bin",
-            "EN": "Download .bin"
-        },
-        "next": {
-            "RU": "Вперед",
-            "EN": "Next"
-        },
-        "down": {
-            "RU": "Назад",
-            "EN": "Down"
-        },
-        "m5burnerbd": {
-            "RU": "M5Burner не поддерживает ваше устройство!",
-            "EN": "M5Burner dont supports your device!"
-        },
-        "language": {
-            "RU": "Язык",
-            "EN": "Language"
-        },
-        "searchbar": {
-            "RU": "Поиск",
-            "EN": "Search"
-        },
-        "connectedtodev": {
-            "RU": "Подключено к устройству",
-            "EN": "Connected to the device"
-        },
-        "consoleandlogs": {
-            "RU": "Консоль и логи",
-            "EN": "Console and logs"
-        },
-        "enterbaud": {
-            "RU": "Введите BaudRate",
-            "EN": "Enter BaudRate"
-        },
-        "entercmd": {
-            "RU": "Введите команду",
-            "EN": "Enter cmd"
-        },
-        "sendbtn": {
-            "RU": "Отправить",
-            "EN": "Send"
-        },
-        "m5toollogshere": {
-            "RU": "Логи M5Tool будут здесь",
-            "EN": "M5Tool's logs will be here"
-        },
-        "devicelogshere": {
-            "RU": "Логи устройства будут здесь",
-            "EN": "Device's logs will be here"
-        },
-        "installingreq": {
-            "RU": "Устанавливаем зависимости... Пожалуйста, подождите.",
-            "EN": "Installing requirements... Please, wait."
-        },
-        "reqend": {
-            "RU": "Архив разархивирован!\nЗависимости установлены!\nЗапускаем M5Tool...",
-            "EN": "Archive is installed!\nRequirements is installed!\nLaunching M5Tool..."
-        },
-        "badbaud": {
-            "RU": "Неверный BaudRate!",
-            "EN": "Bad BaudRate!"
-        },
-        "badaddr": {
-            "RU": "Неверный адрес прошивки!",
-            "EN": "Bad flash address!"
-        },
-        "saveerr": {
-            "RU": r"Не удалось сохранить настройки, ошибка: %err%",
-            "EN": r"Saving error: %err%"
-        },
-        "savedok": {
-            "RU": "Настройки сохранены!",
-            "EN": "Saved success!"
-        },
-        "baudr": {
-            "RU": "BaudRate",
-            "EN": "BaudRate"
-        },
-        "addresstoflash": {
-            "RU": "Адрес прошивания",
-            "EN": "Address to flash"
-        },
-        "savecfg": {
-            "RU": "Сохранить",
-            "EN": "Save"
-        },
-        "updates": {
-            "RU": "Обновления",
-            "EN": "Updates"
-        },
-        "upderr": {
-            "RU": "Не удалось проверить обновления, попробуйте снова.",
-            "EN": "Cant check updates, try again."
-        },
-        "yourver": {
-            "RU": "Версия: %newver% (ваша: %yourver%)",
-            "EN": "Version: %newver% (your: %yourver%)"
-        },
-        "whatsnew": {
-            "RU": "Что нового в новой версии:",
-            "EN": "What is new:"
-        },
-        "youhavenew": {
-            "RU": "У вас самая новая версия!",
-            "EN": "You have a newest version!"
-        },
-        "youhaveold": {
-            "RU": "У вас старая версия!",
-            "EN": "You have an old version!"
-        },
-        "choiceafile": {
-            "RU": "Выбрать файл",
-            "EN": "Choice a file"
-        },
-        "enterbaud": {
-            "RU": "Введите BaudRate",
-            "EN": "Enter BaudRate"
-        },
-        "notchoiced": {
-            "RU": "Файл не выбран",
-            "EN": "File is not choiced"
-        },
-        "flashbtn": {
-            "RU": "Прошить",
-            "EN": "Flash"
-        },
-        "eraseall": {
-            "RU": "Стереть всё",
-            "EN": "Erase all"
-        },
-        "installdriv": {
-            "RU": "Установить драйвера",
-            "EN": "Download a drivers"
-        },
-        "installbin": {
-            "RU": "Скачать .bin",
-            "EN": "Download .bin"
-        },
-        "scanning": {
-            "RU": "Сканируем...",
-            "EN": "Scanning..."
-        },
-        "pickcom": {
-            "RU": "Занять COM порт",
-            "EN": "Auto catch COM port"
-        },
-        "openm5burner": {
-            "RU": "Встроенный M5Burner",
-            "EN": "Simple M5Burner"
-        },
-        "consoleandlogs": {
-            "RU": "Консоль/логи",
-            "EN": "Console/logs"
-        },
-        "checkupdates": {
-            "RU": "Проверить обновления",
-            "EN": "Check updates"
-        },
-        "errorinend": {
-            "RU": r"Ошибка: %err%",
-            "EN": r"Error: %err%"
-        },
-        "driverswin": {
-            "RU": "Драйвера",
-            "EN": "Drivers"
-        },
-        "opensettings": {
-            "RU": "Настройки",
-            "EN": "Settings"
-        }, 
-        "restartneeded": {
-            "RU": "Перезапустите M5Tool для применения настроек",
-            "EN": "Restart M5Tool to continue"
-        }
-    } 
-
+    try:
+        with open('translations.json', 'r', encoding='utf-8') as file:
+            translations = json.load(file)
+    except FileNotFoundError:
+        print("Error: 'translations.json' not found.")
+        exit(1)
+    except json.JSONDecodeError as e:
+        print(f"Error parsing 'translations.json': {e}")
     def zanyat():
 
         try:
@@ -447,7 +140,7 @@ try:
     device = 'plus2'
     alllogs = []
 
-    M5ToolVersion = '4.5'
+    M5ToolVersion = '4.6'
 
     if not os.path.exists('M5ToolConfig.json'): 
         with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000", "lang": "EN"}')
@@ -546,7 +239,7 @@ try:
             'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'cardputer')
         }, "cyd2usb": {
             'Nemo': None,
-            'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/Marauder_espcyd2usb_v1.0.0.bin',
+            'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/Marauder_espcyd2usb_v1.0.0.bin',
             'UserDemo': None,
             'CatHack': None,
             'Hamster Kombat': None,
@@ -554,7 +247,7 @@ try:
             'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'CYD2USB')
         }, "cyd1usb": {
             'Nemo': None,
-            'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/Marauder_espcyd1usb_v1.0.0.bin',
+            'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/Marauder_espcyd1usb_v1.0.0.bin',
             'UserDemo': None,
             'CatHack': None,
             'Hamster Kombat': None,
@@ -716,24 +409,24 @@ try:
         CTkFrame(driverwindow, width=180, height=210).place(x=10,y=10)
 
         ch341 = CTkButton(driverwindow, text='CH341', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
-                                                args=('CH341', 'CH341\\CH3CH341.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH341SER.EXE')).start())
+                                                args=('CH341', 'CH341\\CH3CH341.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/drivers/CH341SER.EXE')).start())
         ch341.place(x=20, y=20)
 
         ch9102 = CTkButton(driverwindow, text='CH9102', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
-                                                args=('CH9102', 'CH9102\\CH9102.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH9102.exe')).start())
+                                                args=('CH9102', 'CH9102\\CH9102.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/drivers/CH9102.exe')).start())
         ch9102.place(x=20, y=60)
 
         ch343 = CTkButton(driverwindow, text='CH343', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
-                                                args=('CH343', 'CH343\\CH343.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CH343SER.EXE')).start())
+                                                args=('CH343', 'CH343\\CH343.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/drivers/CH343SER.EXE')).start())
         ch343.place(x=20, y=100)
 
         CDM212364 = CTkButton(driverwindow, text='CDM212364', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installadriver,
-                                                args=('CDM212364', 'CDM212364\\CDM212364.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CDM212364_Setup.exe',
+                                                args=('CDM212364', 'CDM212364\\CDM212364.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/drivers/CDM212364_Setup.exe',
                                                       translations["success2"][lang])).start())
         CDM212364.place(x=20, y=140)
 
         CP210x = CTkButton(driverwindow, text='CP210x', width=160, height=30, fg_color=fg, hover_color=hover, command=lambda: threading.Thread(target=installsecdriver,
-                                                args=('CP210x', 'CP210x\\CP210xVCPInstaller_x64.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/CP210x_Windows_Drivers.zip',
+                                                args=('CP210x', 'CP210x\\CP210xVCPInstaller_x64.exe', 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/drivers/CP210x_Windows_Drivers.zip',
                                                       translations["success2"][lang])).start())
         CP210x.place(x=20, y=180)
 
@@ -1296,6 +989,7 @@ try:
         global lang, add_log
         if value == 'Русский': lang = 'RU'
         elif value == 'English': lang = 'EN'
+        elif value == 'Arabic': lang = 'AR'
         add_log(translations["language"][lang]+f': {value}')
 
     def opensettings():
@@ -1317,7 +1011,7 @@ try:
         addr.place(x=20,y=60)
         addr.insert(0, flashaddress)
 
-        langs = CTkOptionMenu(settingswindow, values=['English', 'Русский'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change3)
+        langs = CTkOptionMenu(settingswindow, values=['English', 'Русский', 'Arabic'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change3)
         langs.place(x=20, y=100)
 
         save = CTkButton(settingswindow, text=translations["savecfg"][lang], width=280, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=cfgupdate)
@@ -1439,7 +1133,6 @@ try:
     threading.Thread(target=secondthread).start()
     
     if not os.path.exists('esptool480\\esptool-win64\\esptool.exe'):threading.Thread(target=loadwin).start()
-
     window.mainloop()
 
 except Exception as e:

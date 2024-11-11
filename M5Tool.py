@@ -67,11 +67,8 @@ try:
     try:
         with open('translations.json', 'r', encoding='utf-8') as file:
             translations = json.load(file)
-    except FileNotFoundError:
-        print("Error: 'translations.json' not found.")
-        exit(1)
-    except json.JSONDecodeError as e:
-        print(f"Error parsing 'translations.json': {e}")
+    except:
+        print('Reinstalling translations...')
     def zanyat():
 
         try:

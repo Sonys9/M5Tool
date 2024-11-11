@@ -1,0 +1,382 @@
+{
+    "porttaken": {
+        "RU": "Порт занят!",
+        "EN": "Port is taken!",
+        "AR": "المنفذ مشغول!"
+    },
+    "installing..": {
+        "RU": "Устанавливаем... Логи будут в консоли.",
+        "EN": "Installing... Logs will be in console.",
+        "AR": "جارٍ التثبيت... السجلات ستكون في وحدة التحكم."
+    },
+    "alrinstalling": {
+        "RU": "Ты уже что-то устанавливаешь!",
+        "EN": "You are already installing something!",
+        "AR": "أنت تقوم بتثبيت شيء بالفعل!"
+    },
+    "installing": {
+        "RU": "Устанавливаем...",
+        "EN": "Installing...",
+        "AR": "جارٍ التثبيت..."
+    },
+    "mbs": {
+        "RU": "МБ/с",
+        "EN": "MB/s",
+        "AR": "ميجابايت/ث"
+    },
+    "retrying": {
+        "RU": "Пытаемся установить снова... Проверьте скорость вашего интернет-соединения, ошибка: %err%",
+        "EN": "Retrying... Check your internet connection, error: %err%",
+        "AR": "إعادة المحاولة... تحقق من سرعة اتصال الإنترنت الخاص بك، الخطأ: %err%"
+    },
+    "fileerr": {
+        "RU": "Это точно файл прошивки? Должен быть .bin файл!",
+        "EN": "Is it a correct firmware file? Use a .bin file!",
+        "AR": "هل هو ملف التثبيت الصحيح؟ استخدم ملف .bin!"
+    },
+    "esptoolisnt": {
+        "RU": "EspTool не установлен! Перезапустите программу или дождитесь установки зависимостей",
+        "EN": "EspTool is not installed! Restart the app or wait for installing requirements",
+        "AR": "EspTool غير مثبت! أعد تشغيل التطبيق أو انتظر تثبيت المتطلبات"
+    },
+    "connecterr": {
+        "RU": "Не удалось подключиться к устройству, попробуйте переподключить устройство или скачать драйвера",
+        "EN": "Can't connect to device, reconnect your device or install drivers",
+        "AR": "تعذر الاتصال بالجهاز، أعد توصيل جهازك أو قم بتثبيت التعريفات"
+    },
+    "flasherr": {
+        "RU": "Произошла неизвестная ошибка: %output_str%, попробуйте установить драйвера, если они не установлены",
+        "EN": "Unknown error: %output_str%, try installing drivers",
+        "AR": "حدث خطأ غير معروف: %output_str%، حاول تثبيت التعريفات"
+    },
+    "flashedok": {
+        "RU": "Прошивка успешно установлена",
+        "EN": "Flashed successfully",
+        "AR": "تم التثبيت بنجاح"
+    },
+    "filenotchoiced": {
+        "RU": "Вы не выбрали файл прошивки",
+        "EN": "You have not chosen a firmware file",
+        "AR": "لم تقم باختيار ملف التثبيت"
+    },
+    "devicenotcon": {
+        "RU": "Вы не подключили устройство к ПК. Если вы подключили, но не получается прошить, попробуйте установить драйвера",
+        "EN": "You have not connected the device to PC. If you have connected it but cannot flash, try installing drivers",
+        "AR": "لم تقم بتوصيل الجهاز بالكمبيوتر. إذا قمت بالتوصيل ولكن لا يمكنك التثبيت، حاول تثبيت التعريفات"
+    },
+    "archinst": {
+        "RU": "Устанавливаем архив...",
+        "EN": "Installing an archive...",
+        "AR": "جارٍ تثبيت الأرشيف..."
+    },
+    "archinst2": {
+        "RU": "Архив установлен.\nРазархивируем архив...",
+        "EN": "Archive installed.\nUnpacking archive...",
+        "AR": "تم تثبيت الأرشيف.\nجارٍ فك ضغط الأرشيف..."
+    },
+    "archunp": {
+        "RU": "Архив разархивирован!",
+        "EN": "Archive is unpacked!",
+        "AR": "تم فك ضغط الأرشيف!"
+    },
+    "success": {
+        "RU": "Успех!",
+        "EN": "Success!",
+        "AR": "نجاح!"
+    },
+    "success1": {
+        "RU": "Успех! Нажмите Install для установки драйверов.",
+        "EN": "Success! Click Install to install drivers.",
+        "AR": "نجاح! اضغط على تثبيت لتثبيت التعريفات."
+    },
+    "instfile": {
+        "RU": "Устанавливаем файл...",
+        "EN": "Installing a file...",
+        "AR": "جارٍ تثبيت الملف..."
+    },
+    "filestart": {
+        "RU": "Файл установлен! Запускаем...",
+        "EN": "File is installed! Starting...",
+        "AR": "تم تثبيت الملف! جارٍ البدء..."
+    },
+    "success2": {
+        "RU": "Успех! Следуйте указаниям установщика для продолжения.",
+        "EN": "Success! Follow the installer instructions to continue.",
+        "AR": "نجاح! اتبع تعليمات المثبت للمتابعة."
+    },
+    "firmwnotfound": {
+        "RU": "Прошивка для вашего устройства не найдена :(",
+        "EN": "We did not find firmware for your device :(",
+        "AR": "لم نعثر على التثبيت لجهازك :("
+    },
+    "waitparse": {
+        "RU": "Подождите 5-20 секунд до конца парсинга и попробуйте снова",
+        "EN": "Please wait 5-20 seconds for firmware parsing to complete and try again",
+        "AR": "يرجى الانتظار 5-20 ثانية حتى يكتمل تحليل التثبيت وحاول مرة أخرى"
+    },
+    "parsend": {
+        "RU": "Парсинг завершён",
+        "EN": "Parsing is done",
+        "AR": "تم الانتهاء من التحليل"
+    },
+    "saveafile": {
+        "RU": "Сохранить файл",
+        "EN": "Save a file",
+        "AR": "حفظ ملف"
+    },
+    "ffile": {
+        "RU": "Файл прошивки",
+        "EN": "Firmware file",
+        "AR": "ملف التثبيت"
+    },
+    "afiles": {
+        "RU": "Все файлы",
+        "EN": "All files",
+        "AR": "جميع الملفات"
+    },
+    "urlis": {
+        "RU": "Ссылка: %url%",
+        "EN": "Link: %url%",
+        "AR": "الرابط: %url%"
+    },
+    "areyousure": {
+        "RU": "Вы уверены?",
+        "EN": "Are you sure?",
+        "AR": "هل أنت متأكد؟"
+    },
+    "erasedok": {
+        "RU": "Данные с устройства успешно стёрты!",
+        "EN": "Data from the device has been successfully erased!",
+        "AR": "تم مسح البيانات من الجهاز بنجاح!"
+    },
+    "devis": {
+        "RU": "Устройство: %dev%",
+        "EN": "Device: %dev%",
+        "AR": "الجهاز: %dev%"
+    },
+    "comis": {
+        "RU": "COM порт: COM%com%",
+        "EN": "COM port: COM%com%",
+        "AR": "منفذ COM: COM%com%"
+    },
+    "by": {
+        "RU": "от",
+        "EN": "by",
+        "AR": "بواسطة"
+    },
+    "loadsinst": {
+        "RU": " скачиваний, загружено ",
+        "EN": " downloads, uploaded at ",
+        "AR": " عمليات تحميل، تم الرفع عند "
+    },
+    "downloadbin": {
+        "RU": "Скачать .bin",
+        "EN": "Download .bin",
+        "AR": "تنزيل .bin"
+    },
+    "next": {
+        "RU": "Вперед",
+        "EN": "Next",
+        "AR": "التالي"
+    },
+    "down": {
+        "RU": "Назад",
+        "EN": "Back",
+        "AR": "العودة"
+    },
+    "m5burnerbd": {
+        "RU": "M5Burner не поддерживает ваше устройство!",
+        "EN": "M5Burner doesn't support your device!",
+        "AR": "M5Burner لا يدعم جهازك!"
+    },
+    "language": {
+        "RU": "Язык",
+        "EN": "Language",
+        "AR": "اللغة"
+    },
+    "searchbar": {
+        "RU": "Поиск",
+        "EN": "Search",
+        "AR": "بحث"
+    },
+    "connectedtodev": {
+        "RU": "Подключено к устройству",
+        "EN": "Connected to the device",
+        "AR": "متصل بالجهاز"
+    },
+    "consoleandlogs": {
+        "RU": "Консоль и логи",
+        "EN": "Console and logs",
+        "AR": "وحدة التحكم والسجلات"
+    },
+    "enterbaud": {
+        "RU": "Введите BaudRate",
+        "EN": "Enter BaudRate",
+        "AR": "أدخل معدل البود"
+    },
+    "entercmd": {
+        "RU": "Введите команду",
+        "EN": "Enter command",
+        "AR": "أدخل الأمر"
+    },
+    "sendbtn": {
+        "RU": "Отправить",
+        "EN": "Send",
+        "AR": "إرسال"
+    },
+    "m5toollogshere": {
+        "RU": "Логи M5Tool будут здесь",
+        "EN": "M5Tool's logs will be here",
+        "AR": "سجلات M5Tool ستكون هنا"
+    },
+    "devicelogshere": {
+        "RU": "Логи устройства будут здесь",
+        "EN": "Device's logs will be here",
+        "AR": "سجلات الجهاز ستكون هنا"
+    },
+    "installingreq": {
+        "RU": "Устанавливаем зависимости... Пожалуйста, подождите.",
+        "EN": "Installing requirements... Please wait.",
+        "AR": "جارٍ تثبيت المتطلبات... يرجى الانتظار."
+    },
+    "reqend": {
+        "RU": "Архив разархивирован!\nЗависимости установлены!\nЗапускаем M5Tool...",
+        "EN": "Archive is unpacked!\nRequirements are installed!\nLaunching M5Tool...",
+        "AR": "تم فك ضغط الأرشيف!\nتم تثبيت المتطلبات!\nجارٍ إطلاق M5Tool..."
+    },
+    "badbaud": {
+        "RU": "Неверный BaudRate!",
+        "EN": "Bad BaudRate!",
+        "AR": "معدل بود غير صالح!"
+    },
+    "badaddr": {
+        "RU": "Неверный адрес прошивки!",
+        "EN": "Bad flash address!",
+        "AR": "عنوان تثبيت غير صالح!"
+    },
+    "saveerr": {
+        "RU": "Не удалось сохранить настройки, ошибка: %err%",
+        "EN": "Saving error: %err%",
+        "AR": "خطأ في الحفظ: %err%"
+    },
+    "savedok": {
+        "RU": "Настройки сохранены!",
+        "EN": "Settings saved!",
+        "AR": "تم حفظ الإعدادات!"
+    },
+    "baudr": {
+        "RU": "BaudRate",
+        "EN": "BaudRate",
+        "AR": "معدل البود"
+    },
+    "addresstoflash": {
+        "RU": "Адрес прошивания",
+        "EN": "Address to flash",
+        "AR": "عنوان التثبيت"
+    },
+    "savecfg": {
+        "RU": "Сохранить",
+        "EN": "Save",
+        "AR": "حفظ"
+    },
+    "updates": {
+        "RU": "Обновления",
+        "EN": "Updates",
+        "AR": "تحديثات"
+    },
+    "upderr": {
+        "RU": "Не удалось проверить обновления, попробуйте снова.",
+        "EN": "Can't check updates, try again.",
+        "AR": "تعذر التحقق من التحديثات، حاول مرة أخرى."
+    },
+    "yourver": {
+        "RU": "Версия: %newver% (ваша: %yourver%)",
+        "EN": "Version: %newver% (your: %yourver%)",
+        "AR": "الإصدار: %newver% (إصدارك: %yourver%)"
+    },
+    "whatsnew": {
+        "RU": "Что нового в новой версии:",
+        "EN": "What's new in the new version:",
+        "AR": "ما الجديد في الإصدار الجديد:"
+    },
+    "youhavenew": {
+        "RU": "У вас самая новая версия!",
+        "EN": "You have the newest version!",
+        "AR": "لديك أحدث إصدار!"
+    },
+    "youhaveold": {
+        "RU": "У вас старая версия!",
+        "EN": "You have an old version!",
+        "AR": "لديك إصدار قديم!"
+    },
+    "choiceafile": {
+        "RU": "Выбрать файл",
+        "EN": "Choose a file",
+        "AR": "اختر ملفًا"
+    },
+    "notchoiced": {
+        "RU": "Файл не выбран",
+        "EN": "File is not chosen",
+        "AR": "لم يتم اختيار ملف"
+    },
+    "flashbtn": {
+        "RU": "Прошить",
+        "EN": "Flash",
+        "AR": "تثبيت"
+    },
+    "eraseall": {
+        "RU": "Стереть всё",
+        "EN": "Erase all",
+        "AR": "مسح الكل"
+    },
+    "installdriv": {
+        "RU": "Установить драйвера",
+        "EN": "Install drivers",
+        "AR": "تثبيت التعريفات"
+    },
+    "installbin": {
+        "RU": "Скачать .bin",
+        "EN": "Download .bin",
+        "AR": "تنزيل .bin"
+    },
+    "scanning": {
+        "RU": "Сканируем...",
+        "EN": "Scanning...",
+        "AR": "جارٍ الفحص..."
+    },
+    "pickcom": {
+        "RU": "Занять COM порт",
+        "EN": "Auto catch COM port",
+        "AR": "تحديد منفذ COM تلقائيًا"
+    },
+    "openm5burner": {
+        "RU": "Встроенный M5Burner",
+        "EN": "Built-in M5Burner",
+        "AR": "M5Burner المدمج"
+    },
+    "checkupdates": {
+        "RU": "Проверить обновления",
+        "EN": "Check updates",
+        "AR": "التحقق من التحديثات"
+    },
+    "errorinend": {
+        "RU": "Ошибка: %err%",
+        "EN": "Error: %err%",
+        "AR": "خطأ: %err%"
+    },
+    "driverswin": {
+        "RU": "Драйвера",
+        "EN": "Drivers",
+        "AR": "التعريفات"
+    },
+    "opensettings": {
+        "RU": "Настройки",
+        "EN": "Settings",
+        "AR": "الإعدادات"
+    },
+    "restartneeded": {
+        "RU": "Перезапустите M5Tool для применения настроек",
+        "EN": "Restart M5Tool to apply settings",
+        "AR": "أعد تشغيل M5Tool لتطبيق الإعدادات"
+    }
+}

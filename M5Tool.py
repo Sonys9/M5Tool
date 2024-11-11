@@ -2,7 +2,7 @@ print('Запуск... Пожалуйста, подождите')
 
 try:
 
-    import os, threading, time, subprocess, zipfile, re, json, random, webbrowser
+    import os, threading, time, subprocess, zipfile, re, json, random, webbrowser, sys
 
     try: 
         import serial.tools.list_ports
@@ -69,6 +69,15 @@ try:
             translations = json.load(file)
     except:
         print('Reinstalling translations...')
+        try:
+            r = requests.get('https://github.com/Sonys9/M5Tool/raw/refs/heads/main/translations.json')
+            with open('translations.json', 'w', encoding='utf-8') as f:
+                f.write(r.text)
+            with open('translations.json', 'r', encoding='utf-8') as file:
+                translations = json.load(file)
+        except Exception as e:
+            messagebox.showerror(title="M5Tool", message=f"Error when parsing translations: {e}, check your Internet connection!")
+            sys.exit(0)
     def zanyat():
 
         try:

@@ -1,1 +1,1 @@
-{"version": "4.6", "updlog": {"RU": "[+] Рефакторинг кода и добавление поддержки арабского языка", "EN": "[+] Refactor code and add arabic support", "AR": "[+] تحسين الكود واضافة العربية" }, "installurl": "https://github.com/Sonys9/M5Tool/releases/download/4.6/M5Tool.exe"}
+{"version": "4.7", "updlog": {"RU": "[+] Добавил поддержку Wemos D1 Mini", "EN": "[+] Added support for Wemos D1 Mini", "AR": "[+] أضفت دعمًا لـ Wemos D1 Mini" }, "installurl": "https://github.com/Sonys9/M5Tool/releases/download/4.7/M5Tool.exe"}

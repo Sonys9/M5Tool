@@ -78,6 +78,7 @@ try:
         except Exception as e:
             messagebox.showerror(title="M5Tool", message=f"Error when parsing translations: {e}, check your Internet connection!")
             sys.exit(0)
+
     def zanyat():
 
         try:
@@ -146,7 +147,7 @@ try:
     device = 'plus2'
     alllogs = []
 
-    M5ToolVersion = '4.6'
+    M5ToolVersion = '4.7'
 
     if not os.path.exists('M5ToolConfig.json'): 
         with open('M5ToolConfig.json', 'w') as f: f.write('{"baudrateflash": "1500000", "addressflash": "0x000", "lang": "EN"}')
@@ -187,33 +188,51 @@ try:
 
         global portt, cache
 
-        if repo not in cache.keys():
+        if repo not in cache.keys(): 
 
-            r = requests.get(f"https://github.com{repo}")
+            r = requests.get(f"https://github.com{repo}").text
+            cache[repo] = r
 
-            all = re.search(f'href="{repo}(.*?)"', r.text, re.DOTALL).group(1)
+        else: 
 
-            r = requests.get(f"https://github.com{repo}expanded_assets{all[3:]}")
+            r = cache[repo]
 
-            all = re.findall(f'href="{repo}(.*?)"', r.text, re.DOTALL)
+        alll = re.findall(f'href="{repo}(.*?)"', r, re.DOTALL)
 
-            cache[repo] = all
+        for all in alll:
 
-        else: all = cache[repo]
+            if 'tag/' in all:
 
-        for frmw in all:    
-            if device == 'plus2':
-                if 'plus2' in frmw.lower(): return f"https://github.com"+repo+frmw
-            elif device == 'plus11':
-                if 'plus' in frmw.lower() and not 'plus2' in frmw.lower(): return f"https://github.com"+repo+frmw
-            elif device == 'cardputer':
-                if 'card' in frmw.lower(): return f"https://github.com"+repo+frmw
-            elif device == 'CYD1USB':
-                if 'cyd' in frmw.lower() and '2432s028' in frmw.lower(): return f"https://github.com"+repo+frmw
-            elif device == 'CYD2USB':
-                if 'cyd' in frmw.lower(): return f"https://github.com"+repo+frmw
+                if all not in cache.keys():
+                    
+                    r = requests.get(f"https://github.com{repo}expanded_assets/{all.split('/')[-1]}").text
+                    cache[all] = r
 
-        if len(all) == 1:return f"https://github.com"+repo+all[0]
+                else: r = cache[all]
+
+                all = re.findall(f'href="{repo}(.*?)"', r, re.DOTALL)
+
+                for frmw in all:    
+                    if device == 'wemosd1mini':
+                        if 'wemos' in frmw.lower() and not 'pro' in frmw.lower(): 
+                            return f"https://github.com"+repo+frmw
+                    if device == 'plus2':
+                        if 'plus2' in frmw.lower(): 
+                            return f"https://github.com"+repo+frmw
+                    elif device == 'plus11':
+                        if 'plus' in frmw.lower() and not 'plus2' in frmw.lower(): 
+                            return f"https://github.com"+repo+frmw
+                    elif device == 'cardputer':
+                        if 'card' in frmw.lower(): 
+                            return f"https://github.com"+repo+frmw
+                    elif device == 'CYD1USB':
+                        if 'cyd' in frmw.lower() and '2432s028' in frmw.lower(): 
+                            return f"https://github.com"+repo+frmw
+                    elif device == 'CYD2USB':
+                        if 'cyd' in frmw.lower(): 
+                            return f"https://github.com"+repo+frmw
+
+                if len(all) == 1:return f"https://github.com"+repo+all[0]
 
     def parsefirmwares():
 
@@ -226,7 +245,9 @@ try:
             'CatHack': parsefirmwr('/Stachugit/CatHack/releases/', 'plus2'),
             'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/896bce78796597d2ddc1545443f0a1c3.bin',
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'plus2'),
-            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'plus2')
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'plus2'),
+            'NETHERCAP': None,
+            'DEAUTHER': None
         }, 'plus11': {
             'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5StickCPlus.bin',
             'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/3397b17ad7fd314603abf40954a65369.bin',
@@ -234,7 +255,9 @@ try:
             'UserDemo': None,
             'Hamster Kombat': 'https://m5burner-cdn.m5stack.com/firmware/28eafdd732442b83395017a8f490a048.bin',
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'plus11'),
-            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'plus11')
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'plus11'),
+            'NETHERCAP': None,
+            'DEAUTHER': None
         }, 'cardputer': {
             'Nemo': 'https://github.com/n0xa/m5stick-nemo/releases/download/v2.7.0/M5Nemo-v2.7.0-M5Cardputer.bin',
             'Marauder': 'https://m5burner-cdn.m5stack.com/firmware/aeb96d4fec972a53f934f8da62ab7341.bin',
@@ -242,7 +265,9 @@ try:
             'CatHack': None,
             'Hamster Kombat': None,
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'cardputer'),
-            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'cardputer')
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'cardputer'),
+            'NETHERCAP': None,
+            'DEAUTHER': None
         }, "cyd2usb": {
             'Nemo': None,
             'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/Marauder_espcyd2usb_v1.0.0.bin',
@@ -250,7 +275,9 @@ try:
             'CatHack': None,
             'Hamster Kombat': None,
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'CYD2USB'),
-            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'CYD2USB')
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'CYD2USB'),
+            'NETHERCAP': None,
+            'DEAUTHER': None
         }, "cyd1usb": {
             'Nemo': None,
             'Marauder': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/Marauder_espcyd1usb_v1.0.0.bin',
@@ -258,7 +285,19 @@ try:
             'CatHack': None,
             'Hamster Kombat': None,
             'Bruce': parsefirmwr('/pr3y/Bruce/releases/', 'CYD1USB'),
-            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'CYD1USB')
+            'M5Launcher': parsefirmwr('/bmorcelli/M5Stick-Launcher/releases/', 'CYD1USB'),
+            'NETHERCAP': None,
+            'DEAUTHER': None
+        }, "wemosd1mini": {
+            'Nemo': None,
+            'Marauder': None,
+            'UserDemo': None,
+            'CatHack': None,
+            'Hamster Kombat': None,
+            'Bruce': None,
+            'M5Launcher': None,
+            'NETHERCAP': parsefirmwr('/Cancro29/NETHERCAP/releases/', 'wemosd1mini'),
+            'DEAUTHER': 'https://github.com/Sonys9/M5Tool/raw/refs/heads/main/data/esp8266_deauther_2.6.1_WEMOS_D1_MINI.bin'
         }}
         add_log(translations["parsend"][lang])
     threading.Thread(target=parsefirmwares).start()
@@ -446,7 +485,7 @@ try:
         
         fileurl = getfrmwr(firmware)
 
-        add_log(translations["urlis"][lang].replace(r'%url%', fileurl))
+        add_log(translations["urlis"][lang].replace(r'%url%', str(fileurl)))
 
         if fileurl == None: messagebox.showerror(title='M5Tool', message=translations["firmwnotfound"][lang])
         elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message=translations["waitparse"][lang])
@@ -472,7 +511,7 @@ try:
         
         fileurl = getfrmwr(firmware)
 
-        add_log(translations["urlis"][lang].replace(r'%url%', fileurl))
+        add_log(translations["urlis"][lang].replace(r'%url%', str(fileurl)))
 
         if fileurl == None: messagebox.showerror(title='M5Tool', message=translations["firmwnotfound"][lang])
         elif fileurl == 'wait': messagebox.showerror(title='M5Tool', message=translations["waitparse"][lang])
@@ -549,11 +588,15 @@ try:
 
     def change(selected): 
         global device
-        if selected == 'Cardputer': device = 'cardputer'
-        if selected == 'M5StickC Plus1.1': device = 'plus11'
-        if selected == 'M5StickC Plus2': device = 'plus2'
-        if selected == 'Esp-CYD-2-USB': device = 'cyd2usb'
-        if selected == 'Esp-CYD-1-USB': device = 'cyd1usb'
+        every = {
+            "Cardputer": "cardputer",
+            "M5StickC Plus1.1": "plus11",
+            "M5StickC Plus2": "plus2",
+            "Esp-CYD-2-USB": "cyd2usb",
+            "Esp-CYD-1-USB": "cyd1usb",
+            "Wemos D1 Mini": "wemosd1mini",
+        }
+        device = every[selected]
         add_log(translations["devis"][lang].replace(r'%dev%', selected))
 
     def change2(value):
@@ -1095,7 +1138,7 @@ try:
 
     CTkFrame(window, width=280, height=130).place(x=10,y=230)
 
-    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo", "CatHack", 'Hamster Kombat'], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
+    firmws = CTkOptionMenu(window, values=["M5Launcher", "Marauder", "Bruce", "Nemo", "UserDemo", "CatHack", 'Hamster Kombat', 'NETHERCAP', 'DEAUTHER'], width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover)
     firmws.place(x=20, y=240)
 
     installfrmwr = CTkButton(window, text=translations["installbin"][lang], width=260, height=30, fg_color=fg, bg_color=bg, hover_color=hover, command=lambda: threading.Thread(target=installfrmw).start())
@@ -1106,7 +1149,7 @@ try:
 
     CTkFrame(window, width=280, height=90).place(x=300,y=10)
 
-    devices = CTkOptionMenu(window, values=["M5StickC Plus2", 'M5StickC Plus1.1', 'Cardputer', 'Esp-CYD-2-USB', 'Esp-CYD-1-USB'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change)
+    devices = CTkOptionMenu(window, values=["M5StickC Plus2", 'M5StickC Plus1.1', 'Cardputer', 'Esp-CYD-2-USB', 'Esp-CYD-1-USB', 'Wemos D1 Mini'], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change)
     devices.place(x=310, y=20)
 
     comport = CTkOptionMenu(window, values=[translations["scanning"][lang]], height=30, width=260, fg_color=fg, bg_color=bg, hover=hover, button_color=hover, command=change2)

@@ -392,7 +392,7 @@ try:
 
     def flashtoolisntall():
         
-        add_log(translations["archinst1"][lang])
+        add_log(translations["archinst"][lang])
 
         r = installfile('https://github.com/espressif/esptool/releases/download/v4.8.0/esptool-v4.8.0-win64.zip', 'file.zip')
 
@@ -427,7 +427,7 @@ try:
 
     def installsecdriver(name, dir, link, endtext):
 
-        add_log(translations["archinst1"][lang])
+        add_log(translations["archinst"][lang])
 
         r = installfile(link, 'file.zip')
 
